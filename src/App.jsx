@@ -5,6 +5,9 @@ function App() {
     <div className="App">
       <li>
         <ul>Nombre</ul>
+        <ul>Apellido</ul>
+        <ul>DNI</ul>
+        <ul>Edad</ul>
       </li>
     </div>
   )
