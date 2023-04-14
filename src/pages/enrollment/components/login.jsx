@@ -1,20 +1,21 @@
-import Sidebar from '../components/Sidebar' 
-import InputField from '../components/InputField'
+/* import Sidebar from '../../../common/components/Sidebar/Sidebar' 
+import InputField from '../../../common/components/Inputfield/Inputfield' */
+import React from 'react'
 
-function Login() {
-    const [username, setUsername] = useState('');
+export default function Login() {
+    const [usercode, setUsercode] = useState('');
     const [password, setPassword] = useState('');
   
     const handleSubmit = (event) => {
       event.preventDefault();
-      console.log(`Submitting username: ${username} and password: ${password}`);
+      console.log(`Submitting usercode: ${usercode} and password: ${password}`);
     }
   
     return (
       <form onSubmit={handleSubmit}>
         <label>
           Codigo Alumno:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input type="text" value={usercode} onChange={(e) => setUsercode(e.target.value)} />
         </label>
         <label>
           Contraseña:
@@ -24,5 +25,3 @@ function Login() {
       </form>
     );
   }
-  
-  export default LoginForm;

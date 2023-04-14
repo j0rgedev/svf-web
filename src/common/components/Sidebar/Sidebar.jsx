@@ -1,17 +1,16 @@
 import React from 'react'
-import {baseColors} from '../styles/baseColors'
-import logo from '../assets/images/sfv_logo.png'
-import student from '../assets/images/sfv_boy.png'
+import '../Sidebar/styles.css'
+import basecolors from '../../styles/basecolors'
+import student from '../../../assets/images/svf_boy.png'
+import logo from '../../../assets/images/svf_logo.webp'
 
-function Sidebar() {
+export default function Sidebar( ) {
   return (
-    {<div className='sidebar' style={backgroundColor: baseColors.leftGreen}>
+    <div className="sidebar" style={{backgroundColor: basecolors.leftGreen}}>
       
-      <img src={logo} alt="imageS"  className='logo'/>;
-      <img src={student} alt="imageS" className='student-image'/>
-
-    </div>}
+      <div className="logo-image"><img src={logo} alt="imageS"/>;</div>
+      <div className="student-image"><img src={student} alt="imageS"/></div>
+      
+    </div>
   )
 }
-
-export default sidebar

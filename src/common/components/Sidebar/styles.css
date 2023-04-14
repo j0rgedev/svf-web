@@ -1,17 +1,29 @@
 .sidebar {
-    height: 100%;
+  width:100%;
+  height:100%;
+    /* height: 100%;
     width: 200px;
     position: fixed;
+    backgroundColor:'616C3F';
     top: 0;
     left: 0;
     overflow-x: hidden;
-    padding-top: 20px;
+    padding: 1rem;
+    position:relative; */
   }
 
-  .logo{
-    position:fixed;
-
+  .logo-image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .student-image{
-    
+    position: absolute;
+    top: 60%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+
   }
