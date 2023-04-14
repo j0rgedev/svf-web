@@ -6,14 +6,12 @@ import Sidebar from './common/components/Sidebar/Sidebar'
 function App() {
   return (
     <div className="App">
-      <div className='container'>
         <Sidebar/>
-      </div>
-      {/* <InputField label={'Código Alumno'} type={'text'}/>
-      <InputField label={'Contraseña'} type={'password'}/> */}
-      
-      {/* <Login/> */}
     </div>
+      /* <InputField label={'Código Alumno'} type={'text'}/>
+      <InputField label={'Contraseña'} type={'password'}/> */
+      
+      /* <Login/> */
   )
 }
 

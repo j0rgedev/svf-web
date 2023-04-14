@@ -7,10 +7,12 @@ import logo from '../../../assets/images/svf_logo.webp'
 export default function Sidebar( ) {
   return (
     <div className="sidebar" style={{backgroundColor: basecolors.leftGreen}}>
-      
-      <div className="logo-image"><img src={logo} alt="imageS"/>;</div>
-      <div className="student-image"><img src={student} alt="imageS"/></div>
-      
+      <div className="logo-image">
+        <img src={logo} alt="svf_logo"/>
+      </div>
+      <div className="student-image">
+        <img src={student} alt="svf_boy"/>
+      </div>
     </div>
   )
 }
