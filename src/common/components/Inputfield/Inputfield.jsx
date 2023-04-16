@@ -1,12 +1,15 @@
 import React from "react"
 import './style.css'
-export default function Inputfield({label,value, onChange,type, isPassword}){
+
+function Inputfield({ label, type, icon, isPassword}){
     return(
         <div className="input-field">
             <label>{label}</label>
-            <input type={type} value={value} onChange={onChange} isPassword={isPassword? "text" : "password"} />
-            
+            <input type={type}/>
+            {icon}
         </div>
         
     )
 }
+
+export default Inputfield
