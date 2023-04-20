@@ -1,0 +1,35 @@
+.container5{
+    width: 100%;
+    display:flex;
+    align-items: center;
+}
+
+.right-container5{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 1rem 1.5rem;
+    margin: 0 auto;
+    gap: 5%;
+    text-align: center;
+}
+
+.right-container5 i{
+    color:rgb(152, 189, 19);
+    font-size: 150px;
+}
+
+.right-container5 h1{
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    line-height: 1.1;
+    font-size: 52px;
+}
+
+#cod{
+    color: rgb(152, 189, 19);
+}

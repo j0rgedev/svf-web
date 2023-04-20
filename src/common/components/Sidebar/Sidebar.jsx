@@ -4,9 +4,10 @@ import basecolors from '../../styles/basecolors'
 import student from '../../../assets/images/svf_boy.png'
 import logo from '../../../assets/images/svf_logo.webp'
 
-export default function Sidebar( ) {
+export default function Sidebar( {width}) {
+  console.log(width)
   return (
-    <div className="sidebar" style={{backgroundColor: basecolors.leftGreen}}>
+    <div className="sidebar" style={{backgroundColor: basecolors.leftGreen, width:width}}>
       <div className="logo-image">
         <img src={logo} alt="svf_logo"/>
       </div>

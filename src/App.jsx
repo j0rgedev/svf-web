@@ -1,27 +1,25 @@
 import './App.css'
-import InputField from './common/components/Inputfield/Inputfield'
-import Sidebar from './common/components/Sidebar/Sidebar'
-import {FaUserGraduate} from 'react-icons/fa'
+import { useState } from 'react'
+import Login from './pages/enrollment/components/login'
+import Validation from './pages/validationCod/components/validation'
+import Dates from './pages/enrollmentProcess/components/Dates'
+import Details from './pages/enrollmentProcess/components/Details'
+import Register from './pages/register/components/register'
+import Payment from './pages/enrollmentProcess/components/Payment'
+import Confirmation from './pages/Confirmation/components/Confirmation'
+
 
 function App() {
   return (
     <div className="App">
-      <div className='container'>
-        <Sidebar/>
-        <div className='right-container'>
-          <h1>TITULO</h1>
-          <p>Parrafo</p>
-          <div className='inputs-container'>
-            <InputField label={'Código Alumno'} type={'text'} icon={<FaUserGraduate/>} isPassword={false}/>
-            <InputField label={'Contraseña'} type={'password'} isPassword={true}/>
-          </div>
-          {/* BUTTON COMPONENT */}
-          <p>parrafo</p>
-        </div>
-      </div>
-
+    {/* <Login/> */}
+    {/* <Register/> */}
+    {/* <Validation/> */}
+     {/* <Dates/> */}
+    {/* <Details/> */}
+    {/* <Payment/> */}
+    <Confirmation/>
     </div>
-      
   )
 }
 
