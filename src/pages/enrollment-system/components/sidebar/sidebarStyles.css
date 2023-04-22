@@ -1,0 +1,43 @@
+.sidebar {
+  height:100vh;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 30% 30% 0;
+}
+
+.logo-image, .student-image{
+  display: flex;
+  width: 100%;
+}
+
+.logo-image{
+  height: 15%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1.5rem;
+}
+
+.logo-image img{
+  height: 80px;
+  cursor: pointer;
+}
+
+.student-image{
+  justify-content: center;
+  align-items: center;
+  height: 550px;
+  padding: 2rem;
+}
+
+.student-image img{
+  height: 90%;
+}
+
+/* Tablet */
+@media screen and (min-width:920px) {
+  .sidebar{
+    display: flex;
+  }
+}

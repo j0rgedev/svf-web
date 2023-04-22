@@ -1,0 +1,66 @@
+.step-content{
+    margin-top: 40px;
+}
+
+#stepProgressBar{
+    display: flex;
+    width: 300px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.step{
+    text-align: center;
+}
+
+.step-text{
+    margin-bottom: 10px;
+    color: #656A51;
+}
+
+.bullet {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 100%;
+    border: 2px solid rgb(145, 145, 145);
+    color: #656A51;
+    display: inline-block;
+    position: relative;
+    transition: background-color 500ms;
+}
+.bulletP{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 100%;
+    border: 2px solid rgb(145, 145, 145);
+    color: #656A51;
+    display: inline-block;
+    position: relative;
+    transition: background-color 500ms;
+}
+
+.bullet.completed{
+    color: white;
+    background-color:#656A51;
+}
+
+.bulletP.completed{
+    color: white;
+    background-color:#656A51;
+}
+
+.bullet::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 84px;
+    background-color: #bbb9b9;
+    right: -88px;
+    bottom: 20px;
+}
+
