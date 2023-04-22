@@ -1,0 +1,13 @@
+.studentInfo-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.studentInfo-inputs-container{
+    width: 100%;
+    grid-gap: 5px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
