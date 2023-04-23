@@ -1,7 +1,5 @@
 import * as yup from 'yup'
-
-const studentCodeRegex = /^SVF\d{4}$/
-const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,}$/
+import { studentCodeRegex, passwordRegex } from './regexFields.js'
 
 export const loginSchema = yup.object().shape({
     code_input: yup

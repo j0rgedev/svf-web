@@ -3,8 +3,8 @@ import './inputFieldStyles.css'
 import {BsEyeSlashFill} from 'react-icons/bs'
 import {BsEyeFill} from "react-icons/bs";
 
-function InputField(
-    {inputType,
+function InputField({
+        inputType,
         labelText,
         className,
         id,
@@ -15,6 +15,7 @@ function InputField(
         isValid,
         errorText
     }) {
+
     const [showPassword, setShowPassword]= useState(false)
     const inputClass = isValid ? '' : 'input-error'
     const isError = errorText && errorText.length > 0
