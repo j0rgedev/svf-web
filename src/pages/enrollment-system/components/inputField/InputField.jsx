@@ -21,7 +21,6 @@ function InputField({
     const inputClass = isValid ? '' : 'input-error'
     const isError = errorText && errorText.length > 0
 
-    console.log(isValid)
     return(
         <div className="input-field">
             <i

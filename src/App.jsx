@@ -8,9 +8,6 @@ import UpdatePassword from './pages/enrollment-system/pages/auth/update-pwd/upda
 import Payment from './pages/enrollment-system/pages/enrollmentProcess/enrollmentSteps/payment/Payment.jsx'
 import Confirmation from './pages/enrollment-system/pages/enrollmentProcess/confirmation/Confirmation.jsx'
 import NotFoundPage from './pages/enrollment-system/pages/404/404.jsx'
-import Alerts from './pages/enrollment-system/components/alerts/Alerts'
-import {AiFillAlert} from "react-icons/ai";
-import {AiFillWarning} from "react-icons/ai";
 
 function App() {
     const BASE_PATH = '/matricula'
@@ -28,9 +25,6 @@ function App() {
                 <Route path={`${BASE_PATH}/404`} element={<NotFoundPage/>} />
             </Routes>
         </BrowserRouter>
-        {/* <Alerts isAlert={true}  icon={<AiFillAlert/>} text={'Alerta'} subtext={'Esta es una alerta'}/> */}
-       {/*  {<Alerts  isAlert={false} icon={<AiFillWarning/>} text={'Warning'} 
-        subtext={'This defines the ability for a flex item to grow if necessary. '}/>} */}
     </div>
   )
 }
