@@ -36,6 +36,34 @@
   padding: 10px 35px 5px 35px;
 
 }
+.input-field input[type="number"]{
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #090000;
+  outline: none;
+}
+
+.input-field input[type="date"]{
+  height: 40px;
+  outline: none;
+  border:none;
+  border-bottom: 1px solid #090000;
+}
+
+.input-field label[for="code_sms"]{
+    display:flex;
+    justify-content:center;
+  }
+
+.input-field input[for="card_input"]{
+  padding: 10px 35px 5px 8px;
+}
+
+.input-field input[for="cvc_input"]{
+  padding: 10px 35px 5px 8px;
+}
 
 .left-icon{
     font-size: 1.2rem;

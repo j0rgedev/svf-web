@@ -15,7 +15,18 @@ button{
     cursor: pointer;
     border: none;
     transition: .5s;
+    margin-top: 20px;
 }
+button[for='cancel']{
+    background-color: red;
+    color:#fff;
+    margin-top: 0px;
+  }
+
+  button[for='cancel']:hover{
+    background-color: rgb(129, 9, 9);
+    color:#fff;
+  }
 
 .main-button{
     background-color: #656A51;
@@ -31,3 +42,18 @@ button{
     border: 1px solid #656A51;
     color: #656A51;
 }
+
+.secondary-button:hover{
+    background-color: rgb(196, 196, 196);
+}
+
+.content {
+    background-color: #fff;
+    overflow: hidden;
+    padding: 0rem 1rem;
+    transition: height 0.5s ease;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    
+  }
+  

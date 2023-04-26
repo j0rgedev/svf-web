@@ -7,7 +7,7 @@
 
 .studentInfo-inputs-container{
     width: 100%;
-    grid-gap: 5px;
+    grid-gap: 0px 62px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }

@@ -7,6 +7,10 @@ import SchoolTerms from './pages/enrollment-system/pages/enrollmentProcess/enrol
 import UpdatePassword from './pages/enrollment-system/pages/auth/update-pwd/updatePassword.jsx'
 import Payment from './pages/enrollment-system/pages/enrollmentProcess/enrollmentSteps/payment/Payment.jsx'
 import Confirmation from './pages/enrollment-system/pages/enrollmentProcess/confirmation/Confirmation.jsx'
+import NotFoundPage from './pages/enrollment-system/pages/404/404.jsx'
+import Alerts from './pages/enrollment-system/components/alerts/Alerts'
+import {AiFillAlert} from "react-icons/ai";
+import {AiFillWarning} from "react-icons/ai";
 
 function App() {
     const BASE_PATH = '/matricula'
@@ -15,14 +19,18 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path={`${BASE_PATH}/login`} element={<Login />} />
-                <Route path={`${BASE_PATH}/sms-validation`} element={<SmsValidation />} />
-                <Route path={`${BASE_PATH}/student-info`} element={<StudentInfo />} />
-                <Route path={`${BASE_PATH}/school-terms`} element={<SchoolTerms />} />
-                <Route path={`${BASE_PATH}/update-password`} element={<UpdatePassword />} />
-                <Route path={`${BASE_PATH}/payment`} element={<Payment />} />
-                <Route path={`${BASE_PATH}/confirmation`} element={<Confirmation />} />
+                <Route path={`${BASE_PATH}/validacion-sms`} element={<SmsValidation />} />
+                <Route path={`${BASE_PATH}/informacion-estudiante`} element={<StudentInfo />} />
+                <Route path={`${BASE_PATH}/terminos-escuela`} element={<SchoolTerms />} />
+                <Route path={`${BASE_PATH}/actualizar-contraseña`} element={<UpdatePassword />} />
+                <Route path={`${BASE_PATH}/pago`} element={<Payment />} />
+                <Route path={`${BASE_PATH}/confirmacion`} element={<Confirmation />} />
+                <Route path={`${BASE_PATH}/404`} element={<NotFoundPage/>} />
             </Routes>
         </BrowserRouter>
+        {/* <Alerts isAlert={true}  icon={<AiFillAlert/>} text={'Alerta'} subtext={'Esta es una alerta'}/> */}
+       {/*  {<Alerts  isAlert={false} icon={<AiFillWarning/>} text={'Warning'} 
+        subtext={'This defines the ability for a flex item to grow if necessary. '}/>} */}
     </div>
   )
 }

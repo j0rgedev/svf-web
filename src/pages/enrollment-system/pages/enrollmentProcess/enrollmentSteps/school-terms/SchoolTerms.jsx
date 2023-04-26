@@ -33,7 +33,7 @@ function SchoolTerms() {
               doloremque repellendus fuga officia dolorum exercitationem, iure non quae
               magni nulla aliquid deleniti.</div>
           <div className='step-buttons'>
-            <Button text={'REGRESAR'} isMain={false} width={'200px'}/>
+            <a href='http://localhost:5173/matricula/informacion-estudiante'><Button text={'REGRESAR'} isMain={false} width={'200px'} /></a>
             <Button text={'SIGUIENTE'} isMain={true} width={'200px'}/>
           </div>
         </div>

@@ -13,6 +13,7 @@ function InputField({
         textValue,
         blurFunction,
         isValid,
+        disabled,
         errorText
     }) {
 
@@ -35,12 +36,13 @@ function InputField({
             <input
                 type={showPassword ? 'text' : inputType}
                 name={id}
-                id={id}
+                htmlFor={id}
                 aria-label={id}
                 className={`${className} ${isError ? 'input-error' : 'color-valid'}`}
                 onChange={changeFunction}
                 value={textValue}
                 onBlur={blurFunction}
+                disabled={disabled}
             />
             {errorText && <p className="error">{errorText}</p>}
             {inputType === 'password' ? ( showPassword ?
