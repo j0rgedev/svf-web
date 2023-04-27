@@ -1,5 +1,5 @@
 import Sidebar from '../../../../components/sidebar/Sidebar.jsx'
-import Button from '../../../../components/button/Button.jsx'
+import Button from '../../../../components/Button.jsx'
 import './schoolTermsStyles.css'
 import '../../../styles/globals.css'
 import StepProgress from '../../../../components/stepProgress/StepProgress.jsx'

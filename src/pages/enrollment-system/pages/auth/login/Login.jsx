@@ -2,45 +2,63 @@ import InputField from '../../../components/inputField/InputField.jsx'
 import Sidebar from '../../../components/sidebar/Sidebar.jsx'
 import {FaUserGraduate} from 'react-icons/fa'
 import {RiLockPasswordFill} from 'react-icons/ri'
-import Button from '../../../components/button/Button.jsx'
+import Button from '../../../components/Button.jsx'
 import {useLogin} from "../../../setup/api/loginAPI.js";
 import './loginStyles.css'
 import '../../styles/globals.css'
 import {useFormik} from "formik";
 import {loginSchema} from "../../../config/loginSchema.js";
-import axios from "axios";
 import {useMutation, useQuery} from "react-query";
-import { LOGIN_URL } from "../../../setup/api/endpoints.js";
-import Alerts from "../../../components/alerts/Alerts.jsx";
+import Alert from "../../../components/alert/Alert.jsx";
 import {AiFillAlert} from "react-icons/ai";
-import { useState} from "react";
-
+import {useEffect, useState} from "react";
+import {getCookie, isCookieExpired, setCookie} from "../../../setup/utils/cookiesConfig.js";
+import { useNavigate} from "react-router-dom";
 function Login() {
 
-    const [isAlert, setIsAlert] = useState(null)
+    const [alertInfo, setAlertInfo] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const navigate = useNavigate();
 
     const loginMutation = useMutation(
         {
             mutationFn: useLogin,
             onSuccess: (data) => {
-                console.log(data)
+                setIsSubmitting(false);
                 const token = data['accessToken'];
-                sessionStorage.setItem('token', token);
+                setCookie('SESSION', token);
+                navigate('/matricula/informacion-estudiante');
             },
             onError: (data) => {
-                if(data.response.status === 401){
-                    setIsAlert({
-                        text: 'Error',
-                        subtext: 'Credenciales incorrectas'
-                    })
+                setIsSubmitting(false);
+                setAlertInfo({
+                    type: "error",
+                    text: "Error",
+                    subtext: "Algo salió mal, por favor intenta nuevamente",
+                });
+                if (data.response.status === 401) {
+                    setAlertInfo({
+                        type: "error",
+                        text: "Error",
+                        subtext:
+                            "Al parecer ingresaste mal tu código de estudiante o contraseña, por favor intenta nuevamente",
+                    });
                 }
             }
         }
     )
 
     const onSubmit = async (values, actions) => {
+        setIsSubmitting(true);
         loginMutation.mutate(values);
-        actions.resetForm();
+        if(loginMutation.status === 'success' || loginMutation.status === 'error') {
+            actions.resetForm();
+        }
+    }
+
+    const onAlertClose = () => {
+        setAlertInfo(null)
     }
 
     const {
@@ -59,16 +77,24 @@ function Login() {
         onSubmit
     })
 
+    useEffect(() => {
+        const cookies = getCookie('SESSION');
+        if (cookies && !isCookieExpired(cookies)) {
+            navigate('/matricula/informacion-estudiante');
+        }
+    } , [navigate])
+
     return (
         <div className='container'>
             <Sidebar width={'40%'}/>
             <div className='right-container' style={{height: '80%'}}>
-                {isAlert &&
-                    <Alerts
-                        isAlert={false}
-                        icon={<AiFillAlert/>}
-                        text={isAlert.text}
-                        subtext={isAlert.subtext}/>
+                {alertInfo &&
+                    <Alert
+                        alertType={alertInfo.type}
+                        title={alertInfo.text}
+                        description={alertInfo.subtext}
+                        onClose={onAlertClose}
+                    />
                 }
                 <h1>MATRÍCULA EN LÍNEA</h1>
                 <h3>Ingresa tus datos para empezar</h3>
@@ -97,7 +123,25 @@ function Login() {
                         isValid={!errors.password_input && touched.password_input}
                         errorText={errors.password_input}
                     />
-                    <Button text={'INGRESAR'} isMain={true} submit={true}/>
+                    {isSubmitting ? (
+                        <Button
+                            text={'Cargando...'}
+                            type={'submit'}
+                            className={'btn-login'}
+                            isMain={true}
+                            submit={true}
+                            isLoading={true}
+                        />
+                    ) : (
+                        <Button
+                            text={'Ingresar'}
+                            type={'submit'}
+                            className={'btn-login'}
+                            isMain={true}
+                            submit={true}
+                            isLoading={false}
+                        />
+                    )}
                 </form>
             </div>
         </div>

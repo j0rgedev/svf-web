@@ -8,6 +8,8 @@ import UpdatePassword from './pages/enrollment-system/pages/auth/update-pwd/upda
 import Payment from './pages/enrollment-system/pages/enrollmentProcess/enrollmentSteps/payment/Payment.jsx'
 import Confirmation from './pages/enrollment-system/pages/enrollmentProcess/confirmation/Confirmation.jsx'
 import NotFoundPage from './pages/enrollment-system/pages/404/404.jsx'
+import Alert from './pages/enrollment-system/components/alert/Alert.jsx'
+import {ProtectedRoute} from "./pages/enrollment-system/components/ProtectedRoute.jsx";
 
 function App() {
     const BASE_PATH = '/matricula'
@@ -16,12 +18,15 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path={`${BASE_PATH}/login`} element={<Login />} />
+                <Route path={`${BASE_PATH}/`} element={<Login />} />
                 <Route path={`${BASE_PATH}/validacion-sms`} element={<SmsValidation />} />
-                <Route path={`${BASE_PATH}/informacion-estudiante`} element={<StudentInfo />} />
-                <Route path={`${BASE_PATH}/terminos-escuela`} element={<SchoolTerms />} />
-                <Route path={`${BASE_PATH}/actualizar-contraseña`} element={<UpdatePassword />} />
-                <Route path={`${BASE_PATH}/pago`} element={<Payment />} />
-                <Route path={`${BASE_PATH}/confirmacion`} element={<Confirmation />} />
+                <Route element={<ProtectedRoute/>}>
+                    <Route path={`${BASE_PATH}/informacion-estudiante`} element={<StudentInfo/>}/>
+                    <Route path={`${BASE_PATH}/terminos-escuela`} element={<SchoolTerms />} />
+                    <Route path={`${BASE_PATH}/actualizar-contraseña`} element={<UpdatePassword />} />
+                    <Route path={`${BASE_PATH}/pago`} element={<Payment />} />
+                    <Route path={`${BASE_PATH}/confirmacion`} element={<Confirmation />} />
+                </Route>
                 <Route path={`${BASE_PATH}/404`} element={<NotFoundPage/>} />
             </Routes>
         </BrowserRouter>

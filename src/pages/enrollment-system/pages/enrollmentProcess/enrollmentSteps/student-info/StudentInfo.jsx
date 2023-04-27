@@ -3,11 +3,13 @@ import Sidebar from '../../../../components/sidebar/Sidebar.jsx'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { SiLevelsdotfyi } from 'react-icons/si'
 import { MdSchool } from 'react-icons/md'
-import Button from '../../../../components/button/Button.jsx'
+import Button from '../../../../components/Button.jsx'
 import './studentInfoStyles.css'
 import '../../../styles/globals.css'
 import StepProgress from '../../../../components/stepProgress/StepProgress.jsx'
 import { AiFillIdcard } from "react-icons/ai";
+import {useEffect, useState} from "react";
+import {getCookie} from "../../../../setup/utils/cookiesConfig.js";
 
 function StudentInfo() {
 

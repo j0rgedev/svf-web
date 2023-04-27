@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useFormik } from "formik";
 import { creditCardSchema } from "../../config/creditCardSchema.js";
 import InputField from '../inputField/InputField.jsx';
-import './buttonStyles.css'
 
 export default function BotonWithDiv({ text, id }) {
     const [isOpen, setIsOpen] = useState(false);

@@ -1,7 +1,7 @@
 import InputField from '../../../components/inputField/InputField.jsx'
 import Sidebar from '../../../components/sidebar/Sidebar.jsx'
 import { FaUserGraduate } from 'react-icons/fa'
-import Button from '../../../components/button/Button.jsx'
+import Button from '../../../components/Button.jsx'
 import './updatePasswordStyles.css'
 import '../../styles/globals.css'
 import { RiLockPasswordFill } from 'react-icons/ri'
