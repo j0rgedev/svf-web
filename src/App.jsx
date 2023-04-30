@@ -8,7 +8,7 @@ import UpdatePassword from './pages/enrollment-system/pages/auth/update-pwd/upda
 import Payment from './pages/enrollment-system/pages/enrollmentProcess/enrollmentSteps/payment/Payment.jsx'
 import Confirmation from './pages/enrollment-system/pages/enrollmentProcess/confirmation/Confirmation.jsx'
 import NotFoundPage from './pages/enrollment-system/pages/404/404.jsx'
-import Alert from './pages/enrollment-system/components/alert/Alert.jsx'
+import Alert from '../src/pages/enrollment-system/components/Alert'
 import {ProtectedRoute} from "./pages/enrollment-system/components/ProtectedRoute.jsx";
 
 function App() {

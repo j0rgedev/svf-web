@@ -8,11 +8,40 @@ import './studentInfoStyles.css'
 import '../../../styles/globals.css'
 import StepProgress from '../../../../components/stepProgress/StepProgress.jsx'
 import { AiFillIdcard } from "react-icons/ai";
-import {useEffect, useState} from "react";
-import {getCookie} from "../../../../setup/utils/cookiesConfig.js";
+import { useEffect, useState } from "react";
+import {getCookie} from "../../../../../enrollment-system/setup/utils/cookiesConfig.js";
+import { useEnrollment } from '../../../../setup/api/enrollmentAPI.js'
+import {useMutation, useQuery} from "react-query";
 
 function StudentInfo() {
 
+  const [studentInfo, setStudentInfo] = useState({
+    studentCod: "",
+    names: "",
+    lastNames: "",
+    dni: "",
+    newLevel: "",
+    newGrade: "",
+  });
+
+ const enrollmentMutation = useMutation(
+  {
+      mutationFn: useEnrollment,
+      onSuccess: (data) => {
+          setStudentInfo(data)
+      },
+  }
+)
+
+  useEffect(() => {
+    const token =getCookie('SESSION')
+    enrollmentMutation.mutate(token)
+    
+  }, []);
+  
+
+console.log(studentInfo.names)
+  
   return (
     <div className='container'>
       <Sidebar width={'40%'} />
@@ -23,31 +52,35 @@ function StudentInfo() {
         <form className='studentInfo-container'>
           <div className='studentInfo-inputs-container'>
             <InputField
-              labelText={'Nombres'}
+              labelText={'Nombre'}
               className={'names'}
               inputType={"text"}
-              icon={<BsFillPersonFill />} 
-              disabled={true}/>
+              icon={<BsFillPersonFill />}
+              textValue={studentInfo.names}
+              disabled={true} />
             <InputField
               labelText={'DNI'}
               className={'names'}
               inputType={"text"}
-              icon={<AiFillIdcard />} 
-              disabled={true}/>
+              icon={<AiFillIdcard />}
+              textValue={studentInfo.dni}
+              disabled={true} />
             <InputField
               labelText={'Nivel'}
               className={'names'}
               inputType={"text"}
-              icon={<SiLevelsdotfyi />} 
-              disabled={true}/>
+              icon={<SiLevelsdotfyi />}
+              textValue={studentInfo.newLevel}
+              disabled={true} />
             <InputField
               labelText={'Grado'}
               className={'names'}
               inputType={"text"}
               icon={<MdSchool />}
+              textValue={studentInfo.newGrade}
               disabled={true} />
           </div>
-          <Button text={'SIGUIENTE'} isMain={true} width={'100%'}/>
+          <Button text={'SIGUIENTE'} isMain={true} width={'100%'} />
         </form>
       </div>
     </div>

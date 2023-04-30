@@ -9,11 +9,12 @@ import '../../styles/globals.css'
 import {useFormik} from "formik";
 import {loginSchema} from "../../../config/loginSchema.js";
 import {useMutation, useQuery} from "react-query";
-import Alert from "../../../components/alert/Alert.jsx";
+import Alert from "../../../components/Alert.jsx";
 import {AiFillAlert} from "react-icons/ai";
 import {useEffect, useState} from "react";
 import {getCookie, isCookieExpired, setCookie} from "../../../setup/utils/cookiesConfig.js";
 import { useNavigate} from "react-router-dom";
+
 function Login() {
 
     const [alertInfo, setAlertInfo] = useState(null)
@@ -27,7 +28,7 @@ function Login() {
             onSuccess: (data) => {
                 setIsSubmitting(false);
                 const token = data['accessToken'];
-                setCookie('SESSION', token);
+                setCookie('SESSION', token)
                 navigate('/matricula/informacion-estudiante');
             },
             onError: (data) => {
