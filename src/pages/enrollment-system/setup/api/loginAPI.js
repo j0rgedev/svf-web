@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { BASE_URL } from "./endpoints.js";
 
-const loginAPI = axios.create({
-    baseURL: BASE_URL,
+const baseURL = axios.create({
+    baseURL: 'http://localhost:8080/api/v1/enrollment',
 });
 
 export const useLogin = async ({code_input, password_input}) => {
-    const res = await loginAPI.post('/login',
+    const res = await baseURL.post('/login',
         {
             'studentCod': code_input,
             'password': password_input

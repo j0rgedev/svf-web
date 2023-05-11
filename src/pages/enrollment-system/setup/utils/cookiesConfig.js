@@ -16,6 +16,10 @@ export const getCookie = (key) => {
     return null;
 };
 
+export const removeCookie = (key) => {
+    Cookies.remove(key);
+}
+
 export const isCookieExpired = (token) => {
     const expirationDate = new Date(token.expires).getTime();
     const now = new Date().getTime();

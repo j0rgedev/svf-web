@@ -1,5 +1,4 @@
-.sms-form p{
-    color: rgba(92, 92, 92, 0.856);
+.sms-paragraph{
     margin-bottom: 20px;
     text-align: center;
 }
@@ -8,7 +7,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 60%;
+    gap: 30px
+}
+
+.sms-form div{
+    justify-content: center;
+    align-items: center;
 }
 
 .sms-form input{

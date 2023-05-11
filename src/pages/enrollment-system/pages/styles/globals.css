@@ -14,8 +14,8 @@
     align-items: center;
     max-width: 750px;
     min-height: 100vh;
-    padding: 1rem 1.5rem;
     margin: 0 auto;
+    gap: 12px;
 }
 
 .right-container h1{
@@ -23,7 +23,7 @@
     text-align: center;
     width: 100%;
     line-height: 1.1;
-    font-size: 44px;
+    font-size: 24px;
 }
 
 .right-container h3{
@@ -35,6 +35,6 @@
 /* Tablet */
 @media screen and (min-width:768px) {
     .right-container h1{
-        font-size: 52px;
+        font-size: 42px;
     }
 }

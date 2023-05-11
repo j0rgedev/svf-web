@@ -1,14 +1,12 @@
 import axios from 'axios';
-import { BASE_URL } from "./endpoints.js";
 
-
-const enrollmentAPI = axios.create({
-  baseURL: BASE_URL,
+const baseURL = axios.create({
+  baseURL: 'http://localhost:8080/api/v1/enrollment',
 });
 
 export const useEnrollment = async (token) => {
 
-  const response = await enrollmentAPI.post('/', {}, {
+  const response = await baseURL.post('/', {}, {
     headers: { Authorization: `Bearer ${token}` }
   });
   return response.data;
