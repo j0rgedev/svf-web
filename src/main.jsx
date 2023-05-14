@@ -19,13 +19,13 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         font-family: 'Poppins', sans-serif;
-        zoom: 90%;
     }
     
     body{
         height: 100%;
         width: 100%;
     }
+
 `
 
 const queryClient = new QueryClient({
