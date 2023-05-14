@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import ButtonMode from './ButtonMode/ButtonMode';
+import ButtonMode from './ButtonMode';
 
 const ContentSearch = styled.div`
   display: flex;
@@ -46,11 +46,11 @@ const Avatar = styled.img`
   border-radius: 2rem;
 `;
 
-export default function Top({ isSearch, text, src }) {
+export default function TopAdmin({ isSearch, text, src }) {
   return (
     <ContentSearch isSearch={isSearch}>
       <Input className={isSearch ? 'Search' : 'NoSearch'} isSearch={isSearch} />
-      <ButtonMode />
+      <ButtonMode/>
       <Name>{text}</Name>
       <Avatar id='avatar' src={src} />
     </ContentSearch>
