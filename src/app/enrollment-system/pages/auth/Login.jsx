@@ -23,7 +23,7 @@ function Login() {
     const loginMutation = useMutation(
         {
             mutationFn: useLogin,
-            onSuccess: (data) => {
+            onSuccess: ({data}) => {
                 setIsSubmitting(false);
                 if (data['redirectUrl']) {
                     navigate(data['redirectUrl']);

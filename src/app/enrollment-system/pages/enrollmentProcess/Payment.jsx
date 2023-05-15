@@ -56,12 +56,6 @@ function Payment({setAlertInfo}) {
         mutationFn: useEnrollment,
         onSuccess: (data) => {
             setIsSubmitting(false);
-            setAlertInfo({
-                type: "success",
-                text: "Matrícula exitosa",
-                subtext: "¡Felicidades! Tu matrícula se realizó con éxito",
-                redirectUrl: "/matricula/confirmacion"
-            });
             setEnrollmentProcess({
                 enrollmentId: data['enrollmentId'],
             })
@@ -133,7 +127,7 @@ function Payment({setAlertInfo}) {
                     <tbody>
                     <tr>
                         <td>Código</td>
-                        <td>{student['student_cod']}</td>
+                        <td>{student['studentCod']}</td>
                     </tr>
                     <tr>
                         <td>Monto</td>

@@ -31,14 +31,9 @@ function SmsValidation() {
                 setAlertInfo({
                     type: "error",
                     text: "Ups, validación fallida",
-                    subtext: "Código inválido",
+                    subtext: "Código SMS inválido",
                 });
             }
-            setAlertInfo({
-                type: "error",
-                text: "Ups, error inesperado",
-                subtext: "Por favor, intenta nuevamente. Si el error persiste, contáctate con nosotros",
-            });
         }
     })
 
