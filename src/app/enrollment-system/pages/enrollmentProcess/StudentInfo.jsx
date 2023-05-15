@@ -22,7 +22,7 @@ function StudentInfo() {
                 labelText={'Nombres'}
                 className={'names_input'}
                 inputType={"text"}
-                textValue={studentData['names'] + ' ' + studentData['lastnames']}
+                textValue={studentData['names'] + ' ' + studentData['lastNames']}
                 icon={<BsFillPersonFill/>}
                 disabled={true}
                 isLoading={isLoading}
