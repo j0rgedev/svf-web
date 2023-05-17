@@ -1,19 +1,62 @@
-import React from 'react';
-import styled from 'styled-components';
+.form_content{
+    margin-top: 5rem;
+}
 
-const DivList = styled.div`
-  background: #151E1A;
-  color: #fff;
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  width: 70%;
-  justify-content: space-evenly;
-  border-radius: 0.5rem;
-  align-items: center;
-  padding: 18px;
+.cont_students{
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    flex-wrap: wrap;
+    margin: 0rem 1rem 1rem 1rem;
 
-  input[type="checkbox"] {
+}
+
+.cont_students h1{
+    margin-bottom: 20px;
+}
+
+.inputs_form{
+    display: flex;
+    gap: 142px;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10rem;
+}
+
+#table_students{
+    width: 100%;
+    margin-right: 1rem;
+}
+
+th{
+    border-bottom: 4px;
+    border-top: 4px;
+    padding: 8px;
+    font-weight: 100;
+}
+
+tr{
+    background-color: #151E1A;
+    color: #fff;
+    border-bottom: 10px solid black;
+}
+
+#headTable{
+    background-color: transparent;
+}
+.thHead{
+    display: flex;
+    align-items: center;
+}
+
+td{
+    border-bottom: 4px;
+    padding: 15px 20px;
+    border-top: 4px;
+}
+
+#check {
     display: inline-flex;
     align-items: center;
     cursor: pointer;
@@ -36,7 +79,7 @@ const DivList = styled.div`
     }
   }
 
-  input[type="submit"] {
+  #details {
     border-radius: 10px;
     outline: none;
     padding: 6px 15px;
@@ -45,19 +88,3 @@ const DivList = styled.div`
     border: none;
     cursor: pointer;
   }
-`;
-
-function DivList_Student({cod, name, date, state}) {
-  return (
-    <DivList>
-      <input type="checkbox" id='check'/>
-      <p>{cod}</p>
-      <p>{name}</p>
-      <p>{date}</p>
-      <p>{state}</p>
-      <input type="submit" value='Ver Detalles'/>
-    </DivList>
-  );
-}
-
-export default DivList_Student;

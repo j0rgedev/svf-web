@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {QueryClient, QueryClientProvider} from "react-query";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import {RootAdmin} from "./pages/admin-intranet/routes/RootAdmin.jsx";
+import {RootAdmin} from "./app/admin-intranet/routes/RootAdmin.jsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {

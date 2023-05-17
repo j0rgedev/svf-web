@@ -1,0 +1,101 @@
+.input-field{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.input-field label {
+  display: block;
+  margin-top: 2rem;
+}
+
+.input-field .error{
+    color: red;
+    font-weight: 100;
+    font-size: 12px;
+    line-height: 1.1;
+    margin-top: 6px;
+}
+
+.input-field input[type="text"],
+.input-field input[type="password"] {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #090000;
+  outline: none;
+}
+
+.input-field input[type="text"]{
+  padding: 10px 35px 5px 35px;
+}
+
+.input-field input[type="password"]{
+  padding: 10px 35px 5px 35px;
+
+}
+.input-field input[type="number"]{
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid #090000;
+  outline: none;
+}
+
+.input-field input[type="date"]{
+  height: 40px;
+  outline: none;
+  border:none;
+  border-bottom: 1px solid #090000;
+}
+
+.input-field label[for="code_sms"]{
+    display:flex;
+    justify-content:center;
+  }
+
+.input-field input[for="card_input"]{
+  padding: 10px 35px 5px 8px;
+}
+
+.input-field input[for="cvc_input"]{
+  padding: 10px 35px 5px 8px;
+}
+
+.left-icon{
+    font-size: 1.2rem;
+    position: absolute;
+    margin-top: 64px;
+    left: 10px;
+    cursor: pointer;
+}
+
+.eye-icon{
+  position: absolute;
+  margin-top: 70px;
+  right: 10px;
+  cursor: pointer;
+  color: #26261b;
+}
+
+.color-valid{
+    color: #848874;
+}
+
+.color-error{
+    color: red;
+}
+
+.input-error{
+    color: red;
+    border-bottom: 1px solid red !Important;
+}
+
+@media screen and (min-width: 768px){
+    .input-field .error{
+        font-size: 16px;
+    }
+}

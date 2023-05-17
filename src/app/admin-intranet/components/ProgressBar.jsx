@@ -10,7 +10,6 @@ const NavProgress = styled.div`
   border: 2px solid #fff;
   background-color: #f7f7f700;
   border-radius: 2rem;
-  width:60rem;
 
   > div {
     position: relative;

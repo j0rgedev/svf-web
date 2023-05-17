@@ -8,6 +8,14 @@ const StyledButton = styled.button`
   outline: none;
   border: none;
   color: #fff;
+  width: 225px;
+  height: 50px;
+  font-size: 22px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgb(53 157 169);
+  }
 `;
 
 export default function ButtonGeneral({ text }) {

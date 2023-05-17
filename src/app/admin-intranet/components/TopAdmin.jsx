@@ -10,15 +10,14 @@ const ContentSearch = styled.div`
   padding: 8px;
   border-radius: 1rem;
   gap: 10px;
-  width: 70%;
-  margin-top: 20px;
-  margin-left: 300px;
+  margin: 20px 22px 0px 272px;
   background-color: #151E1A;
   justify-content: ${({ isSearch }) => isSearch ? 'space-evenly' : 'flex-end'};
 `;
 
 const Input = styled.input.attrs({
   placeholder: 'Buscar por nombre o código'
+  
 })`
   ${({ isSearch }) => !isSearch && css`
     display: none;
@@ -33,6 +32,7 @@ const Input = styled.input.attrs({
   color: white;
   &::placeholder {
     color: white;
+    font-weight: 200;
   }
 `;
 
