@@ -21,7 +21,13 @@ const OptionItem = styled.li`
     &:hover {
       background-color: #905D00;
       border-radius: 1rem;
+      transition: 0.7s;
     }
+  }
+
+  &.selected a {
+    background-color: white;
+    color: #000;
   }
 `;
 
@@ -38,6 +44,7 @@ const OptionLink = styled.a`
     cursor:pointer;
     background-color: #905D00;
     border-radius: 1rem;
+    transition: 0.7s;
   }
 `;
 
@@ -58,6 +65,7 @@ const DropdownButton = styled.button`
     cursor:pointer;
     background-color: #905D00;
     border-radius: 1rem;
+    transition: 0.7s;
   }
 `;
 
@@ -65,14 +73,29 @@ const DropdownMenu = styled.div`
   display: flex;
   flex-direction: column;
   background: transparent;
+  max-height: ${({ isOpen }) => isOpen ? dropdownHeight : "0"};
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 `;
 
+const SpaceDiv = styled.div`
+  display: flex;
+  gap: 50px;
+`;
 
-export default function Options({ href, text, icon, isDropdown }) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+const dropdownHeight = "100px";
+
+
+
+export default function Options({ href, text, icon, isDropdown, isSelected }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsOpen(!isOpen);
+  }
+
+  const handleClick = () => {
+    setIsSelected(true);
   }
 
   return (
@@ -87,21 +110,21 @@ export default function Options({ href, text, icon, isDropdown }) {
       )}
       {isDropdown && (
         <>
-          <DropdownButton id="btnDrop" onClick={toggleDropdown} >
+          <DropdownButton id="btnDrop" onClick={toggleDropdown}>
             {icon}
-            {text}
-            <AiOutlineDown />
+            <SpaceDiv>
+              {text}
+              <AiOutlineDown />
+            </SpaceDiv>
           </DropdownButton>
-          {isDropdownOpen && (
-            <DropdownMenu>
-              <OptionLink className="Item" href="#">
-                Opción 1
-              </OptionLink>
-              <OptionLink className="Item" href="#">
-                Opción 2
-              </OptionLink>
-            </DropdownMenu>
-          )}
+          <DropdownMenu isOpen={isOpen}>
+            <OptionLink className="Item" href="#" isSelected={false}>
+              Opción 1
+            </OptionLink>
+            <OptionLink className="Item" href="#" isSelected={true}>
+              Opción 2
+            </OptionLink>
+          </DropdownMenu>
         </>
       )}
     </OptionsList>

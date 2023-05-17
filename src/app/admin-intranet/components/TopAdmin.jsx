@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import ButtonMode from './ButtonMode/ButtonMode';
+import ButtonMode from './ButtonMode';
 
 const ContentSearch = styled.div`
   display: flex;
@@ -10,15 +10,14 @@ const ContentSearch = styled.div`
   padding: 8px;
   border-radius: 1rem;
   gap: 10px;
-  width: 70%;
-  margin-top: 20px;
-  margin-left: 300px;
+  margin: 20px 22px 0px 272px;
   background-color: #151E1A;
   justify-content: ${({ isSearch }) => isSearch ? 'space-evenly' : 'flex-end'};
 `;
 
 const Input = styled.input.attrs({
   placeholder: 'Buscar por nombre o código'
+  
 })`
   ${({ isSearch }) => !isSearch && css`
     display: none;
@@ -33,6 +32,7 @@ const Input = styled.input.attrs({
   color: white;
   &::placeholder {
     color: white;
+    font-weight: 200;
   }
 `;
 
@@ -46,11 +46,11 @@ const Avatar = styled.img`
   border-radius: 2rem;
 `;
 
-export default function Top({ isSearch, text, src }) {
+export default function TopAdmin({ isSearch, text, src }) {
   return (
     <ContentSearch isSearch={isSearch}>
       <Input className={isSearch ? 'Search' : 'NoSearch'} isSearch={isSearch} />
-      <ButtonMode />
+      <ButtonMode/>
       <Name>{text}</Name>
       <Avatar id='avatar' src={src} />
     </ContentSearch>
