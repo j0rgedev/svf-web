@@ -1,28 +1,35 @@
-# San Vicente Ferrer School Website
-This is a university project for SVF School, that aims to provide better student and staff management using the best technologies for web development
+# Plataforma Web para el Colegio San Vicente Ferrer
+Este repositorio contiene el código fuente de la plataforma web para el Colegio San Vicente Ferrer. Las funcionalidades de la plataforma incluyen:
+- Sistema de matrícula
+- Intranet para el personal
+- Intranet para los estudiantes
 
-## Minium Viable Products (MVP)
-- Enrollment System
-- Staff Intranet
-- Student Intranet
-- Reporting system
-- Notification system
+## Tecnologías usadas
+Este proyecto fue desarrollado usando las siguientes tecnologías:
+- HTML5
+- JavaScript
+  - React JS
+    - Axios
+    - React Query
+    - React Router Dom
+    - Styled Components
+    - Formik
+    - React Icons
 
-## Technologies
-The website is built using the following technologies:
-- React JS
-- React Router DOM
-- React Query
-- JWT for authentication and authorization
-- Tailwind CSS for styling
+## Prerrequesitos
+Este proyecto fue desarrollado junto a su propia API, la cual se encuentra en el siguiente repositorio: [Ir al repositorio de la API](https://github.com/jorgevfx/svf-api)  
+Una vez que la API esté corriendo, seguir los siguientes pasos:
+1. Clonar el repositorio
+2. Instalar las dependencias
+```bash
+npm install
+```
+3. Correr el proyecto
+```bash
+npm run dev
+```
 
-## Setup
-To run the website locally, follow these steps:
-1. Clone the repository
-2. Install the required dependencies using npm install
-3. Run the development server using npm run dev
-
-## Team
-The website was developed by an incredible team:
+## Equipo de trabajo
+Este proyecto fue desarrollado por:
 - [James](https://github.com/JamesVC7)
 - [Jorge](https://github.com/jorgevfx)
