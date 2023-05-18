@@ -18,9 +18,11 @@ const StyledButton = styled.button`
   }
 `;
 
-export default function ButtonGeneral({ text }) {
+export default function ButtonGeneral({ text , onClick}) {
+  const handleClick=()=>{onClick}
+
   return (
-    <StyledButton>
+    <StyledButton onClick={handleClick}>
       {text}
     </StyledButton>
   );

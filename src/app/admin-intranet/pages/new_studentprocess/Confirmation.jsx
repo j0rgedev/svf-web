@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AdminSidebar from '../../../../components/AdminSidebar.jsx';
-import MainHeader from '../../../../components/MainHeader.jsx';
-import ProgressBar from '../../../../components/ProgressBar';
-import avatar from '../../../../assets/avatar.png';
-import ButtonGeneral from '../../../../components/ButtonGeneral';
+import ButtonGeneral from '../../components/ButtonGeneral.jsx';
 import { BsFillCheckSquareFill } from 'react-icons/bs';
 
 const Container = styled.div``;
@@ -68,11 +64,6 @@ const ButtonContainer = styled.div`
 export function Confirmation({ cod, password }) {
   return (
     <Container>
-      <AdminSidebar />
-      <MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
-      <ProgressContainer>
-        <ProgressBar className1={"active"} className2={"active"} className3={"active"} />
-      </ProgressContainer>
       <IconContainer>
         <ConfirmationIcon className={'confirmation-icon'} />
       </IconContainer>

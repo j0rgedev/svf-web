@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import ButtonAdmin from '../components/ButtonAdmin.jsx';
-import AdminSidebar from '../components/AdminSidebar.jsx';
 import Table_students from '../components/Table_Students/Table_students.jsx';
 import MainHeader from '../components/MainHeader.jsx';
 import avatar from '../assets/avatar.png';
 
 
-const Container = styled.div``;
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+`;
 
 const ContentContainer = styled.div`
   display: flex;
@@ -28,7 +30,9 @@ const QuickActionsContainer = styled.div`
 
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  text-align: left;
+`;
 
 const ButtonContainer = styled.div`
   gap: 50px;

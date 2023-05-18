@@ -11,7 +11,7 @@ import {AlertInfoContext} from "../../setup/context/AlertInfoContext.jsx";
 import {useQuery} from "react-query";
 import {useStudent} from "../../setup/api/studentAPI.js";
 import {getCookie} from "../../setup/config/cookiesConfig.js";
-import {PropagateLoader} from "react-spinners";
+/* import {PropagateLoader} from "react-spinners"; */
 
 export const EnrollmentProcess = () => {
 
@@ -67,7 +67,7 @@ export const EnrollmentProcess = () => {
         default:
             component = <StudentInfo/>;
     }
-
+    
 
     if (isLoading) return (
         <MainContainer>

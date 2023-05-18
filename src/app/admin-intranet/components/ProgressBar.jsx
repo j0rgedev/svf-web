@@ -4,12 +4,13 @@ import styled from "styled-components";
 const NavProgress = styled.div`
   display: table;
   overflow: hidden;
-  margin: 0;
-  width: 100%;
   height: 50px;
   border: 2px solid #fff;
   background-color: #f7f7f700;
   border-radius: 2rem;
+  width: 76%;
+  margin-top: 5rem;
+  margin-left: 18rem;
 
   > div {
     position: relative;

@@ -1,11 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import AdminSidebar from '../../../../components/AdminSidebar.jsx';
-import MainHeader from '../../../../components/MainHeader.jsx';
-import ProgressBar from '../../../../components/ProgressBar';
-import Inputfields_newStudent from '../../../../components/Inputfields_newStudent';
-import avatar from '../../../../assets/avatar.png';
-import ButtonGeneral from '../../../../components/ButtonGeneral';
+import Inputfields_newStudent from '../../components/Inputfields_newStudent.jsx';
+import ButtonGeneral from '../../components/ButtonGeneral.jsx';
+
 
 const Container = styled.div``;
 
@@ -36,34 +33,37 @@ const InputsContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-left: 24rem;
+  margin-right: 5rem;
   margin-bottom: 2rem;
-  margin-top: 8rem;
+  margin-top: 2rem;
+  gap: 30rem;
 `;
 
-export function Students_Dates() {
+export function Attorney_Dates({ handleNextClick }) {
+
+  const handleClickNext = () => {
+    handleNextClick(); 
+  };
+   
   return (
-    <Container>
-      <AdminSidebar />
-      <MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
-      <ProgressContainer>
-        <ProgressBar className1={"complete"} className2={"desactive"} className3={"desactive"} />
-      </ProgressContainer>
+    
       <Content>
-        <Title>Nuevo Estudiante</Title>
+        <Title>Apoderado del estudiante</Title>
         <InputsContainer>
           <Inputfields_newStudent text={'Nombres'} type={'text'} />
           <Inputfields_newStudent text={'Apellidos'} type={'text'} />
           <Inputfields_newStudent text={'DNI'} type={'text'} />
           <Inputfields_newStudent text={'Nacimmiento'} type={'date'} />
           <Inputfields_newStudent text={'Télefono'} type={'text'} />
-          <Inputfields_newStudent text={'Nivel'} type={'text'} />
-          <Inputfields_newStudent text={'Grado'} type={'text'} />
+          <Inputfields_newStudent text={'Direccion'} type={'text'} />
+          <Inputfields_newStudent text={'Parentesco'} type={'text'} />
           <ButtonContainer>
-          <ButtonGeneral text={'SIGUIENTE'} />
+          <ButtonGeneral text={'REGRESAR'} /* onClick={handleBackClick} */ />
+          <ButtonGeneral text={'SIGUIENTE'} onClick={handleClickNext} />
         </ButtonContainer>
         </InputsContainer>
+        
       </Content>
-    </Container>
+    
   );
 }

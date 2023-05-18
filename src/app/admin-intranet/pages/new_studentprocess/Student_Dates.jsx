@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import AdminSidebar from '../../../../components/AdminSidebar.jsx';
-import MainHeader from '../../../../components/MainHeader.jsx';
-import ProgressBar from '../../../../components/ProgressBar';
-import Inputfields_newStudent from '../../../../components/Inputfields_newStudent';
-import avatar from '../../../../assets/avatar.png';
-import ButtonGeneral from '../../../../components/ButtonGeneral';
+import Inputfields_newStudent from '../../components/Inputfields_newStudent.jsx';
+import ButtonGeneral from '../../components/ButtonGeneral.jsx';
 
 const Container = styled.div``;
 
@@ -36,36 +32,35 @@ const InputsContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-right: 5rem;
+  margin-left: 24rem;
   margin-bottom: 2rem;
-  margin-top: 2rem;
-  gap: 30rem;
+  margin-top: 8rem;
 `;
 
-export function Attorney_Dates() {
+
+
+export function Students_Dates({ handleNextClick }) {
+
+  const handleClickNext = () => {
+    handleNextClick(); 
+  };
+
   return (
     <Container>
-      <AdminSidebar />
-      <MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
-      <ProgressContainer>
-        <ProgressBar className1={"active"} className2={"complete"} className3={"desactive"} />
-      </ProgressContainer>
       <Content>
-        <Title>Apoderado del estudiante</Title>
+        <Title>Nuevo Estudiante</Title>
         <InputsContainer>
           <Inputfields_newStudent text={'Nombres'} type={'text'} />
           <Inputfields_newStudent text={'Apellidos'} type={'text'} />
           <Inputfields_newStudent text={'DNI'} type={'text'} />
           <Inputfields_newStudent text={'Nacimmiento'} type={'date'} />
           <Inputfields_newStudent text={'Télefono'} type={'text'} />
-          <Inputfields_newStudent text={'Direccion'} type={'text'} />
-          <Inputfields_newStudent text={'Parentesco'} type={'text'} />
+          <Inputfields_newStudent text={'Nivel'} type={'text'} />
+          <Inputfields_newStudent text={'Grado'} type={'text'} />
           <ButtonContainer>
-          <ButtonGeneral text={'REGRESAR'} />
-          <ButtonGeneral text={'SIGUIENTE'} />
+          <ButtonGeneral text={'SIGUIENTE'} onClick={handleClickNext} />
         </ButtonContainer>
         </InputsContainer>
-        
       </Content>
     </Container>
   );
