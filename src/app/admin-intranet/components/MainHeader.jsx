@@ -46,7 +46,7 @@ const Avatar = styled.img`
   border-radius: 2rem;
 `;
 
-export default function TopAdmin({ isSearch, text, src }) {
+export default function MainHeader({ isSearch, text, src }) {
   return (
     <ContentSearch isSearch={isSearch}>
       <Input className={isSearch ? 'Search' : 'NoSearch'} isSearch={isSearch} />

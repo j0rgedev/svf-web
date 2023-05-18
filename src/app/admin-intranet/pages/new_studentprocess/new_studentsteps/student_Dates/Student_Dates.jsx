@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SidebarAdmin from '../../../../components/SidebarAdmin';
-import TopAdmin from '../../../../components/TopAdmin';
+import AdminSidebar from '../../../../components/AdminSidebar.jsx';
+import MainHeader from '../../../../components/MainHeader.jsx';
 import ProgressBar from '../../../../components/ProgressBar';
 import Inputfields_newStudent from '../../../../components/Inputfields_newStudent';
 import avatar from '../../../../assets/avatar.png';
@@ -44,8 +44,8 @@ const ButtonContainer = styled.div`
 export function Students_Dates() {
   return (
     <Container>
-      <SidebarAdmin />
-      <TopAdmin isSearch={false} text={'Jhon K.'} src={avatar} />
+      <AdminSidebar />
+      <MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
       <ProgressContainer>
         <ProgressBar className1={"complete"} className2={"desactive"} className3={"desactive"} />
       </ProgressContainer>

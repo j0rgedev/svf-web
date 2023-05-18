@@ -1,0 +1,5 @@
+export function NewStudentProcess() {
+	return (
+		<></>
+	)
+}

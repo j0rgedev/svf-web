@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './styleButton.css';
 import {FaSun} from 'react-icons/fa';
 import {BsMoonFill} from 'react-icons/bs';
-import Mode from '../../config/Mode.js';
+import Theme from '../../styles/theme.js';
 
 function ButtonMode() {
     const [isDarkMode, setIsDarkMode] = useState(false);
@@ -11,7 +11,7 @@ function ButtonMode() {
         setIsDarkMode(!isDarkMode);
     };
 
-    const styles = isDarkMode ? Mode.dark : Mode.light;
+    const styles = isDarkMode ? Theme.dark : Theme.light;
 
     return (
         <>

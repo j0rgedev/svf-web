@@ -1,7 +1,7 @@
-import SidebarAdmin from "../components/SidebarAdmin.jsx";
+import AdminSidebar from "../components/AdminSidebar.jsx";
 
 export function MainDashboard() {
 	return (
-		<SidebarAdmin/>
+		<AdminSidebar/>
 	)
 }

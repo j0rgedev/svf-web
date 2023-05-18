@@ -12,6 +12,9 @@ import Confirmation from "./app/enrollment-system/pages/enrollmentProcess/Confir
 import {ProtectedRoute} from "./app/enrollment-system/routes/ProtectedRoute.jsx";
 import EnrollmentRootLayout from "./app/enrollment-system/pages/EnrollmentRootLayout.jsx";
 import NotFoundPage from "./app/enrollment-system/pages/errors/NotFoundPage.jsx";
+import {AdminRootLayout} from "./app/admin-intranet/pages/AdminRootLayout.jsx";
+import {StudentList} from "./app/admin-intranet/pages/StudentList.jsx";
+import {NewStudentProcess} from "./app/admin-intranet/pages/NewStudentProcess.jsx";
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -25,7 +28,6 @@ const GlobalStyle = createGlobalStyle`
         height: 100%;
         width: 100%;
     }
-
 `
 
 const queryClient = new QueryClient({
@@ -42,6 +44,7 @@ const router = createBrowserRouter([
         element: <EnrollmentRootLayout/>,
         children: [
             {
+                index: true,
                 path: 'login',
                 element: <Login/>
             },
@@ -64,6 +67,20 @@ const router = createBrowserRouter([
             {
                 path: '*',
                 element: <NotFoundPage/>
+            }
+        ]
+    },
+    {
+        path: '/admin',
+        element: <AdminRootLayout/>,
+        children: [
+            {
+                index: true,
+                element: <StudentList/>
+            },
+            {
+                path: 'student/add',
+                element: <NewStudentProcess/>
             }
         ]
     }

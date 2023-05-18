@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { FaSun } from 'react-icons/fa';
 import { BsMoonFill } from 'react-icons/bs';
-import Mode from '../config/Mode.js';
+import Theme from '../styles/theme.js';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -76,7 +76,7 @@ const SwitchButton = styled.div`
 function ButtonMode() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const handleToggle = () => setIsDarkMode(!isDarkMode);
-  const styles = isDarkMode ? Mode.dark : Mode.light;
+  const styles = isDarkMode ? Theme.dark : Theme.light;
 
   return (
     <>

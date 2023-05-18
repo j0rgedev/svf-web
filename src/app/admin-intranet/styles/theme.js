@@ -1,4 +1,4 @@
-const Mode = {
+const Theme = {
     light: {
       backgroundColor: '#ffffff',
       color: '#212121',
@@ -7,6 +7,6 @@ const Mode = {
       backgroundColor: '#000F08',
       color: '#ffffff',
     },
-  };
+};
   
-  export default Mode;
+export default Theme;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SidebarAdmin from '../../../../components/SidebarAdmin';
-import TopAdmin from '../../../../components/TopAdmin';
+import AdminSidebar from '../../../../components/AdminSidebar.jsx';
+import MainHeader from '../../../../components/MainHeader.jsx';
 import ProgressBar from '../../../../components/ProgressBar';
 import avatar from '../../../../assets/avatar.png';
 import ButtonGeneral from '../../../../components/ButtonGeneral';
@@ -68,8 +68,8 @@ const ButtonContainer = styled.div`
 export function Confirmation({ cod, password }) {
   return (
     <Container>
-      <SidebarAdmin />
-      <TopAdmin isSearch={false} text={'Jhon K.'} src={avatar} />
+      <AdminSidebar />
+      <MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
       <ProgressContainer>
         <ProgressBar className1={"active"} className2={"active"} className3={"active"} />
       </ProgressContainer>
