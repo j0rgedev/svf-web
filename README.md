@@ -17,8 +17,10 @@ Este proyecto fue desarrollado usando las siguientes tecnologías:
     - React Icons
 
 ## Prerrequesitos
-Este proyecto fue desarrollado junto a su propia API, la cual se encuentra en el siguiente repositorio: [Ir al repositorio de la API](https://github.com/jorgevfx/svf-api)  
-Una vez que la API esté corriendo, seguir los siguientes pasos:
+Este proyecto fue desarrollado junto a su propio API, la cual se encuentra en el siguiente repositorio: [Ir al repositorio de la API](https://github.com/jorgevfx/svf-api)  
+
+## Instalación
+Para poder ejecutar el proyecto, se deben seguir los siguientes pasos:
 1. Clonar el repositorio
 2. Instalar las dependencias
 ```bash
