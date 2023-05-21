@@ -1,31 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
 
+export default function ActionButton({text, className, onClickFn, disabled}) {
+
+	return (
+		<StyledButton
+			className={className}
+			onClick={onClickFn}
+			type={'button'}
+			disabled={disabled}
+		>
+			{text}
+		</StyledButton>
+	)
+}
+
 const StyledButton = styled.button`
-  width: 22rem;
-  letter-spacing: 4px;
+  min-width: 250px;
+  letter-spacing: 2px;
   border-radius: 1rem;
-  height: 50px;
-  font-weight: bold;
+  height: 46px;
+  font-weight: 500;
   font-size: 18px;
   cursor: pointer;
   border: none;
   transition: 0.5s;
-  margin-top: 20px;
-  
+
   &:disabled {
     cursor: not-allowed;
-    background-color: #cccc;
-      
-    &:hover {
-      background-color: #cccc;
-    }
+    background-color: #cccc !important;
+    color: #666 !important;
   }
 
   &.mainButton {
     background-color: #51939B;
     color: white;
-    
+
     &:hover {
       background-color: rgb(48 94 100);
     }
@@ -33,29 +43,19 @@ const StyledButton = styled.button`
 
   &.secondButton {
     background-color: #EF233C;
-    border: 1px solid #656A51;
     color: white;
-    
+
     &:hover {
-      background-color: rgb(160 20 37);
+      background-color: rgb(119, 9, 19);
     }
   }
 
   &.thirdButton {
     background-color: #C09463;
-    border: 1px solid #656A51;
     color: white;
-    
+
     &:hover {
       background-color: #785e42;
     }
   }
 `;
-
-export default function ButtonAdmin ({text, className}) {
-  return (
-    <StyledButton className={className}>
-      {text}
-    </StyledButton>
-  )
-}

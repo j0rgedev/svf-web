@@ -1,58 +1,66 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
-import ButtonMode from './ButtonMode';
+import styled from 'styled-components';
+import DarkModeButton from './buttons/DarkModeButton.jsx';
+import avatar from '../assets/avatar.png';
+
+export default function MainHeader({isSearch, text, src}) {
+    return (
+        <ContentSearch isSearch={isSearch}>
+            <Input
+                placeholder={'Buscar por nombre o código'}
+                className={isSearch ? 'Search' : 'NoSearch'}
+                isSearch={isSearch}
+            />
+            <DarkModeButton/>
+            <Name>{text}</Name>
+            <Avatar>
+                <img src={avatar} alt="admin_avatar"/>
+            </Avatar>
+        </ContentSearch>
+    );
+}
 
 const ContentSearch = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 72px;
-  border: 1px solid black;
-  padding: 8px;
-  border-radius: 1rem;
-  gap: 10px;
-  margin: 20px 22px 0px 272px;
-  background-color: #151E1A;
-  justify-content: ${({ isSearch }) => isSearch ? 'space-evenly' : 'flex-end'};
+    display: flex;
+    flex-direction: row;
+    height: 66px;
+    padding: 0 1.5rem;
+    border-radius: 1rem;
+    gap: 10px;
+    background-color: #151E1A;
+    justify-content: ${({isSearch}) => isSearch ? 'space-evenly' : 'flex-end'};
 `;
 
-const Input = styled.input.attrs({
-  placeholder: 'Buscar por nombre o código'
-  
-})`
-  ${({ isSearch }) => !isSearch && css`
-    display: none;
-  `}
-  width: 80%;
-  height: 50px;
-  padding: 20px;
-  border: none;
-  outline: none;
-  font-size: 20px;
-  background-color: #151E1A;
-  color: white;
-  &::placeholder {
-    color: white;
-    font-weight: 200;
-  }
-`;
+const Input = styled.input`
+    width: 80%;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 300;
+    color: #E4E4E4;
+    background-color: transparent;
+
+    &::placeholder {
+        color: white;
+        font-weight: 200;
+    }
+`
 
 const Name = styled.div`
-  display: flex;
-  align-items: center;
-  width: 4rem;
+    display: flex;
+    align-items: center;
+    width: 4rem;
 `;
 
-const Avatar = styled.img`
-  border-radius: 2rem;
+const Avatar = styled.div`
+    width: 100%;
+    height: 100%;
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    
+    img {
+        width: 100%;
+        height: 80%;
+        object-fit: cover;
+    }
 `;
-
-export default function MainHeader({ isSearch, text, src }) {
-  return (
-    <ContentSearch isSearch={isSearch}>
-      <Input className={isSearch ? 'Search' : 'NoSearch'} isSearch={isSearch} />
-      <ButtonMode/>
-      <Name>{text}</Name>
-      <Avatar id='avatar' src={src} />
-    </ContentSearch>
-  );
-}

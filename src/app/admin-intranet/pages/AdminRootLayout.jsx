@@ -1,18 +1,35 @@
 import Globals from "../styles/globals.js";
 import styled from "styled-components";
 import {Outlet} from "react-router-dom";
-import AdminSidebar from "../components/AdminSidebar.jsx";
+import AdminSidebar from "../components/sidebar/AdminSidebar.jsx";
+import React, {useState} from "react";
+import {Toaster} from "react-hot-toast";
+import {AlertContext} from "../setup/context/AlertContext.jsx";
+import {DeleteAlert} from "../components/DeleteAlert.jsx";
 
 export function AdminRootLayout() {
-    return (
-        <Container>
-            <Globals/>
-            <AdminSidebar/>
-            <Main>
-                <Outlet/>
-            </Main>
-        </Container>
-    )
+
+	const [alert, setAlert] = useState(null)
+
+	return (
+		<AlertContext.Provider value={{alert, setAlert}}>
+			<Container>
+				{
+					alert!==null && <DeleteAlert
+						title={alert.title}
+						description={alert.message}
+						data={alert.data}
+					/>
+				}
+				<Globals/>
+				<Toaster/>
+				<AdminSidebar/>
+				<Main>
+					<Outlet/>
+				</Main>
+			</Container>
+		</AlertContext.Provider>
+	)
 }
 
 const Container = styled.div`
@@ -22,7 +39,8 @@ const Container = styled.div`
 const Main = styled.main`
   width: 100%;
   min-height: 100vh;
+  height: 100%;
+  padding: 20px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 `

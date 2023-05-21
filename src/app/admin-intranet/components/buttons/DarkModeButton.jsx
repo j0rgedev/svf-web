@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import { FaSun } from 'react-icons/fa';
-import { BsMoonFill } from 'react-icons/bs';
-import Theme from '../styles/theme.js';
+import React, {useEffect, useState} from 'react';
+import styled, {createGlobalStyle} from 'styled-components';
+import {FaSun} from 'react-icons/fa';
+import {BsMoonFill} from 'react-icons/bs';
+import Theme from '../../styles/theme.js';
 
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${(props) => props.styles.backgroundColor};
     color: ${(props) => props.styles.color};
   }
-  
+
   a {
     color: ${(props) => props.styles.color};
   }
@@ -28,7 +28,6 @@ const SwitchButton = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
-  
 
   & label {
     width: 30px;
@@ -62,38 +61,55 @@ const SwitchButton = styled.div`
 
     & label {
       transform: translateX(calc(50px - 30px));
-      box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+      box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
       transition-duration: 500ms;
 
       & .icons {
         transform: translateX(-20px);
-        
       }
     }
   }
 `;
 
-function ButtonMode() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const handleToggle = () => setIsDarkMode(!isDarkMode);
-  const styles = isDarkMode ? Theme.dark : Theme.light;
+function DarkModeButton() {
 
-  return (
-    <>
-      <SwitchInput onChange={handleToggle} />
+	const getDarkMode = () => {
+		const savedMode = sessionStorage.getItem('dark');
+		return savedMode ? JSON.parse(savedMode) : false;
+	};
 
-      <SwitchButton>
-        <label htmlFor="switch">
-          <div className="icons">
-            <span className="material-symbols-rounded"> <FaSun/> </span>
-            <span className="material-symbols-rounded"> <BsMoonFill/> </span>
-          </div>
-        </label>
-      </SwitchButton>
+	const setDarkMode = (darkMode) => {
+		sessionStorage.setItem('dark', JSON.stringify(darkMode));
+	};
 
-      <GlobalStyle styles={styles} />
-    </>
-  );
+	const [isDarkMode, setIsDarkMode] = useState(false);
+
+	const handleToggle = () => {
+		const newDarkMode = !isDarkMode;
+		setIsDarkMode(newDarkMode);
+		setDarkMode(newDarkMode);
+	};
+
+	const styles = isDarkMode ? Theme.dark : Theme.light;
+
+	useEffect(() => {
+		setIsDarkMode(getDarkMode());
+	}, []);
+
+	return (
+		<>
+			<SwitchInput onChange={handleToggle} checked={isDarkMode}/>
+			<SwitchButton>
+				<label htmlFor="switch">
+					<div className="icons">
+						<span className="material-symbols-rounded"> <FaSun/> </span>
+						<span className="material-symbols-rounded"> <BsMoonFill/> </span>
+					</div>
+				</label>
+			</SwitchButton>
+			<GlobalStyle styles={styles}/>
+		</>
+	);
 }
 
-export default ButtonMode;
+export default DarkModeButton;

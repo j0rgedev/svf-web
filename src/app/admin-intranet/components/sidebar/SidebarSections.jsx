@@ -1,0 +1,138 @@
+import styled from 'styled-components';
+import {AiOutlineDown} from 'react-icons/ai';
+import {useState} from 'react';
+
+export default function SidebarSections({
+        href,
+        text,
+        icon,
+        hasDropdown
+}) {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    }
+
+    return (
+        <OptionsList>
+            {!hasDropdown ? (
+                <OptionItem>
+                    <a href={href}>
+                        {icon}
+                        {text}
+                    </a>
+                </OptionItem>
+            ) : (
+                <>
+                    <OptionItem onClick={toggleDropdown}>
+                        <a href={href}>
+                            <SectionWrapper>
+                                {icon}
+                                {text}
+                            </SectionWrapper>
+                            <AiOutlineDown/>
+                        </a>
+                    </OptionItem>
+                    <DropdownMenu isOpen={isOpen}>
+                        <OptionLink className="Item" href="#" isSelected={false}>
+                            Opción 1
+                        </OptionLink>
+                        <OptionLink className="Item" href="#" isSelected={true}>
+                            Opción 2
+                        </OptionLink>
+                    </DropdownMenu>
+                </>
+            )}
+        </OptionsList>
+    );
+}
+
+const OptionsList = styled.ul`
+	list-style: none;
+	padding: 0;
+`;
+
+const SectionWrapper = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+`
+
+const OptionItem = styled.li`
+    user-select: none;
+    cursor: pointer;
+    
+    a {
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-size: 18px;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 1rem;
+    
+        &:hover {
+            background-color: #905D00;
+            transition: 0.7s;
+        }
+    }
+`;
+
+const OptionLink = styled.a`
+    text-decoration: none;
+    color: white;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    
+  
+    &:hover {
+        cursor: pointer;
+        background-color: #905D00;
+        border-radius: 1rem;
+        transition: 0.7s;
+    }
+`;
+
+const DropdownButton = styled.button`
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    text-decoration: none;
+    
+    &:hover {
+        cursor: pointer;
+        background-color: #905D00;
+        border-radius: 1rem;
+        transition: 0.7s;
+    }
+`;
+
+const DropdownMenu = styled.div`
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    max-height: ${({isOpen}) => isOpen ? dropdownHeight : "0"};
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+`;
+
+const SpaceDiv = styled.div`
+    display: flex;
+  	gap: 50px;
+`;
+
+const dropdownHeight = "100px";
