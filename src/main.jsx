@@ -12,6 +12,11 @@ import Confirmation from "./app/enrollment-system/pages/enrollmentProcess/Confir
 import {ProtectedRoute} from "./app/enrollment-system/routes/ProtectedRoute.jsx";
 import EnrollmentRootLayout from "./app/enrollment-system/pages/EnrollmentRootLayout.jsx";
 import NotFoundPage from "./app/enrollment-system/pages/errors/NotFoundPage.jsx";
+import {AdminRootLayout} from "./app/admin-intranet/pages/AdminRootLayout.jsx";
+import {StudentList} from "./app/admin-intranet/pages/students/StudentList.jsx";
+import {AddStudentLayout} from "./app/admin-intranet/pages/students/addStudent/AddStudentLayout.jsx";
+import {StudentsLayout} from "./app/admin-intranet/pages/students/StudentsLayout.jsx";
+import {StudentDetails} from "./app/admin-intranet/pages/students/StudentDetails.jsx";
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -25,7 +30,6 @@ const GlobalStyle = createGlobalStyle`
         height: 100%;
         width: 100%;
     }
-
 `
 
 const queryClient = new QueryClient({
@@ -42,6 +46,7 @@ const router = createBrowserRouter([
         element: <EnrollmentRootLayout/>,
         children: [
             {
+                index: true,
                 path: 'login',
                 element: <Login/>
             },
@@ -64,6 +69,30 @@ const router = createBrowserRouter([
             {
                 path: '*',
                 element: <NotFoundPage/>
+            }
+        ]
+    },
+    {
+        path: '/admin',
+        element: <AdminRootLayout/>,
+        children: [
+            {
+                path: 'estudiantes',
+                element: <StudentsLayout/>,
+	            children: [
+                    {
+                        index: true,
+                        element: <StudentList/>,
+                    },
+		            {
+			            path: 'nuevo',
+			            element: <AddStudentLayout/>
+		            },
+                    {
+                        path: ':id',
+                        element: <StudentDetails/>
+                    }
+	            ]
             }
         ]
     }
