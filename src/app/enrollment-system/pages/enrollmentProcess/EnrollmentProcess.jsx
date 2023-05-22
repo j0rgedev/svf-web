@@ -11,6 +11,7 @@ import {AlertInfoContext} from "../../setup/context/AlertInfoContext.jsx";
 import {useQuery} from "react-query";
 import {useStudent} from "../../setup/api/studentAPI.js";
 import {getCookie} from "../../setup/config/cookiesConfig.js";
+import {PropagateLoader} from "react-spinners";
 /* import {PropagateLoader} from "react-spinners"; */
 
 export const EnrollmentProcess = () => {
@@ -67,7 +68,6 @@ export const EnrollmentProcess = () => {
         default:
             component = <StudentInfo/>;
     }
-    
 
     if (isLoading) return (
         <MainContainer>
@@ -81,7 +81,8 @@ export const EnrollmentProcess = () => {
         <MainContainer>
             <Container>
                 <MainTitle fontSize={'clamp(32px, 3vw, 42px)'}>PROCESO DE MATRÍCULA</MainTitle>
-                <StepProgress number={currentStep} onStepClick={handleStepClick}
+                <StepProgress number={currentStep}
+                              onStepClick={handleStepClick}
                               termsAccepted={termAccepted}/>
                 <Body>{component}</Body>
             </Container>

@@ -4,11 +4,6 @@ import styled from 'styled-components';
 import {useState} from "react";
 import Skeleton from "react-loading-skeleton";
 
-const formatDate = (dateString) => {
-	const date = new Date(dateString);
-	return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-};
-
 function StudentsTable({selectedRow, setSelectedRow, studentList}) {
 
 	const handleCheckboxChange = (cod) => {
@@ -47,7 +42,7 @@ function StudentsTable({selectedRow, setSelectedRow, studentList}) {
 							key={student['studentCod']}
 							cod={student['studentCod']}
 							name={student['fullName']}
-							date={formatDate(student['birthday'])}
+							date={student['birthday']}
 							state={
 								student['enrolled'] ? 'Matriculado' : 'No Matriculado'
 							}

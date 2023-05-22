@@ -30,26 +30,21 @@ function UpdatePassword() {
             if (data.response.status === 401) {
                 setAlertInfo({
                     type: "error",
-                    text: "Ups, autoriación fallida",
+                    text: "Ups, autorización fallida",
                     subtext: "Vuelve a iniciar sesión e intenta nuevamente"
                 });
             }
             setAlertInfo({
                 type: "error",
                 text: "Ups, error inesperado",
-                subtext: "Por favor, intenta nuevamente. Si el error persiste, contácte con nosotros",
+                subtext: "Por favor, intenta nuevamente. Si el error persiste, contáctate con nosotros",
             });
         }
     })
 
-    const onAlertClose = () => {
-        setAlertInfo(null)
-    }
-
-    const onSubmit = async ({password_input}, actions) => {
+    const onSubmit = async ({password_input}) => {
         setIsSubmitting(true)
         const data = {password_input, tempCookie}
-        console.log(data)
         updatePwdMutation.mutate(data)
     }
 
