@@ -17,6 +17,9 @@ import {StudentList} from "./app/admin-intranet/pages/students/StudentList.jsx";
 import {AddStudentLayout} from "./app/admin-intranet/pages/students/addStudent/AddStudentLayout.jsx";
 import {StudentsLayout} from "./app/admin-intranet/pages/students/StudentsLayout.jsx";
 import {StudentDetails} from "./app/admin-intranet/pages/students/StudentDetails.jsx";
+import { Dashboard } from './app/admin-intranet/pages/Dashboard.jsx';
+import { StadisticsEnrollments } from './app/admin-intranet/pages/StadisticsEnrolllments.jsx';
+import { StadisticsPensions } from './app/admin-intranet/pages/StadisticsPensions.jsx';
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -76,7 +79,13 @@ const router = createBrowserRouter([
         path: '/admin',
         element: <AdminRootLayout/>,
         children: [
+            {   
+                index: true,
+                element: <Dashboard/>
+            },
+            
             {
+
                 path: 'estudiantes',
                 element: <StudentsLayout/>,
 	            children: [
@@ -92,10 +101,21 @@ const router = createBrowserRouter([
                         path: ':id',
                         element: <StudentDetails/>
                     }
-	            ]
+	            ],
+                
+            },
+            {
+                path:'matriculados',
+                element:<StadisticsEnrollments/>
+            },
+            {
+                path:'pensiones',
+                element:<StadisticsPensions/>
             }
+            
         ]
     }
+
 ])
 
 

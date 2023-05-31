@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import {AiOutlineDown} from 'react-icons/ai';
 import {useState} from 'react';
+import {FaFileContract} from 'react-icons/fa';
+import {TbReportMoney} from 'react-icons/tb';
 
 export default function SidebarSections({
         href,
@@ -37,10 +39,10 @@ export default function SidebarSections({
                     </OptionItem>
                     <DropdownMenu isOpen={isOpen}>
                         <OptionLink className="Item" href="#" isSelected={false}>
-                            Opción 1
+                           <FaFileContract/>Matriculas
                         </OptionLink>
                         <OptionLink className="Item" href="#" isSelected={true}>
-                            Opción 2
+                            <TbReportMoney/>Pensiones
                         </OptionLink>
                     </DropdownMenu>
                 </>
@@ -48,6 +50,7 @@ export default function SidebarSections({
         </OptionsList>
     );
 }
+
 
 const OptionsList = styled.ul`
 	list-style: none;
@@ -90,7 +93,8 @@ const OptionLink = styled.a`
     align-items: center;
     padding: 10px;
     font-size: 18px;
-    
+    display:flex;
+    gap:10px;
   
     &:hover {
         cursor: pointer;
