@@ -16,78 +16,81 @@ import {PropagateLoader} from "react-spinners";
 
 export const EnrollmentProcess = () => {
 
-    const {setEnrollmentProcess} = useContext(EnrollmentProcessContext);
-    const {setAlertInfo} = useContext(AlertInfoContext);
+	const {setEnrollmentProcess} = useContext(EnrollmentProcessContext);
+	const {setAlertInfo} = useContext(AlertInfoContext);
 
-    const token = getCookie('SESSION');
-    const [currentStep, setCurrentStep] = useState(1);
-    const [termAccepted, setTermAccepted] = useState(false);
+	const token = getCookie('SESSION');
+	const [currentStep, setCurrentStep] = useState(1);
+	const [termAccepted, setTermAccepted] = useState(false);
 
-    const handleStepClick = (step) => {
-        setCurrentStep(step);
-    };
+	const handleStepClick = (step) => {
+		setCurrentStep(step);
+	};
 
-    const handleTermsAccepted = () => {
-        setTermAccepted(true);
-    }
+	const handleTermsAccepted = () => {
+		setTermAccepted(true);
+	}
 
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    const {isLoading} = useQuery('student', () => useStudent(token), {
-        onSuccess: ({data}) => {
-            data['enrollmentID'] &&
-            setEnrollmentProcess({
-                'studentCod': data['studentCod'],
-                'names': data['names'],
-                'enrollmentID': data['enrollmentID']
-            })
-            navigate('/matricula/confirmacion')
-        },
-        onError: () => {
-            setAlertInfo({
-                type: "error",
-                text: "Ups, error inesperado",
-                subtext: "Por favor, intenta nuevamente. Si el error persiste, contáctate con nosotros",
-            });
-        }
-    });
+	const {isLoading} = useQuery('student', () => useStudent(token), {
+		onSuccess: ({data}) => {
+			console.log(data)
+			if (data['enrollmentID']) {
+				setEnrollmentProcess({
+					'studentCod': data['studentCod'],
+					'names': data['names'],
+					'enrollmentID': data['enrollmentID']
+				})
+				navigate('/matricula/confirmacion')
+			}
 
-    let component;
-    switch (currentStep) {
-        case 1:
-            component = <StudentInfo/>;
-            break;
-        case 2:
-            component = <SchoolTerms termsAccepted={termAccepted} setHandleTermAccepted={handleTermsAccepted}/>;
-            break;
-        case 3:
-            termAccepted ?
-                component = <Payment setAlertInfo={setAlertInfo}/> :
-                component = <SchoolTerms termsAccepted={termAccepted} setHandleTermAccepted={handleTermsAccepted}/>;
-            break;
-        default:
-            component = <StudentInfo/>;
-    }
+		},
+		onError: () => {
+			setAlertInfo({
+				type: "error",
+				text: "Ups, error inesperado",
+				subtext: "Por favor, intenta nuevamente. Si el error persiste, contáctate con nosotros",
+			});
+		}
+	});
 
-    if (isLoading) return (
-        <MainContainer>
-            <Container>
-                <PropagateLoader color={'#000000'}/>
-            </Container>
-        </MainContainer>
-    )
+	let component;
+	switch (currentStep) {
+		case 1:
+			component = <StudentInfo/>;
+			break;
+		case 2:
+			component = <SchoolTerms termsAccepted={termAccepted} setHandleTermAccepted={handleTermsAccepted}/>;
+			break;
+		case 3:
+			termAccepted ?
+				component = <Payment setAlertInfo={setAlertInfo}/> :
+				component = <SchoolTerms termsAccepted={termAccepted} setHandleTermAccepted={handleTermsAccepted}/>;
+			break;
+		default:
+			component = <StudentInfo/>;
+	}
 
-    return (
-        <MainContainer>
-            <Container>
-                <MainTitle fontSize={'clamp(32px, 3vw, 42px)'}>PROCESO DE MATRÍCULA</MainTitle>
-                <StepProgress number={currentStep}
-                              onStepClick={handleStepClick}
-                              termsAccepted={termAccepted}/>
-                <Body>{component}</Body>
-            </Container>
-        </MainContainer>
-    )
+	if (isLoading) return (
+		<MainContainer>
+			<Container>
+				<PropagateLoader color={'#000000'}/>
+			</Container>
+		</MainContainer>
+	)
+
+	return (
+		<MainContainer>
+			<Container>
+				<MainTitle fontSize={'clamp(32px, 3vw, 42px)'}>PROCESO DE MATRÍCULA</MainTitle>
+				<StepProgress number={currentStep}
+				              onStepClick={handleStepClick}
+				              termsAccepted={termAccepted}/>
+				<Body>{component}</Body>
+			</Container>
+		</MainContainer>
+	)
 }
 
 const Container = styled.div`

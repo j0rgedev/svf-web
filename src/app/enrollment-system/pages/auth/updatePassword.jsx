@@ -21,9 +21,8 @@ function UpdatePassword() {
 
     const updatePwdMutation = useMutation({
         mutationFn: useUpdatePwd,
-        onSuccess: (data) => {
-            const token = data['accessToken'];
-            setCookie('SESSION', token);
+        onSuccess: ({data}) => {
+            setCookie('SESSION', data['accessToken']);
             navigate('/matricula/proceso');
         },
         onError: (data) => {

@@ -33,11 +33,10 @@ function formatDate(dateString) {
 export function StudentDetails() {
 
 	const {setAlert} = useContext(AlertContext)
-	const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NjE1Njc4LCJleHAiOjE2ODQ3MDIwNzh9.ImH5mgwsr046vYo_gx_X3akEMsI3kFu5NzJ5nVlfSjc"
+	const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NzIzMTc5LCJleHAiOjE2ODQ4MDk1Nzl9.I3Lc8OUPNQGZdMd2L1x5zupEh2MmdUpqa3sKtra4MTE"
 	const studentCode = useParams().id.toUpperCase();
 	const request = {token, studentCode}
 	const {isLoading, data, isFetching} = useQuery('single-student', () => singleStudent(request), {staleTime: 0})
-
 
 	const handleDelete = () => {
 		setAlert({

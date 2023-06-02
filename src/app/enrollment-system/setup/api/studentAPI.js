@@ -5,7 +5,7 @@ const baseURL = axios.create({
 });
 
 export const useStudent = async (token) => {
-    const response = await baseURL.post(`/`, {},
+    const response = await baseURL.post(`/student-info`, {},
         {
             headers: {
                 Authorization: `Bearer ${token}`,

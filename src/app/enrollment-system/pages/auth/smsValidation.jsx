@@ -19,7 +19,7 @@ function SmsValidation() {
 
     const smsMutation = useMutation({
         mutationFn: useSMS,
-        onSuccess: (data) => {
+        onSuccess: ({data}) => {
             setIsSubmitting(false);
             const token = data['tempToken'];
             setCookie('SESSION', token);

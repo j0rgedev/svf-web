@@ -28,7 +28,7 @@ function Login() {
                 if (data['redirectUrl']) {
                     navigate(data['redirectUrl']);
                 } else {
-                    const token = data['accessToken'];
+                    const token = data['accessToken']
                     setCookie('SESSION', token);
                     navigate('/matricula/proceso');
                 }

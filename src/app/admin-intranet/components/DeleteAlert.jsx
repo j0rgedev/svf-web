@@ -10,20 +10,22 @@ export function DeleteAlert({title, description, data}) {
 
 	const {setAlert} = useContext(AlertContext)
 	const [isOpen, setIsOpen] = useState(true);
-	const cookie = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NjE1Njc4LCJleHAiOjE2ODQ3MDIwNzh9.ImH5mgwsr046vYo_gx_X3akEMsI3kFu5NzJ5nVlfSjc"
-	const {selectedRow} = data
+	const cookie = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NzIzMTc5LCJleHAiOjE2ODQ4MDk1Nzl9.I3Lc8OUPNQGZdMd2L1x5zupEh2MmdUpqa3sKtra4MTE"
+	const {studentCode} = data
 
 	const handleClose = () => {
 		setIsOpen(!isOpen);
 		setAlert(null)
 	}
 
+
 	let toastId = null;
 
 	const deleteStudentMutation = useMutation({
 		mutationFn: deleteStudent,
 		onSuccess: () => {
-			toast.success('Estudiante eliminado con éxito', {id: toastId, duration: 3000});
+			toast.success('Estudiante inactivo por 30 días', {id: toastId, duration: 3000});
+			handleClose()
 		},
 		onError: (error) => {
 			toast.error('Error al eliminar estudiante', {id: toastId, duration: 3000});
@@ -32,7 +34,7 @@ export function DeleteAlert({title, description, data}) {
 
 	const handleDelete = async () => {
 		toastId = toast.loading('Elimando estudiante...');
-		const request = {token: cookie, selectedRow}
+		const request = {token: cookie, studentCod: studentCode}
 		await deleteStudentMutation.mutateAsync(request)
 	}
 

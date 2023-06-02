@@ -23,8 +23,8 @@ function SchoolTerms({termsAccepted, setHandleTermAccepted}) {
             {
                 isLoading ? <Skeleton count={9} width={'100%'}/> :
                     <>
-                        <p>{data['mainInfo']}</p>
-                        {data['termDetails'].map((termDetail, index) => {
+                        <p>{data.data['mainInfo']}</p>
+                        {data.data['termDetails'].map((termDetail, index) => {
                             return (
                                 <TermDetail key={index}>
                                     <h4>{termDetail.title}</h4>

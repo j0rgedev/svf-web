@@ -24,7 +24,7 @@ function Payment({setAlertInfo}) {
     const token = getCookie('SESSION');
 
     const getTotalAmount = () => {
-        const amounts = schoolTerms['levelCosts'];
+        const amounts = schoolTerms.data['levelCosts'];
         const studentNewLevel = student['newLevel'];
         let totalAmount = 0;
         amounts.forEach((amount) => {
@@ -54,10 +54,10 @@ function Payment({setAlertInfo}) {
 
     const enrollmentMutation = useMutation({
         mutationFn: useEnrollment,
-        onSuccess: (data) => {
+        onSuccess: ({data}) => {
             setIsSubmitting(false);
             setEnrollmentProcess({
-                enrollmentId: data['enrollmentId'],
+                enrollmentId: data,
             })
         },
         onError: () => {
