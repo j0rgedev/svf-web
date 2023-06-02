@@ -6,6 +6,7 @@ import React, {useState} from "react";
 import {Toaster} from "react-hot-toast";
 import {AlertContext} from "../setup/context/AlertContext.jsx";
 import {DeleteAlert} from "../components/DeleteAlert.jsx";
+import { color } from "framer-motion";
 
 export function AdminRootLayout() {
 
@@ -22,7 +23,16 @@ export function AdminRootLayout() {
 					/>
 				}
 				<Globals/>
-				<Toaster/>
+				<Toaster
+					toastOptions={{
+						error:{
+							style:{
+								backgroundColor:"#1D0C0C",
+								color:"white"
+							}
+						}
+					}}
+				/>
 				<AdminSidebar/>
 				<Main>
 					<Outlet/>

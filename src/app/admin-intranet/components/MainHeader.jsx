@@ -6,9 +6,9 @@ export default function MainHeader({isSearch, text, src}) {
     return (
         <ContentSearch isSearch={isSearch}>
             <Input
-                placeholder={'Buscar por nombre o código'}
+                placeholder={isSearch ? 'Buscar por nombre o código' : ''}
                 className={isSearch ? 'Search' : 'NoSearch'}
-                isSearch={isSearch}
+                disabled={!isSearch}
             />
             <DarkModeButton/>
             <Name>{text}</Name>

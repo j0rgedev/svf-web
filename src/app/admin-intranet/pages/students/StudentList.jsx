@@ -7,13 +7,18 @@ import {AlertContext} from "../../setup/context/AlertContext.jsx";
 import {allStudents} from "../../setup/api/allStudents.js";
 import {useQuery} from "react-query";
 import {PropagateLoader} from "react-spinners";
+import { toast } from 'react-hot-toast';
 export function StudentList() {
 
 	const {setAlert} = useContext(AlertContext)
 	const [selectedRow, setSelectedRow] = useState(null);
 	const navigate = useNavigate();
-	const cookie = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NzIzMTc5LCJleHAiOjE2ODQ4MDk1Nzl9.I3Lc8OUPNQGZdMd2L1x5zupEh2MmdUpqa3sKtra4MTE"
-	const {isLoading, data} = useQuery('student', () => allStudents(cookie), {})
+	const cookie = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NjE1Njc4LCJleHAiOjE2ODQ3MDIwNzh9.ImH5mgwsr046vYo_gx_X3akEMsI3kFu5NzJ5nVlfSjc"
+	const {isLoading, data} = useQuery('student', () => allStudents(cookie), {
+		onError: ()=>{
+			toast.error('No se pudo obtener los estudiantes',{duration:5000})
+		}
+	})
 
 	const handleNewStudentClick = () => {
 		navigate('/admin/estudiantes/nuevo');
