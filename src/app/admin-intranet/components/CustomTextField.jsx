@@ -1,11 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
 import {useField} from "formik";
 
 export default function CustomTextField({label, ...props}){
 
 	const [field, meta] = useField(props)
-
 	return (
 		<InputContainer>
 			<InputLabel>{label}</InputLabel>
@@ -47,5 +45,5 @@ const InputField = styled.input`
 	color: #fff;
 	background: #151E1A;
 	font-size: 20px;
-  	font-weight: 300;
+  font-weight: 300;
 `;

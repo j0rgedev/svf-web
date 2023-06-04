@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import ActionButton from '../../components/buttons/ActionButton.jsx';
 import avatar from '../../assets/student_avatar.png';
-import InputsDetails from '../../components/StudentDetailsInput.jsx';
+import StudentDetailsInput from '../../components/StudentDetailsInput.jsx';
 import {MdEmail, MdSettingsCell} from 'react-icons/md';
 import {BsFillPersonVcardFill} from 'react-icons/bs';
 import {AiTwotoneCalendar} from 'react-icons/ai';
@@ -10,119 +10,184 @@ import {MdSchool} from 'react-icons/md';
 import {SiLevelsdotfyi} from 'react-icons/si';
 import {RiParentFill} from 'react-icons/ri';
 import {HiIdentification} from "react-icons/hi";
-import {useQuery} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import {singleStudent} from "../../setup/api/singleStudent.js";
 import {useParams} from "react-router-dom";
 import {PropagateLoader} from "react-spinners";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AlertContext} from "../../setup/context/AlertContext.jsx";
-
-function padTo2Digits(num) {
-	return num.toString().padStart(2, '0');
-}
-
-function formatDate(dateString) {
-	const date = new Date(dateString);
-	return [
-		date.getFullYear(),
-		padTo2Digits(date.getMonth() + 1),
-		padTo2Digits(date.getDate()),
-	].join('-');
-}
+import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
+import toast from "react-hot-toast";
+import {Form, Formik} from "formik";
+import {studentDetailsSchema} from "../../setup/schemas/studentDetailsSchema.js";
+import {updateStudent} from "../../setup/api/updateStudent.js";
 
 export function StudentDetails() {
 
 	const {setAlert} = useContext(AlertContext)
-	const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NzIzMTc5LCJleHAiOjE2ODQ4MDk1Nzl9.I3Lc8OUPNQGZdMd2L1x5zupEh2MmdUpqa3sKtra4MTE"
+	const [editMode, setEditMode] = useState(true);
 	const studentCode = useParams().id.toUpperCase();
-	const request = {token, studentCode}
-	const {isLoading, data, isFetching} = useQuery('single-student', () => singleStudent(request), {staleTime: 0})
+	const {mutate, data, isLoading, isIdle} = useMutation({
+		mutationFn: singleStudent,
+		onError: ({response}) => {
+			toast.error(response.data.message)
+		}
+	})
+
+	let toastId = null;
+
+	const updateStudentMutation = useMutation({
+		mutationFn: updateStudent,
+		onSuccess: () => {
+			toast.success('Estudiante actualizado con éxito', {id: toastId, duration: 2000});
+		},
+		onError: () => {
+			toast.error('Error al actualizar estudiante', {id: toastId, duration: 2000});
+		}
+	})
+
+	useEffect(() => {
+		const token = getCookie('SESSION').token;
+		mutate({token, studentCode});
+	}, [])
+
 
 	const handleDelete = () => {
 		setAlert({
 			title: 'Estas a punto de eliminar a un estudiante',
 			message: '¿Estas seguro de que quieres eliminar a este estudiante? Esta acción no puede deshacerse',
-			data: { studentCode: studentCode },
+			data: {studentCode: studentCode},
 		})
 	}
 
 	const handleEdit = () => {
-		console.log('editando')
+		setEditMode(!editMode);
 	}
 
-	if (isLoading || isFetching) {
+	const onSubmit = async (values) => {
+		const date = new Date(values.birthday);
+		const formattedDate = date.toISOString();
+
+		const body = JSON.stringify({
+			newDni: values.dni,
+			newPhone: values.phone,
+			newEmail: values.email,
+			newBirthday: formattedDate,
+			newAddress: values.address,
+			newLevel: values.level,
+			newGrade: values.grade,
+		});
+		const token = getCookie('SESSION').token;
+		toastId = toast.loading('Actualizando estudiante...');
+		const data = {token, studentCode, body};
+		await updateStudentMutation.mutateAsync(data);
+	}
+
+	if (isLoading || isIdle) {
 		return <Container><PropagateLoader color={'#ffffff'}/></Container>
 	}
 
-	const student = data.data
 	return (
 		<Container>
 			<TopContainer>
 				<TitleNameContainer>
-					<Title>{student['names'] + " " + student['lastNames']}</Title>
-					<InputsDetails
-						icon={<HiIdentification size={30}/>}
-						text={student['studentCod']}
-						type={'text'}
-						disabled={true}
-					/>
+					<Title>{data.data['names'] + " " + data.data['lastNames']}</Title>
+					<InputContainer>
+						{<HiIdentification size={30}/>}
+						<InputField
+							name={'studentCod'}
+							value={data.data['studentCod']}
+							type={'text'}
+							disabled={true}
+						/>
+					</InputContainer>
 				</TitleNameContainer>
 				<ImageWrapper>
 					<img src={avatar} alt="student_photo"/>
 				</ImageWrapper>
 			</TopContainer>
 			<InfoContainer>
-				<StudentInfoWrapper>
-					<InputsContainer>
-						<InputsDetails
-							icon={<BsFillPersonVcardFill size={30}/>}
-							text={student['dni']}
-							type={'text'}
-							disabled={true}/>
-						<InputsDetails
-							icon={<MdSettingsCell size={30}/>}
-							text={student['phone']}
-							type={'text'}
-			               disabled={true}/>
-						<InputsDetails
-							icon={<MdEmail size={30}/>}
-							text={student['email']}
-							type={'email'}
-							disabled={true}/>
-						<InputsDetails
-							icon={<AiTwotoneCalendar size={30}/>}
-							text={formatDate(student['birthday'])}
-							type={'date'}
-							disabled={true}/>
-						<InputsDetails
-							icon={<MdSchool size={30}/>}
-							text={student['currentLevel']}
-							type={'text'}
-							disabled={true}/>
-						<InputsDetails
-							icon={<SiLevelsdotfyi size={30}/>}
-							text={student['currentGrade']}
-							type={'text'}
-							disabled={true}/>
-						<InputsDetails
-							icon={<FaMapMarkedAlt size={30}/>}
-							text={student['address']}
-							type={'text'}
-							disabled={true}/>
-					</InputsContainer>
-					<ButtonContainer>
-						<ActionButton
-							className={"thirdButton"}
-							text={"Editar"}
-							onClickFn={handleEdit}
-						/>
-						<ActionButton
-							className={"secondButton"}
-							text={"Eliminar"}
-							onClickFn={handleDelete}
-						/>
-					</ButtonContainer>
-				</StudentInfoWrapper>
+				<Formik
+					initialValues={{
+						dni: data.data['dni'],
+						phone: data.data['phone'],
+						email: data.data['email'],
+						birthday: data.data['birthday'],
+						level: data.data['currentLevel'],
+						grade: data.data['currentGrade'],
+						address: data.data['address'],
+					}}
+					validationSchema={studentDetailsSchema}
+					onSubmit={onSubmit}
+				>
+					{
+						({errors, isValid}) => (
+							<Form>
+								<StudentInfoWrapper>
+									<InputsContainer>
+										<StudentDetailsInput
+											icon={<BsFillPersonVcardFill size={30}/>}
+											disabled={editMode}
+											label={'DNI'}
+											name={'dni'}
+											type={'number'}
+										/>
+										<StudentDetailsInput
+											icon={<MdSettingsCell size={30}/>}
+											disabled={editMode}
+											name={'phone'}
+											type={'number'}
+										/>
+										<StudentDetailsInput
+											icon={<MdEmail size={30}/>}
+											disabled={editMode}
+											name={'email'}
+											type={'email'}
+										/>
+										<StudentDetailsInput
+											icon={<AiTwotoneCalendar size={30}/>}
+											disabled={editMode}
+											name={'birthday'}
+											type={'date'}
+										/>
+										<StudentDetailsInput
+											icon={<MdSchool size={30}/>}
+											disabled={editMode}
+											name={'level'}
+											type={'text'}
+										/>
+										<StudentDetailsInput
+											icon={<SiLevelsdotfyi size={30}/>}
+											disabled={editMode}
+											name={'grade'}
+											type={'text'}
+										/>
+										<StudentDetailsInput
+											icon={<FaMapMarkedAlt size={30}/>}
+											disabled={editMode}
+											name={'address'}
+											type={'text'}
+										/>
+									</InputsContainer>
+									<ButtonContainer>
+										<ActionButton
+											className={"thirdButton"}
+											text={"Editar"}
+											onClickFn={handleEdit}
+											type={editMode ? "submit" : "button"}
+											disabled={Object.keys(errors).length > 0 || !isValid}
+										/>
+										<ActionButton
+											className={"secondButton"}
+											text={"Eliminar"}
+											onClickFn={handleDelete}
+										/>
+									</ButtonContainer>
+								</StudentInfoWrapper>
+							</Form>
+						)
+					}
+				</Formik>
 				<StyledLink href="#">
 					<RiParentFill size={30}/>Ver apoderados
 				</StyledLink>
@@ -150,9 +215,9 @@ const TopContainer = styled.div`
 `;
 
 const StudentInfoWrapper = styled.div`
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 const TitleNameContainer = styled.div`
@@ -182,34 +247,63 @@ const ImageWrapper = styled.div`
   }
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  width: 300px;
+  gap: 8px;
+`;
+
+const InputField = styled.input`
+  padding: 8px;
+  outline: none;
+  border: none;
+  color: #fff;
+  background-color: rgba(140, 140, 140, 0.1);
+  font-size: 20px;
+  width: 100%;
+  transition: all .5s ease-in-out;
+
+  &::placeholder {
+    color: white;
+  }
+
+  &:disabled {
+    color: #d7d7d7;
+    background-color: transparent;
+  }
+`;
+
 const InfoContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-  	height: 100%;
-  	gap: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  gap: 4rem;
 `
 
 const InputsContainer = styled.div`
-	display: flex;
-  	justify-content: space-between;
-	height: 80%;
-	width: 70%;
-	gap: 20px 20px;
-	flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  height: 80%;
+  width: 70%;
+  gap: 20px 20px;
+  flex-wrap: wrap;
 `
 
 const ButtonContainer = styled.div`
-	gap: 25px;
-	display: flex;
-  	align-items: center;
-	flex-direction: column;
-  	justify-content: center;
+  gap: 25px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const StyledLink = styled.a`
-	display: flex;
-	align-items: flex-end;
-	font-size: 20px;
-	color: #fff;
+  display: flex;
+  align-items: flex-end;
+  font-size: 20px;
+  color: #fff;
 `;

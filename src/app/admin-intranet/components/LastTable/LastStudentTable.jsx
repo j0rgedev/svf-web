@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import LastStudentTableRow from './LastStudentTableRow.jsx';
 
 
-function LastStudentsTable({studentList}) {
+function LastStudentsTable({selectedRow, setSelectedRow, studentList}) {
 
 	const handleCheckboxChange = (cod) => {
 		if (selectedRow === cod) {
@@ -38,7 +38,7 @@ function LastStudentsTable({studentList}) {
 							key={student['studentCod']}
 							cod={student['studentCod']}
 							name={student['fullName']}
-                            level={student['Level']}
+                            level={student['level']}
 							handleChange={handleCheckboxChange}
 							selected={selectedRow === student['studentCod']}
 						/>

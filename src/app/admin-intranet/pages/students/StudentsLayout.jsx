@@ -1,15 +1,24 @@
 import styled from "styled-components";
 import avatar from "../../assets/avatar.png";
 import MainHeader from "../../components/MainHeader.jsx";
-import React from "react";
+import React, {useState} from "react";
 import {Outlet} from "react-router-dom";
 
 export function StudentsLayout() {
+
+	const [searchText, setSearchText] = useState('');
+
 	return (
 		<>
-			<MainHeader isSearch={true} text={'Jhon K.'} src={avatar}/>
+			<MainHeader
+				isSearch={true}
+				text={'Jhon K.'}
+				src={avatar}
+				searchText={searchText}
+				setSearchText={setSearchText}
+			/>
 			<ContentContainer>
-				<Outlet/>
+				<Outlet context={[searchText, setSearchText]}/>
 			</ContentContainer>
 		</>
 	)

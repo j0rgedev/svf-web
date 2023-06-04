@@ -7,7 +7,7 @@ import {useContext, useEffect, useState} from "react";
 import {useMutation, useQuery} from "react-query";
 import {EnrollmentProcessContext} from "../../setup/context/EnrollmentProcessContext.jsx";
 import {useEnrollment} from "../../setup/api/enrollmentAPI.js";
-import {getCookie} from "../../setup/config/cookiesConfig.js";
+import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
 
 function Payment({setAlertInfo}) {
 

@@ -8,6 +8,7 @@ import {NewStudentContext} from "../../../setup/context/NewStudentContext.jsx";
 import {useMutation} from "react-query";
 import {newStudent} from "../../../setup/api/newStudent.js";
 import toast from "react-hot-toast";
+import {getCookie} from "../../../../login/setup/utils/cookiesConfig.js";
 
 export function RepresentativeForm(
 	{
@@ -18,7 +19,6 @@ export function RepresentativeForm(
 
 	let toastId = null;
 	const {studentInfo} = useContext(NewStudentContext);
-	const cookie = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NzIzMTc5LCJleHAiOjE2ODQ4MDk1Nzl9.I3Lc8OUPNQGZdMd2L1x5zupEh2MmdUpqa3sKtra4MTE"
 	const newStudentMutation = useMutation({
 		mutationFn: newStudent,
 		onSuccess: ({data}) => {
@@ -36,6 +36,7 @@ export function RepresentativeForm(
 	})
 
 	const onSubmit = async (values, formikHelpers) => {
+		const cookie = getCookie('SESSION').token;
 		const body = JSON.stringify({
 			studentInfo: studentInfo,
 			representativeInfo: values

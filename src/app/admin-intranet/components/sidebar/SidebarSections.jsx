@@ -38,10 +38,10 @@ export default function SidebarSections({
                         </a>
                     </OptionItem>
                     <DropdownMenu isOpen={isOpen}>
-                        <OptionLink className="Item" href="#" isSelected={false}>
+                        <OptionLink className="Item" href="/admin/matriculas" isSelected={false}>
                            <FaFileContract/>Matriculas
                         </OptionLink>
-                        <OptionLink className="Item" href="#" isSelected={true}>
+                        <OptionLink className="Item" href="/admin/pensiones" isSelected={true}>
                             <TbReportMoney/>Pensiones
                         </OptionLink>
                     </DropdownMenu>

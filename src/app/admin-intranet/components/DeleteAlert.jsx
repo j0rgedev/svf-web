@@ -5,19 +5,18 @@ import {AlertContext} from "../setup/context/AlertContext.jsx";
 import {useMutation} from "react-query";
 import {deleteStudent} from "../setup/api/deleteStudent.js";
 import toast from "react-hot-toast";
+import {getCookie} from "../../login/setup/utils/cookiesConfig.js";
 
 export function DeleteAlert({title, description, data}) {
 
 	const {setAlert} = useContext(AlertContext)
 	const [isOpen, setIsOpen] = useState(true);
-	const cookie = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NzIzMTc5LCJleHAiOjE2ODQ4MDk1Nzl9.I3Lc8OUPNQGZdMd2L1x5zupEh2MmdUpqa3sKtra4MTE"
 	const {studentCode} = data
 
 	const handleClose = () => {
 		setIsOpen(!isOpen);
 		setAlert(null)
 	}
-
 
 	let toastId = null;
 
@@ -34,6 +33,7 @@ export function DeleteAlert({title, description, data}) {
 
 	const handleDelete = async () => {
 		toastId = toast.loading('Elimando estudiante...');
+		const cookie = getCookie('SESSION').token;
 		const request = {token: cookie, studentCod: studentCode}
 		await deleteStudentMutation.mutateAsync(request)
 	}

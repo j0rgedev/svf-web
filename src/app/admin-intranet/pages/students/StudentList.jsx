@@ -1,36 +1,72 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import ActionButton from '../../components/buttons/ActionButton.jsx';
 import StudentsTable from '../../components/table/StudentsTable.jsx';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useOutletContext} from "react-router-dom";
 import {AlertContext} from "../../setup/context/AlertContext.jsx";
 import {allStudents} from "../../setup/api/allStudents.js";
-import {useQuery} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import {PropagateLoader} from "react-spinners";
-import { toast } from 'react-hot-toast';
+import {toast} from 'react-hot-toast';
+import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
+
 export function StudentList() {
 
-	const {setAlert} = useContext(AlertContext)
+	const { alert, setAlert } = useContext(AlertContext);
 	const [selectedRow, setSelectedRow] = useState(null);
 	const navigate = useNavigate();
-	const cookie = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTVkYwMDA3IiwiaWF0IjoxNjg0NjE1Njc4LCJleHAiOjE2ODQ3MDIwNzh9.ImH5mgwsr046vYo_gx_X3akEMsI3kFu5NzJ5nVlfSjc"
-	const {isLoading, data} = useQuery('student', () => allStudents(cookie), {
-		onError: ()=>{
-			toast.error('No se pudo obtener los estudiantes',{duration:5000})
-		}
-	})
+	const [students, setStudents] = useState([]);
+	const [filteredStudents, setFilteredStudents] = useState([]);
+	const [searchText, setSearchText] = useOutletContext();
+
+	const studentsMutation = useMutation({
+		mutationFn: allStudents,
+		onSuccess: ({ data }) => {
+			setStudents(data);
+			console.log(data);
+			setFilteredStudents(data);
+			console.log(data);
+		},
+		onError: ({ response }) => {
+			toast.error(response.data.message);
+		},
+	});
 
 	const handleNewStudentClick = () => {
 		navigate('/admin/estudiantes/nuevo');
-	}
+	};
 
 	const handleDeleteStudentClick = () => {
 		setAlert({
 			title: 'Estas a punto de eliminar a un estudiante',
-			message: '¿Estas seguro de que quieres eliminar a este estudiante? Esta acción no puede deshacerse',
+			message:
+				'¿Estas seguro de que quieres eliminar a este estudiante? Esta acción no puede deshacerse',
 			data: { studentCode: selectedRow },
-		})
-	}
+		});
+	};
+
+	const filterStudents = () => {
+		if (searchText === '') {
+			setFilteredStudents(students); // Mostrar todos los estudiantes si no hay texto de búsqueda
+		} else {
+			const filtered = students.filter((student) => {
+				return (
+					student.fullName.toLowerCase().includes(searchText.toLowerCase()) ||
+					student.studentCod.toLowerCase().includes(searchText.toLowerCase())
+				);
+			});
+			setFilteredStudents(filtered);
+		}
+	};
+
+	useEffect(() => {
+		const token = getCookie('SESSION').token;
+		studentsMutation.mutate(token);
+	}, [alert]);
+
+	useEffect(() => {
+		filterStudents(); // Actualizar estudiantes filtrados cuando cambie el texto de búsqueda
+	}, [searchText]);
 
 	return (
 		<>
@@ -49,12 +85,12 @@ export function StudentList() {
 			</ButtonContainer>
 			<Title>Lista de estudiantes</Title>
 			{
-				isLoading ? <Loader><PropagateLoader color={'#ffffff'}/></Loader> :
+				studentsMutation.isLoading ? <Loader><PropagateLoader color={'#ffffff'}/></Loader> :
 					<TableContainer>
 						<StudentsTable
 							selectedRow={selectedRow}
 							setSelectedRow={setSelectedRow}
-							studentList={data}
+							studentList={filteredStudents}
 						/>
 						<PaginationContainer>
 							<PaginationButton>Anterior</PaginationButton>

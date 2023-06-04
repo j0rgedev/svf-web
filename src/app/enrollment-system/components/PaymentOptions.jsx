@@ -1,8 +1,5 @@
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect} from 'react';
 import styled from 'styled-components';
-import {useFormik} from "formik";
-import {loginSchema} from "../setup/schemas/loginSchema.js";
-import {creditCardSchema} from "../setup/schemas/creditCardSchema.js";
 import {EnrollmentProcessContext} from "../setup/context/EnrollmentProcessContext.jsx";
 
 const PaymentOptions = ({formik, selectedOption, setSelectedOption}) => {

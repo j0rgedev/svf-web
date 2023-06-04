@@ -1,15 +1,15 @@
-import Button from '../../components/Button.jsx'
+import Button from '../../enrollment-system/components/Button.jsx'
 import {useFormik} from "formik";
-import {smsCodeSchema} from "../../setup/schemas/smsCodeSchema.js";
-import InputField from '../../components/InputField.jsx'
+import {smsCodeSchema} from "../setup/schemas/smsCodeSchema.js";
+import InputField from '../../enrollment-system/components/InputField.jsx'
 import {useNavigate} from "react-router-dom";
 import {useContext, useState} from "react";
 import {useMutation} from "react-query";
-import {useSMS} from "../../setup/api/smsAPI.js";
-import {setCookie} from "../../setup/config/cookiesConfig.js";
+import {useSMS} from "../setup/api/smsAPI.js";
+import {setCookie} from "../setup/utils/cookiesConfig.js";
 import styled from "styled-components";
-import {MainContainer, MainParagraph, MainTitle} from "../styles.js";
-import {AlertInfoContext} from "../../setup/context/AlertInfoContext.jsx";
+import {MainContainer, MainParagraph, MainTitle} from "../../enrollment-system/pages/styles.js";
+import {AlertInfoContext} from "../../enrollment-system/setup/context/AlertInfoContext.jsx";
 
 function SmsValidation() {
 

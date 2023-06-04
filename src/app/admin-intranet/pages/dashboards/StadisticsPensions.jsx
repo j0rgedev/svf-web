@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import avatar from "../assets/avatar.png";
-import MainHeader from "../components/MainHeader.jsx";
+import avatar from "../../assets/avatar.png";
+import MainHeader from "../../components/MainHeader.jsx";
 import React from "react";
-import CenteredDoughnutChart from "../components/DoughnutGrafics";
-import { Lineals } from "../components/LinealGraphic";
+import CenteredDoughnutChart from "../../components/DoughnutGrafics.jsx";
+import { Lineals } from "../../components/LinealGraphic.jsx";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import CheckMonths from "../components/CheckMonths";
-import DoughnutChart from "../components/RadialChart";
+import CheckMonths from "../../components/CheckMonths.jsx";
+import DoughnutChart from "../../components/RadialChart.jsx";
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);

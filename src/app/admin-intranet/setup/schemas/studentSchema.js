@@ -11,6 +11,7 @@ export const studentSchema = yup.object().shape({
 	direction: yup.string().required('La dirección es requerida'),
 	email: yup.string().email('El correo no es válido').required('El correo es requerido'),
 	phone: yup.string().matches(phoneRegex, 'El teléfono no es válido').required('El teléfono es requerido'),
+	gender: yup.string().required('El género es requerido').min(1, 'M o F'),
 	level: yup.string().required('El nivel es requerido'),
 	grade: yup.string().required('El grado es requerido')
 })

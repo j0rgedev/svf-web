@@ -2,9 +2,8 @@ import React, {useContext} from 'react';
 import styled from 'styled-components';
 import CustomTextField from '../../../components/CustomTextField.jsx';
 import NavigationButton from '../../../components/buttons/NavigationButton.jsx';
-import {Field, Form, Formik} from "formik";
+import {Form, Formik} from "formik";
 import {studentSchema} from "../../../setup/schemas/studentSchema.js";
-import {representativeSchema} from "../../../setup/schemas/representativeSchema.js";
 import {NewStudentContext} from "../../../setup/context/NewStudentContext.jsx";
 
 export function StudentForm(
@@ -23,6 +22,7 @@ export function StudentForm(
 					dni: studentInfo ? studentInfo.dni : '',
 					birthdate: studentInfo ? studentInfo.birthdate : '',
 					direction: studentInfo ? studentInfo.direction : '',
+					gender: studentInfo ? studentInfo.gender : '',
 					email: studentInfo ? studentInfo.email : '',
 					phone: studentInfo ? studentInfo.phone : '',
 					level: studentInfo ? studentInfo.level : '',
@@ -30,7 +30,6 @@ export function StudentForm(
 				}}
 				validationSchema={studentSchema}
 				onSubmit={(values, formikHelpers) => {
-					console.log('primer form')
 					handleNextForm();
 					setStudentInfo(values);
 					formikHelpers.resetForm();
@@ -74,6 +73,11 @@ export function StudentForm(
 									label={'Teléfono'}
 									name={'phone'}
 									type={'number'}/>
+								<CustomTextField
+									label={'Género'}
+									name={'gender'}
+									type={'text'}
+								/>
 								<CustomTextField
 									label={'Nivel'}
 									name={'level'}

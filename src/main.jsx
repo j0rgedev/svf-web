@@ -2,11 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {QueryClient, QueryClientProvider} from "react-query";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import Login from "./app/enrollment-system/pages/auth/Login.jsx";
+import Login from "./app/login/pages/Login.jsx";
 import {TempTokenGuard} from "./app/enrollment-system/routes/TempTokenGuard.jsx";
-import SmsValidation from "./app/enrollment-system/pages/auth/smsValidation.jsx";
-import { createGlobalStyle } from 'styled-components';
-import UpdatePassword from "./app/enrollment-system/pages/auth/updatePassword.jsx";
+import SmsValidation from "./app/login/pages/smsValidation.jsx";
+import {createGlobalStyle} from 'styled-components';
+import UpdatePassword from "./app/login/pages/updatePassword.jsx";
 import {EnrollmentProcess} from "./app/enrollment-system/pages/enrollmentProcess/EnrollmentProcess.jsx";
 import Confirmation from "./app/enrollment-system/pages/enrollmentProcess/Confirmation.jsx";
 import {ProtectedRoute} from "./app/enrollment-system/routes/ProtectedRoute.jsx";
@@ -17,113 +17,115 @@ import {StudentList} from "./app/admin-intranet/pages/students/StudentList.jsx";
 import {AddStudentLayout} from "./app/admin-intranet/pages/students/addStudent/AddStudentLayout.jsx";
 import {StudentsLayout} from "./app/admin-intranet/pages/students/StudentsLayout.jsx";
 import {StudentDetails} from "./app/admin-intranet/pages/students/StudentDetails.jsx";
-import { Dashboard } from './app/admin-intranet/pages/Dashboard.jsx';
-import { StadisticsEnrollments } from './app/admin-intranet/pages/StadisticsEnrolllments.jsx';
-import { StadisticsPensions } from './app/admin-intranet/pages/StadisticsPensions.jsx';
+import {Dashboard} from './app/admin-intranet/pages/dashboards/Dashboard.jsx';
+import {EnrollmentDashboard} from './app/admin-intranet/pages/dashboards/StadisticsEnrolllments.jsx';
+import {StadisticsPensions} from './app/admin-intranet/pages/dashboards/StadisticsPensions.jsx';
 
 const GlobalStyle = createGlobalStyle`
-    *{
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-    }
-    
-    body{
-        height: 100%;
-        width: 100%;
-    }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    height: 100%;
+    width: 100%;
+  }
 `
 
 const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            staleTime: 1000 * 60 * 5 // 5 minutes
-        }
-    }
+	defaultOptions: {
+		queries: {
+			staleTime: 1000 * 60 * 5 // 5 minutes
+		}
+	}
 })
 
 const router = createBrowserRouter([
-    {
-        path: '/matricula',
-        element: <EnrollmentRootLayout/>,
-        children: [
-            {
-                index: true,
-                path: 'login',
-                element: <Login/>
-            },
-            {
-                path: 'validacion',
-                element: <TempTokenGuard element={<SmsValidation/>}/>
-            },
-            {
-                path: 'actualizacion',
-                element: <ProtectedRoute element={<UpdatePassword/>}/>
-            },
-            {
-                path: 'proceso',
-                element: <ProtectedRoute element={<EnrollmentProcess/>}/>
-            },
-            {
-                path: 'confirmacion',
-                element: <ProtectedRoute element={<Confirmation/>}/>
-            },
-            {
-                path: '*',
-                element: <NotFoundPage/>
-            }
-        ]
-    },
-    {
-        path: '/admin',
-        element: <AdminRootLayout/>,
-        children: [
-            {   
-                index: true,
-                element: <Dashboard/>
-            },
-            
-            {
+	{
+		path: '/login',
+		element: <Login/>
+	},
+	{
+		path: '/matricula',
+		element: <EnrollmentRootLayout/>,
+		children: [
+			{
+				index: true,
+				path: 'login',
+				element: <Login/>
+			},
+			{
+				path: 'validacion',
+				element: <TempTokenGuard element={<SmsValidation/>}/>
+			},
+			{
+				path: 'actualizacion',
+				element: <ProtectedRoute element={<UpdatePassword/>}/>
+			},
+			{
+				path: 'proceso',
+				element: <ProtectedRoute element={<EnrollmentProcess/>}/>
+			},
+			{
+				path: 'confirmacion',
+				element: <ProtectedRoute element={<Confirmation/>}/>
+			},
+			{
+				path: '*',
+				element: <NotFoundPage/>
+			}
+		]
+	},
+	{
+		path: '/admin',
+		element: <AdminRootLayout/>,
+		children: [
+			{
+				index: true,
+				element: <Dashboard/>
+			},
+			{
+				path: 'estudiantes',
+				element: <StudentsLayout/>,
+				children: [
+					{
+						index: true,
+						element: <StudentList/>,
+					},
+					{
+						path: 'nuevo',
+						element: <AddStudentLayout/>
+					},
+					{
+						path: ':id',
+						element: <StudentDetails/>
+					}
+				],
 
-                path: 'estudiantes',
-                element: <StudentsLayout/>,
-	            children: [
-                    {
-                        index: true,
-                        element: <StudentList/>,
-                    },
-		            {
-			            path: 'nuevo',
-			            element: <AddStudentLayout/>
-		            },
-                    {
-                        path: ':id',
-                        element: <StudentDetails/>
-                    }
-	            ],
-                
-            },
-            {
-                path:'matriculados',
-                element:<StadisticsEnrollments/>
-            },
-            {
-                path:'pensiones',
-                element:<StadisticsPensions/>
-            }
-            
-        ]
-    }
+			},
+			{
+				path: 'matriculas',
+				element: <EnrollmentDashboard/>
+			},
+			{
+				path: 'pensiones',
+				element: <StadisticsPensions/>
+			}
+
+		]
+	}
 
 ])
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <GlobalStyle/>
-            <RouterProvider router={router} />
-        </QueryClientProvider>
-    </React.StrictMode>
+	<React.StrictMode>
+		<QueryClientProvider client={queryClient}>
+			<GlobalStyle/>
+			<RouterProvider router={router}/>
+		</QueryClientProvider>
+	</React.StrictMode>
 )

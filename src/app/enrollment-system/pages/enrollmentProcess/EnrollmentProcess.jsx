@@ -10,7 +10,7 @@ import {MainContainer, MainTitle} from "../styles.js";
 import {AlertInfoContext} from "../../setup/context/AlertInfoContext.jsx";
 import {useQuery} from "react-query";
 import {useStudent} from "../../setup/api/studentAPI.js";
-import {getCookie} from "../../setup/config/cookiesConfig.js";
+import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
 import {PropagateLoader} from "react-spinners";
 /* import {PropagateLoader} from "react-spinners"; */
 
@@ -19,7 +19,7 @@ export const EnrollmentProcess = () => {
 	const {setEnrollmentProcess} = useContext(EnrollmentProcessContext);
 	const {setAlertInfo} = useContext(AlertInfoContext);
 
-	const token = getCookie('SESSION');
+	const token = getCookie('SESSION').token;
 	const [currentStep, setCurrentStep] = useState(1);
 	const [termAccepted, setTermAccepted] = useState(false);
 
@@ -35,7 +35,6 @@ export const EnrollmentProcess = () => {
 
 	const {isLoading} = useQuery('student', () => useStudent(token), {
 		onSuccess: ({data}) => {
-			console.log(data)
 			if (data['enrollmentID']) {
 				setEnrollmentProcess({
 					'studentCod': data['studentCod'],

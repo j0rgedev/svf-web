@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function ActionButton({text, className, onClickFn, disabled}) {
+export default function ActionButton({text, className, onClickFn, disabled, type}) {
 
 	return (
 		<StyledButton
 			className={className}
 			onClick={onClickFn}
-			type={'button'}
+			type={type ? type : "button"}
 			disabled={disabled}
 		>
 			{text}

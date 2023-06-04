@@ -1,16 +1,16 @@
-import InputField from '../../components/InputField.jsx'
-import Button from '../../components/Button.jsx'
+import InputField from '../../enrollment-system/components/InputField.jsx'
+import Button from '../../enrollment-system/components/Button.jsx'
 import {RiLockPasswordFill} from 'react-icons/ri'
 import {useFormik} from "formik";
-import {passwordSchema} from "../../setup/schemas/passwordSchema.js";
+import {passwordSchema} from "../setup/schemas/passwordSchema.js";
 import {useContext, useEffect, useState} from "react";
 import {useMutation} from "react-query";
-import {useUpdatePwd} from "../../setup/api/updatePasswordAPI.js";
-import {getCookie, setCookie} from "../../setup/config/cookiesConfig.js";
+import {useUpdatePwd} from "../setup/schemas/updatePasswordAPI.js";
+import {getCookie, setCookie} from "../setup/utils/cookiesConfig.js";
 import {useNavigate} from "react-router-dom";
-import {MainContainer, MainParagraph, MainTitle} from "../styles.js";
+import {MainContainer, MainParagraph, MainTitle} from "../../enrollment-system/pages/styles.js";
 import styled from "styled-components";
-import {AlertInfoContext} from "../../setup/context/AlertInfoContext.jsx";
+import {AlertInfoContext} from "../../enrollment-system/setup/context/AlertInfoContext.jsx";
 
 function UpdatePassword() {
 

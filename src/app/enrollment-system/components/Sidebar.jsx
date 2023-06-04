@@ -4,7 +4,7 @@ import logo from '../assets/svf_logo.webp'
 import {BiLogOut} from "react-icons/bi";
 import styled from 'styled-components';
 
-import {getCookie, removeCookie} from "../setup/config/cookiesConfig.js";
+import {getCookie, removeCookie} from "../../login/setup/utils/cookiesConfig.js";
 import {useNavigate} from "react-router-dom";
 import {theme} from "../styles/theme.js";
 
@@ -14,7 +14,7 @@ export default function Sidebar() {
 
     const handleLogOut = () => {
         removeCookie('SESSION')
-        navigate('/matricula/login')
+        navigate('/login', {replace: true})
     }
 
     return (

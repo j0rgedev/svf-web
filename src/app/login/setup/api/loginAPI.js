@@ -7,7 +7,7 @@ const baseURL = axios.create({
 export const useLogin = async ({code_input, password_input}) => {
     const res = await baseURL.post('/login',
         {
-            'studentCod': code_input,
+            'userCode': code_input,
             'password': password_input
         });
     return res.data;

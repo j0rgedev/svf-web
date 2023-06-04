@@ -37,7 +37,7 @@ function StudentsTable({selectedRow, setSelectedRow, studentList}) {
 				</thead>
 				<tbody>
 				{
-					studentList && studentList['data'].map((student) => (
+					studentList && studentList.map((student) => (
 						<StudentTableRow
 							key={student['studentCod']}
 							cod={student['studentCod']}
