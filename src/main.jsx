@@ -20,6 +20,10 @@ import {StudentDetails} from "./app/admin-intranet/pages/students/StudentDetails
 import {Dashboard} from './app/admin-intranet/pages/dashboards/Dashboard.jsx';
 import {EnrollmentDashboard} from './app/admin-intranet/pages/dashboards/StadisticsEnrolllments.jsx';
 import {StadisticsPensions} from './app/admin-intranet/pages/dashboards/StadisticsPensions.jsx';
+import Student_Intranet from './app/student-intranet/pages/Student_Intranet.jsx';
+import Pensions from './app/student-intranet/pages/Pensions.jsx';
+import Historial from './app/student-intranet/pages/Historial.jsx';
+import { StudentRootLayout } from './app/student-intranet/pages/StudentRootLayout.jsx';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -115,6 +119,26 @@ const router = createBrowserRouter([
 				element: <StadisticsPensions/>
 			}
 
+		]
+	},
+	{
+		path: '/student',
+		element:<StudentRootLayout/>,
+		children: [
+			{
+				index: true,
+				element: <Student_Intranet/>
+			},
+			{
+				path: 'pensiones',
+				element: <Pensions/>
+				
+			},
+			{
+				path: 'historial',
+				element: <Historial/>
+				
+			}
 		]
 	}
 
