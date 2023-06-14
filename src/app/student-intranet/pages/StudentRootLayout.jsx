@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {Outlet} from "react-router-dom";
 import React, {useState} from "react";
+import {Toaster} from "react-hot-toast";
 
 export function StudentRootLayout() {
 
@@ -8,6 +9,7 @@ export function StudentRootLayout() {
 
 	return (
 			<Container>
+				<Toaster />
 				<Main>
 					<Outlet/>
 				</Main>

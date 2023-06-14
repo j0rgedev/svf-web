@@ -5,6 +5,10 @@ const ContentContainer = styled.div`
   flex-direction: column;
   margin-top: 10px;
   justify-content: center;
+  
+  p{
+    font-size: clamp(14px, 3vw, 20px);
+  }
 `;
 
 const ProgContainer = styled.div`
@@ -25,7 +29,7 @@ const loadAnimation = (width) => keyframes`
 `;
 
 const ProgressValue = styled.div`
-  animation: ${loadAnimation} 3s normal forwards;
+  animation: ${loadAnimation} 1.5s ease-in-out forwards;
   box-shadow: 0 10px 40px -10px #fff;
   border-radius: 100px;
   background: #D9D9D9;

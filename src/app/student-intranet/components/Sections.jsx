@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const SectionContainer = styled.div`
-  background: ${({ backgroundGradient }) =>
-  `linear-gradient(to right, ${backgroundGradient})`};
+  background: ${({backgroundGradient}) =>
+          `linear-gradient(to right, ${backgroundGradient})`};
   color: white;
   padding: 0.7rem;
   gap: 10px;
@@ -11,7 +11,7 @@ const SectionContainer = styled.div`
   align-items: center;
   border-radius: 0.5rem;
   font-size: clamp(12px, 10vw, 22px);
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const IconContainer = styled.div`
@@ -27,20 +27,20 @@ const AnimatedSectionContainer = styled(SectionContainer)`
 
   &:hover {
     opacity: 0.7;
-    transform: translateX(10px); 
+    transform: translateX(10px);
   }
 `;
 const Link = styled.a`
-  text-decoration:none;
+  text-decoration: none;
 `;
 
-export default function Sections({ icon, text, backgroundGradient, href }) {
-  return (
-    <Link href={href}>
-    <AnimatedSectionContainer backgroundGradient={backgroundGradient}>
-      <IconContainer>{icon}</IconContainer>
-      <p>{text}</p>
-    </AnimatedSectionContainer>
-  </Link>
-  );
+export default function Sections({icon, text, backgroundGradient, href}) {
+	return (
+		<Link href={href} className={'student-section'}>
+			<AnimatedSectionContainer backgroundGradient={backgroundGradient}>
+				<IconContainer>{icon}</IconContainer>
+				<p>{text}</p>
+			</AnimatedSectionContainer>
+		</Link>
+	);
 }

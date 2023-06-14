@@ -41,7 +41,7 @@ export const EnrollmentProcess = () => {
 					'names': data['names'],
 					'enrollmentID': data['enrollmentID']
 				})
-				navigate('/matricula/confirmacion')
+				navigate('/estudiante/matricula/confirmacion')
 			}
 
 		},
