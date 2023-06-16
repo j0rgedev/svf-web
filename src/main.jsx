@@ -18,8 +18,8 @@ import {AddStudentLayout} from "./app/admin-intranet/pages/students/addStudent/A
 import {StudentsLayout} from "./app/admin-intranet/pages/students/StudentsLayout.jsx";
 import {StudentDetails} from "./app/admin-intranet/pages/students/StudentDetails.jsx";
 import {Dashboard} from './app/admin-intranet/pages/dashboards/Dashboard.jsx';
-import {EnrollmentDashboard} from './app/admin-intranet/pages/dashboards/StadisticsEnrolllments.jsx';
-import {StadisticsPensions} from './app/admin-intranet/pages/dashboards/StadisticsPensions.jsx';
+import {EnrollmentDashboard} from './app/admin-intranet/pages/dashboards/StatisticsEnrolllments.jsx';
+import {StatisticsPensions} from './app/admin-intranet/pages/dashboards/StatisticsPensions.jsx';
 import Student_Intranet from './app/student-intranet/pages/Intranet.jsx';
 import Pensions from './app/student-intranet/pages/Pensions.jsx';
 import Historial from './app/student-intranet/pages/Historial.jsx';
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'pensiones',
-				element: <StadisticsPensions/>
+				element: <StatisticsPensions/>
 			}
 
 		]

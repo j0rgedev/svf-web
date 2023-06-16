@@ -3,12 +3,11 @@ import avatar from "../../assets/avatar.png";
 import MainHeader from "../../components/MainHeader.jsx";
 import React, {useEffect, useState} from "react";
 import Bars from "../../components/BarGraphic.jsx";
-import LastStudentsTable from "../../components/LastTable/LastStudentTable.jsx";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import CenteredDoughnutChart from "../../components/DoughnutGrafics.jsx";
 import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
-import {useMutation, useQuery} from "react-query";
-import {mainDashboard} from "../../setup/api/mainDashboard.js";
+import {useMutation} from "react-query";
+import {mainDashboard} from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
 import {PropagateLoader} from "react-spinners";
 import {AiOutlineDown} from "react-icons/ai";
@@ -22,19 +21,6 @@ const optionsBar = {
 			display: false
 		}
 	}
-};
-
-const dataBar = {
-	labels: ['Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-	datasets: [
-		{
-			data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			backgroundColor: ['white', 'white', 'white', '#0077B6', 'white', 'white', 'white', 'white', 'white', 'white'],
-			borderColor: ['white', 'white', 'white', '#0077B6', 'white', 'white', 'white', 'white', 'white', 'white'],
-			borderWidth: 1,
-			borderRadius: 5,
-		}
-	]
 };
 
 const optionsDoughnut = {
@@ -72,11 +58,24 @@ export function Dashboard() {
 		mutate(token);
 	}, [])
 
+	const dataBar = {
+		labels: ['Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+		datasets: [
+			{
+				data: data?.data?.paidPensionsCount.map((item) => item.count) || [],
+				backgroundColor: ['white', 'white', 'white', '#0077B6', 'white', 'white', 'white', 'white', 'white', 'white'],
+				borderColor: ['white', 'white', 'white', '#0077B6', 'white', 'white', 'white', 'white', 'white', 'white'],
+				borderWidth: 1,
+				borderRadius: 5,
+			}
+		]
+	};
+
 	const dataDoughnut = {
 		labels: ['Matriculados', 'No Matriculados'],
 		datasets: [
 			{
-				data: isLoading ? [0, 0] : [data?.data?.EnrollmentInformation?.enrolled || 0, data?.data?.EnrollmentInformation?.notEnrolled || 0],
+				data: isLoading ? [0, 0] : [data?.data?.enrollmentCount?.enrolled || 0, data?.data?.enrollmentCount?.notEnrolled || 0],
 				backgroundColor: [
 					'#FFFFFF',
 					'#672DE3',
@@ -130,7 +129,7 @@ export function Dashboard() {
 								<PropagateLoader color="#672DE3"/>
 							</Loader>
 						) : (
-							data?.data?.lastFiveEnrolledStudents?.map((student) => (
+							data?.data?.lastEnrolledStudents?.map((student) => (
 								<LastStudentTableRow
 									key={student['studentCod']}
 									cod={student['studentCod']}

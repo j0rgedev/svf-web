@@ -16,6 +16,7 @@ export default function Pensions() {
 	const [pensions, setPensions] = useState([]);
 	const [isMultiplePaymentEnabled, setMultiplePaymentEnabled] = useState(false);
 	const [selectedPensions, setSelectedPensions] = useState([]);
+	const [customText, setCustomText] = useState('');
 
 	const {isLoading: arePensionsLoading} = useQuery({
 		queryKey: 'pensions',
@@ -27,9 +28,11 @@ export default function Pensions() {
 			setTotalDebt(data.totalDebt)
 			setPensions(data.pensions);
 			setInitialPensions(data.pensions);
+			setCustomText('No tienes deudas pendientes')
 		},
 		onError: () => {
 			toast.error('Error al obtener las pensiones');
+			setCustomText('Error de conexión, intenta de nuevo más tarde');
 		},
 	});
 
@@ -62,10 +65,6 @@ export default function Pensions() {
 		if(!isMultiplePaymentEnabled) toast("Dale click a las pensiones que deseas pagar", {icon: '💡'}, {duration: 2000});
 	};
 
-	if (Object.keys(pensions).length === 0) {
-		return <p>Sin información</p>;
-	}
-
 	return (
 		<ContStudent>
 			<TopContent>
@@ -80,7 +79,7 @@ export default function Pensions() {
 			<ContTargets>
 				<ContTitle>
 					<TitleSections>Deuda total</TitleSections>
-					<TitleSections>{totalDebt}</TitleSections>
+					<TitleSections>S/{totalDebt}</TitleSections>
 				</ContTitle>
 				<ContSection>
 					<SectionDues>Cuotas</SectionDues>
@@ -120,6 +119,9 @@ export default function Pensions() {
 					</AnimatePresence>
 				</SelectedPensions>
 				<PensionsWrapper>
+					{
+						pensions[0]?.length === 0 && <h2>{customText || ''}</h2>
+					}
 					{pensions[0]?.map((pension, index) => {
 						return (
 							<Dues
