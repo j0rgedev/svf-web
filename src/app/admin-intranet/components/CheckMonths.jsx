@@ -94,13 +94,28 @@ const ContCheck = styled.div`
   width: 220px;
 `;
 
-export default function CheckMonths({ text }) {
+export default function CheckMonths({ selectedMonth, setSelectedMonth, text, monthNumber }) {
+
+  const handleCheckboxChange = (month_number) => {
+    if (selectedMonth === month_number) {
+      setSelectedMonth(3);
+    } else {
+      setSelectedMonth(month_number);
+    }
+  };
+
   return (
     <ContCheck >
       <FormGroup>
         <InputGroup>
-          <input id={text} name={text} type="checkbox"/>
-          <label htmlFor={text}>{text}</label>
+          <input
+            id={monthNumber}
+            name={text}
+            type="checkbox"
+            checked={selectedMonth === monthNumber}
+            onChange={() => handleCheckboxChange(monthNumber)}
+          />
+          <label htmlFor={monthNumber}>{text}</label>
         </InputGroup>
       </FormGroup>
     </ContCheck>

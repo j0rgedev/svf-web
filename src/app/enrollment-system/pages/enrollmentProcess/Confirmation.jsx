@@ -16,8 +16,8 @@ function Confirmation() {
                 <MainParagraph color={'#565656'}>Tu matrícula se registro correctamente con el siguiente número de orden:</MainParagraph>
                 <EnrollmentId className={'confirmation-id'}>{enrollmentProcess['enrollmentID']}</EnrollmentId>
                 <RedirectWrapper>
-                    <Paragraph>Puedes cancelarla en tu Portal Estudiantil</Paragraph>
-                    <Redirect href={'#'} target={'_blank'}>Ir a mi portal</Redirect>
+                    <Paragraph>Regresar a mi Portal Estudiantil</Paragraph>
+                    <Redirect href={'/estudiante'} >Ir a mi portal</Redirect>
                 </RedirectWrapper>
             </Container>
         </MainContainer>

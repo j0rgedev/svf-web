@@ -18,8 +18,12 @@ import {AddStudentLayout} from "./app/admin-intranet/pages/students/addStudent/A
 import {StudentsLayout} from "./app/admin-intranet/pages/students/StudentsLayout.jsx";
 import {StudentDetails} from "./app/admin-intranet/pages/students/StudentDetails.jsx";
 import {Dashboard} from './app/admin-intranet/pages/dashboards/Dashboard.jsx';
-import {EnrollmentDashboard} from './app/admin-intranet/pages/dashboards/StadisticsEnrolllments.jsx';
-import {StadisticsPensions} from './app/admin-intranet/pages/dashboards/StadisticsPensions.jsx';
+import {EnrollmentDashboard} from './app/admin-intranet/pages/dashboards/StatisticsEnrolllments.jsx';
+import {StatisticsPensions} from './app/admin-intranet/pages/dashboards/StatisticsPensions.jsx';
+import Student_Intranet from './app/student-intranet/pages/Intranet.jsx';
+import Pensions from './app/student-intranet/pages/Pensions.jsx';
+import Historial from './app/student-intranet/pages/Historial.jsx';
+import { StudentRootLayout } from './app/student-intranet/pages/StudentRootLayout.jsx';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -46,17 +50,8 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
 	{
 		path: '/login',
-		element: <Login/>
-	},
-	{
-		path: '/matricula',
-		element: <EnrollmentRootLayout/>,
+		element: <Login/>,
 		children: [
-			{
-				index: true,
-				path: 'login',
-				element: <Login/>
-			},
 			{
 				path: 'validacion',
 				element: <TempTokenGuard element={<SmsValidation/>}/>
@@ -65,18 +60,6 @@ const router = createBrowserRouter([
 				path: 'actualizacion',
 				element: <ProtectedRoute element={<UpdatePassword/>}/>
 			},
-			{
-				path: 'proceso',
-				element: <ProtectedRoute element={<EnrollmentProcess/>}/>
-			},
-			{
-				path: 'confirmacion',
-				element: <ProtectedRoute element={<Confirmation/>}/>
-			},
-			{
-				path: '*',
-				element: <NotFoundPage/>
-			}
 		]
 	},
 	{
@@ -112,9 +95,46 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'pensiones',
-				element: <StadisticsPensions/>
+				element: <StatisticsPensions/>
 			}
 
+		]
+	},
+	{
+		path: '/estudiante',
+		element:<StudentRootLayout/>,
+		children: [
+			{
+				index: true,
+				element: <Student_Intranet/>
+			},
+			{
+				path: 'pensiones',
+				element: <Pensions/>
+			},
+			{
+				path: 'historial',
+				element: <Historial/>
+				
+			},
+			{
+				path: 'matricula',
+				element: <EnrollmentRootLayout/>,
+				children: [
+					{
+						index: true,
+						element: <ProtectedRoute element={<EnrollmentProcess/>}/>
+					},
+					{
+						path: 'confirmacion',
+						element: <ProtectedRoute element={<Confirmation/>}/>
+					},
+					{
+						path: '*',
+						element: <NotFoundPage/>
+					}
+				]
+			},
 		]
 	}
 

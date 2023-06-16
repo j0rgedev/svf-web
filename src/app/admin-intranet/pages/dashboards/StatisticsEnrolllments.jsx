@@ -7,7 +7,7 @@ import {Lineals} from "../../components/LinealGraphic.jsx";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import CenteredDoughnutChart from "../../components/DoughnutGrafics.jsx";
 import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
-import {secondDashboard} from "../../setup/api/mainDashboard.js";
+import {secondDashboard} from "../../setup/api/adminDashboards.js";
 import {useMutation} from "react-query";
 import toast from "react-hot-toast";
 
@@ -69,16 +69,19 @@ const optionsLineal = {
 export function EnrollmentDashboard() {
 
 	const [dashboardData, setDashboardData] = useState({});
+	const [totalStudents, setTotalStudents] = useState(0);
 
 	const {mutate} = useMutation({
 		mutationFn: secondDashboard,
 		onSuccess: ({data}) => {
 			setDashboardData(data);
+			setTotalStudents(data.enrolledStudents.totalCount)
 		},
 		onError: () => {
 			toast.error('Error al cargar los datos')
 		}
 	})
+
 
 	const dataDoughnut = {
 		labels: ['Mujeres', 'Hombres'],
@@ -184,10 +187,18 @@ export function EnrollmentDashboard() {
 	return (
 		<>
 			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar}/>
+			<Title>Matrículas</Title>
 			<ContentContainer>
 				<ContentDoughnnut>
 					<TitleBar>Alumnos Matriculados</TitleBar>
-					<CenteredDoughnutChart data={dataDoughnut} options={optionsDoughnut} total="65%"/>
+					{
+						totalStudents > 0 && (
+							<CenteredDoughnutChart
+								data={dataDoughnut}
+								options={optionsDoughnut}
+								total={totalStudents}/>
+						)
+					}
 				</ContentDoughnnut>
 				<ContentLineal>
 					<TitleLine>Aumento y disminucion de matriculas</TitleLine>
@@ -217,6 +228,15 @@ export function EnrollmentDashboard() {
 		</>
 	)
 }
+
+const Title = styled.h1`
+    font-size: 2rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    text-align: left;
+`;
 
 const ContentContainer = styled.div`
   display: flex;
