@@ -7,7 +7,7 @@ import {useFormik} from "formik";
 import {loginSchema} from "../setup/schemas/loginSchema.js";
 import {useMutation} from "react-query";
 import React, {useEffect, useState} from "react";
-import {setCookie} from "../setup/utils/cookiesConfig.js";
+import {getCookie, setCookie} from "../setup/utils/cookiesConfig.js";
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import toast, {Toaster} from "react-hot-toast";
@@ -29,7 +29,7 @@ function Login() {
 					navigate('/admin');
 				} else {
 					setCookie('SESSION', token, 0);
-					navigate('/estudiante/matricula');
+					navigate('/estudiante');
 				}
 				setIsSubmitting(false)
 			},
@@ -39,7 +39,6 @@ function Login() {
 			}
 		}
 	)
-
 
 	const onSubmit = async (values, actions) => {
 		setIsSubmitting(true);

@@ -4,8 +4,8 @@ const baseUrl = axios.create({
 	baseURL: 'http://localhost:8080/api/v1/admin',
 })
 
-export const mainDashboard = async (token) => {
-	const response = await baseUrl.post('/general-dashboard', {}, {
+export const mainDashboard = async (token, monthNumber) => {
+	const response = await baseUrl.post(`/general-dashboard?monthNumber=${monthNumber}`, {}, {
 		headers: {
 			"Authorization": `Bearer ${token}`,
 		}

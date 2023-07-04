@@ -25,11 +25,8 @@ export const StudentProtectedRoute = ({element, redirectTo = '/login'}) => {
 	const userRole = getCookie('SESSION').role;
 
 	if (!cookies) {
-		console.log('no hay cookies')
 		return <Navigate to={redirectTo}/>
 	}
-
-	console.log(!isCookieExpired(cookies) && userRole === 0)
 
 	return (
 		<>
@@ -50,15 +47,5 @@ export const LoginProtectedRoute = ({element}) => {
 		return element
 	}
 
-	console.log(!isCookieExpired(cookies) && userRole === 0)
-
-	return (
-		<>
-			{!isCookieExpired(cookies) && userRole === 0 ? (
-				<Navigate to={'/estudiante'}/>
-			) : (
-				<Navigate to={'/admin'}/>
-			)}
-		</>
-	)
+	return userRole===0 ? ( <Navigate to="/admin"/> ) : ( <Navigate to="/estudiante"/> )
 }

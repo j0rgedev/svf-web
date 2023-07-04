@@ -6,8 +6,10 @@ import {AiTwotoneHome, AiFillDatabase} from 'react-icons/ai';
 import {FaUserGraduate, FaChalkboardTeacher, FaSignOutAlt} from 'react-icons/fa';
 import {RiParentFill} from 'react-icons/ri';
 import styled from 'styled-components';
+import {removeCookie} from "../../../login/setup/utils/cookiesConfig.js";
 
 export default function AdminSidebar() {
+
 	return (
 		<Sidebar>
 			<SidebarHeader>
@@ -25,7 +27,7 @@ export default function AdminSidebar() {
 				<SidebarSections icon={<FaChalkboardTeacher/>} text={'Profesores'} href={'/admin/profesores'}/>
 				<SidebarSections icon={<RiParentFill/>} text={'Padres'} href={'/admin/padres'}/>
 			</ContentOptions>
-			<SidebarSections icon={<FaSignOutAlt/>} text={'Cerrar Sesión'} href={'/'}/>
+			<SidebarSections icon={<FaSignOutAlt/>} text={'Cerrar Sesión'} onClick={() => {removeCookie('SESSION')}}/>
 		</Sidebar>
 	);
 }

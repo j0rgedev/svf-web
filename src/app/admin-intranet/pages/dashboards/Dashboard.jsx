@@ -6,12 +6,13 @@ import Bars from "../../components/BarGraphic.jsx";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import CenteredDoughnutChart from "../../components/DoughnutGrafics.jsx";
 import { getCookie } from "../../../login/setup/utils/cookiesConfig.js";
-import { useMutation } from "react-query";
+import {useMutation, useQuery} from "react-query";
 import { mainDashboard } from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
 import { AiOutlineDown } from "react-icons/ai";
 import LastStudentTableRow from "../../components/LastTable/LastStudentTableRow.jsx";
+import {Pie} from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -36,6 +37,7 @@ const optionsDoughnut = {
 
 export function Dashboard() {
 
+	const [month, setMonth] = useState(0);
 	const [selectedRow, setSelectedRow] = useState(null);
 
 	const handleCheckboxChange = (cod) => {
@@ -46,17 +48,20 @@ export function Dashboard() {
 		}
 	};
 
-	const { data, isLoading, mutate } = useMutation({
-		mutationFn: mainDashboard,
+	const handleMonthChange = (e) => {
+		setMonth(e.target.value);
+	}
+
+	const {data, isLoading} = useQuery({
+		queryKey: ['mainDashboard', month],
+		queryFn: async () => {
+			const token = getCookie('SESSION').token;
+			return await mainDashboard(token, month);
+		},
 		onError: () => {
 			toast.error("Error al cargar los datos")
 		}
 	})
-
-	useEffect(() => {
-		const token = getCookie('SESSION').token;
-		mutate(token);
-	}, [])
 
 	const dataBar = {
 		labels: ['Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
@@ -71,21 +76,21 @@ export function Dashboard() {
 		]
 	};
 
-	const dataDoughnut = {
+	const pieData = {
 		labels: ['Matriculados', 'No Matriculados'],
 		datasets: [
 			{
+				label: '# de estudiantes',
 				data: isLoading ? [0, 0] : [data?.data?.enrollmentCount?.enrolled || 0, data?.data?.enrollmentCount?.notEnrolled || 0],
 				backgroundColor: [
-					'#FFFFFF',
-					'#672DE3',
+					'rgba(255, 159, 64, 0.5)',
+					'rgba(54, 162, 235, 0.5)',
 				],
 				borderColor: [
-					'#FFFFFF',
-					'#672DE3',
+					'rgba(255, 159, 64, 1)',
+					'rgba(54, 162, 235, 1)',
 				],
 				borderWidth: 1,
-				cutout: '80%'
 			},
 		],
 	};
@@ -102,7 +107,6 @@ export function Dashboard() {
 		)
 	}
 
-
 	const theme = useContext(ThemeContext);
 
 	return (
@@ -110,31 +114,44 @@ export function Dashboard() {
 			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
 			<MainContent>
 				<Filter>
-					<MonthSelect name="MES">
-						<option value="A">Marzo</option>
-						<option value="B">Abril</option>
-						<option value="C">Mayo</option>
-						<option value="D">Junio</option>
-						<option value="E">Julio</option>
-						<option value="F">Agosto</option>
-						<option value="G">Septiembre</option>
-						<option value="H">Octubre</option>
-						<option value="I">Noviembre</option>
-						<option value="J">Diciembre</option>
+					<MonthSelect name="MES" onChange={handleMonthChange}>
+						<option value="0" selected={true}>Por defecto</option>
+						<option value="3">Marzo</option>
+						<option value="4">Abril</option>
+						<option value="5">Mayo</option>
+						<option value="6">Junio</option>
+						<option value="7">Julio</option>
+						<option value="8">Agosto</option>
+						<option value="9">Septiembre</option>
+						<option value="10">Octubre</option>
+						<option value="11">Noviembre</option>
+						<option value="12">Diciembre</option>
 					</MonthSelect>
 					<ReportButton onClick={handleCreateReport}>Generar reporte</ReportButton>
 				</Filter>
 				<ContentContainer>
 					<ContentBar>
-						<TitleBar>Recaudacion de pensiones en los ultimos meses</TitleBar>
+						<TitleBar>Cantidad de pensiones pagadas por mes</TitleBar>
 						<Bars data={dataBar} options={optionsBar} />
 					</ContentBar>
 					<ContentDoughnnut>
-						<TitleBar>Alumnos Matriculados</TitleBar>
-						<CenteredDoughnutChart data={dataDoughnut} options={optionsDoughnut} total="75%" />
+						<TitleBar>Cantidad de matrículas</TitleBar>
+						<Pie data={pieData} options={
+							{
+								plugins: {
+									legend: {
+										position: 'right',
+										labels: {
+											color: theme === 'light' ? 'black' : 'white',
+										},
+									}
+								}
+							}
+						}/>
 					</ContentDoughnnut>
 				</ContentContainer>
 				<TableContainer>
+					<TitleBar>Últimos 5 alumnos matriculados</TitleBar>
 					<Table>
 						<thead>
 							<tr>
@@ -183,6 +200,7 @@ const Loader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+	width: 100%;
   height: 100%;
 `;
 
@@ -213,7 +231,8 @@ const ContentContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 40%;
+	height: 100%;
+	max-height: 350px;
   gap: 30px;
 `;
 
@@ -224,6 +243,7 @@ const ContentBar = styled.div`
   padding: 12px;
   width: 50%;
   height: 100%;
+	min-height: 300px;
   flex-direction: column;
   align-items: center;
 `;
@@ -271,6 +291,8 @@ const Table = styled.table`
 const ContentDoughnnut = styled.div`
   display: flex;
   width: 50%;
+	height: 100%;
+	min-height: 300px;
   padding: 12px;
   background-color: ${props =>
     props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
