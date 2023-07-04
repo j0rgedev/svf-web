@@ -232,7 +232,7 @@ export function EnrollmentDashboard() {
 const Title = styled.h1`
     font-size: 2rem;
     font-weight: 700;
-    color: #FFFFFF;
+    color: ${(props) => props.theme.textColor};
     margin-top: 2rem;
     margin-left: 2rem;
     text-align: left;
@@ -242,57 +242,63 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 40px;
 `;
 const ContentGraficsBar = styled.div`
   display: flex;
   justify-content: space-between;
+  gap:20px;
 `;
 const ContentGrafic = styled.div`
   height: 300px;
+  width:40%;
   margin-top: 2rem;
-  background: rgb(21, 30, 26);
+  background:  ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
 `;
 const ContentBar2 = styled.div`
   width: 400px;
   height: 260px;
   padding: 1rem;
-  background-color: #151E1A;
+  background-color: transparent;
 `;
 const ContentBar3 = styled.div`
   width: 350px;
   height: 260px;
   padding: 1rem;
-  background-color: #151E1A;
+  background-color: transparent;
 `;
 const ContentBar = styled.div`
   width: 300px;
   height: 260px;
   padding: 1rem;
-  background-color: #151E1A;
+  background-color: transparent;
 `;
 const ContentDoughnnut = styled.div`
   display: flex;
-  width: 450px;
+  width: 40%;
   height: 310px;
   padding: 1rem;
-  background-color: rgb(21, 30, 26);
+  background-color:  ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   margin-top: 2rem;
   flex-direction: column;
   align-items: center;
 `;
 const ContentLineal = styled.div`
-  width: 600px;
+  width: 60%;
   height: 310px;
   padding: 1rem 2rem 2rem 2rem;
-  background-color: #151E1A;
+  background-color:  ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   margin-top: 2rem;
 `;
 const TitleBar = styled.h4`
   text-align: center;
-  background: rgb(21, 30, 26);
+  background: transparent;
   margin-top: 10px;
 `;
 const TitleLine = styled.h4`
   text-align: center;
-  background: rgb(21, 30, 26);
+  background: transparent;
 `;

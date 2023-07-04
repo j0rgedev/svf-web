@@ -33,10 +33,13 @@ export function AdminRootLayout() {
 						}
 					}}
 				/>
+				
 				<AdminSidebar/>
+				<Wrapper>
 				<Main>
 					<Outlet/>
 				</Main>
+				</Wrapper>
 			</Container>
 		</AlertContext.Provider>
 	)
@@ -45,9 +48,14 @@ export function AdminRootLayout() {
 const Container = styled.div`
   display: flex;
 `
+const Wrapper = styled.div`
+width: 100%;
+display: flex;
+justify-content: flex-end;
+`
 
 const Main = styled.main`
-  width: 100%;
+  width: 82%;
   min-height: 100vh;
   height: 100%;
   padding: 20px;

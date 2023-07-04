@@ -13,6 +13,12 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: ${(props) => props.styles.color};
   }
+
+  p{
+    color: ${(props) => props.styles.color};
+  }
+  
+  
 `;
 
 const SwitchInput = styled.input.attrs({ type: 'checkbox', id: 'switch' })`
@@ -23,7 +29,7 @@ const SwitchButton = styled.div`
   width: 61px;
   height: 38px;
   background-color: #C5CCD3;
-  border: 4px solid #000;
+  border: 4px solid rgb(46, 48, 82);
   border-radius: 30px;
   display: flex;
   align-items: center;

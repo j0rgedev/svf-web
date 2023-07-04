@@ -16,6 +16,13 @@ import toast from "react-hot-toast";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const optionsDoughnut1 = {
+    responsive: true, // Permite que el gráfico se ajuste al contenedor
+  maintainAspectRatio: false, // Desactiva el mantenimiento del aspecto para poder ajustar el ancho y alto
+
+  // Configuración del tamaño
+  width: 200, // Ancho en píxeles
+  height: 200, // Alto en píxeles
+
     plugins: {
       legend: {
         position: 'right',
@@ -178,21 +185,20 @@ export function StatisticsPensions() {
                 <ContentDoughnnut>
                     <TitleDoughnut>Alumnos al dia de Pagos</TitleDoughnut>
                     <ReportButton onClick={handleCreateReport}>Generar reporte</ReportButton>
-                    <div>
+                        <ContDoughnut>
                         <DoughnutChart
                           data={dataDoughnut1}
                           options={optionsDoughnut1}
                         />
-                    </div>
-
+                        </ContDoughnut>
                 </ContentDoughnnut>
             </ContentContainer>
             <ContentGraficsBar>
                 <ContentBar2>
                     <TitleBar>Monto de deuda por mes</TitleBar>
-                    <p>
+                    <TitleDebt>
                         Total de deuda: S/{totalDebt?.totalDebt || 0}
-                    </p>
+                    </TitleDebt>
                     {!isTotalDebtLoading && (
                       <DoughnutChart
                         data={dataDoughnut2}
@@ -220,10 +226,19 @@ export function StatisticsPensions() {
 const Title = styled.h1`
     font-size: 2rem;
     font-weight: 700;
-    color: #FFFFFF;
+    color: ${(props) => props.theme.textColor};
     margin-top: 2rem;
     margin-left: 2rem;
     text-align: left;
+`;
+
+const TitleDebt = styled.p`
+    color: ${(props) => props.theme.textColor};
+`;
+
+const ContDoughnut = styled.div`
+    width: 70%;
+    height: 70%;
 `;
 
 const ReportButton = styled.button`
@@ -248,7 +263,8 @@ const ContentContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    max-height: 500px;
+    height: 40%;
+    gap: 40px;
 `;
 const ContentGraficsBar = styled.div`
     display: flex;
@@ -257,20 +273,22 @@ const ContentGraficsBar = styled.div`
 `;
 
 const ContentBar2 = styled.div`
-	width: 400px;
+	width: 40%;
     height: 300px;
     padding: 1rem;
-    background-color: #151E1A;
+    background-color:  ${props =>
+        props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
 `;
 const ContentBar3 = styled.div`
-    width: 650px;
+    width: 60%;
     height: 300px;
     padding: 1rem;
-    background-color: rgb(21, 30, 26);
+    background-color:  ${props =>
+        props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
     margin-top: 2rem;
     display: flex;
     -webkit-box-align: center;
@@ -282,8 +300,9 @@ const ContentBar3 = styled.div`
 
 const ContentDoughnnut = styled.div`
     display: flex;
-    width: 450px;
-    background-color: rgb(21, 30, 26);
+    width: 40%;
+    background-color:  ${props =>
+        props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
     margin-top: 2rem;
     flex-direction: column;
     align-items: center;
@@ -292,9 +311,10 @@ const ContentDoughnnut = styled.div`
 
 const ContentLineal = styled.div`
     display: flex;
-    width: 622px;
+    width: 60%;
     padding: 1rem 1rem 2.5rem;
-    background-color: rgb(21, 30, 26);
+    background-color:  ${props =>
+        props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
     margin-top: 2rem;
     flex-direction: column;
     align-items: center;

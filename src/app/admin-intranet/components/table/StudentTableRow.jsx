@@ -15,28 +15,32 @@ export default function StudentTableRow({cod, name, date, state, handleChange, s
 
 	return (
 		<tr>
-			<td className={'checkbox'}>
+			<Row className={'checkbox'}>
 				<Checkbox
 					type={'checkbox'}
 					checked={selected}
 					onChange={handleCheckboxChange}
 				/>
-			</td>
-			<td>{cod}</td>
-			<td>{name}</td>
-			<td>{date}</td>
-			<td>{state}</td>
-			<td className={'button'}>
+			</Row>
+			<Row>{cod}</Row>
+			<Row>{name}</Row>
+			<Row>{date}</Row>
+			<Row>{state}</Row>
+			<Row className={'button'}>
 				<Button
 					type={'button'}
 					value={'Ver detalles'}
 					onClick={handleClick}
 				/>
-			</td>
+			</Row>
 		</tr>
 	);
 }
 
+const Row = styled.td`
+background-color:  ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgba(76 74 74 / 30%);'};
+`
 const Checkbox = styled.input`
 	display: inline-flex;
 	align-items: center;

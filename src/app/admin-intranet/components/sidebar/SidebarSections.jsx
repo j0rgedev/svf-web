@@ -4,6 +4,7 @@ import {useState} from 'react';
 import {FaFileContract} from 'react-icons/fa';
 import {TbReportMoney} from 'react-icons/tb';
 
+
 export default function SidebarSections({
         href,
         text,
@@ -76,7 +77,7 @@ const OptionItem = styled.li`
         align-items: center;
         padding: 10px;
         font-size: 18px;
-        color: #fff;
+        color: ${(props) => props.theme.textColor}; /* Utilizar el color del tema */
         text-decoration: none;
         border-radius: 1rem;
     
@@ -89,7 +90,7 @@ const OptionItem = styled.li`
 
 const OptionLink = styled.a`
     text-decoration: none;
-    color: white;
+    color: ${(props) => props.theme.textColor};;
     align-items: center;
     padding: 10px;
     font-size: 18px;

@@ -1,16 +1,16 @@
-import styled from "styled-components";
+import styled, { ThemeContext } from 'styled-components';
 import avatar from "../../assets/avatar.png";
 import MainHeader from "../../components/MainHeader.jsx";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Bars from "../../components/BarGraphic.jsx";
-import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import CenteredDoughnutChart from "../../components/DoughnutGrafics.jsx";
-import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
-import {useMutation} from "react-query";
-import {mainDashboard} from "../../setup/api/adminDashboards.js";
+import { getCookie } from "../../../login/setup/utils/cookiesConfig.js";
+import { useMutation } from "react-query";
+import { mainDashboard } from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
-import {PropagateLoader} from "react-spinners";
-import {AiOutlineDown} from "react-icons/ai";
+import { PropagateLoader } from "react-spinners";
+import { AiOutlineDown } from "react-icons/ai";
 import LastStudentTableRow from "../../components/LastTable/LastStudentTableRow.jsx";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -46,7 +46,7 @@ export function Dashboard() {
 		}
 	};
 
-	const {data, isLoading, mutate} = useMutation({
+	const { data, isLoading, mutate } = useMutation({
 		mutationFn: mainDashboard,
 		onError: () => {
 			toast.error("Error al cargar los datos")
@@ -90,59 +90,88 @@ export function Dashboard() {
 		],
 	};
 
+	const handleCreateReport = async () => {
+		const token = getCookie('SESSION').token;
+		await toast.promise(
+			generateReport(token),
+			{
+				loading: 'Generando reporte...',
+				success: 'Reporte guardado en la carpeta de descargas',
+				error: 'Error al generar el reporte',
+			}
+		)
+	}
+
+
+	const theme = useContext(ThemeContext);
 
 	return (
 		<>
-			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar}/>
+			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
 			<MainContent>
+				<Filter>
+					<MonthSelect name="MES">
+						<option value="A">Marzo</option>
+						<option value="B">Abril</option>
+						<option value="C">Mayo</option>
+						<option value="D">Junio</option>
+						<option value="E">Julio</option>
+						<option value="F">Agosto</option>
+						<option value="G">Septiembre</option>
+						<option value="H">Octubre</option>
+						<option value="I">Noviembre</option>
+						<option value="J">Diciembre</option>
+					</MonthSelect>
+					<ReportButton onClick={handleCreateReport}>Generar reporte</ReportButton>
+				</Filter>
 				<ContentContainer>
 					<ContentBar>
 						<TitleBar>Recaudacion de pensiones en los ultimos meses</TitleBar>
-						<Bars data={dataBar} options={optionsBar}/>
+						<Bars data={dataBar} options={optionsBar} />
 					</ContentBar>
 					<ContentDoughnnut>
 						<TitleBar>Alumnos Matriculados</TitleBar>
-						<CenteredDoughnutChart data={dataDoughnut} options={optionsDoughnut} total="75%"/>
+						<CenteredDoughnutChart data={dataDoughnut} options={optionsDoughnut} total="75%" />
 					</ContentDoughnnut>
 				</ContentContainer>
 				<TableContainer>
 					<Table>
-					<thead>
-					<tr>
-						<th></th>
-						<th>
-							<DivRows>Código<AiOutlineDown/></DivRows>
-						</th>
-						<th>
-							<DivRows>Nombres<AiOutlineDown/></DivRows>
-						</th>
-						<th>
-							<DivRows>Nivel<AiOutlineDown/></DivRows>
-						</th>
-						<th></th>
-					</tr>
-					</thead>
-					<tbody>
-					{
-						isLoading ? (
-							<Loader>
-								<PropagateLoader color="#672DE3"/>
-							</Loader>
-						) : (
-							data?.data?.lastEnrolledStudents?.map((student) => (
-								<LastStudentTableRow
-									key={student['studentCod']}
-									cod={student['studentCod']}
-									name={student['fullName']}
-									level={student['level']}
-									handleChange={() => handleCheckboxChange(student['studentCod'])}
-									selected={selectedRow === student['studentCod']}
-								/>
-							))
-						)
-					}
-					</tbody>
-				</Table>
+						<thead>
+							<tr>
+								<th></th>
+								<th>
+									<DivRows>Código<AiOutlineDown /></DivRows>
+								</th>
+								<th>
+									<DivRows>Nombres<AiOutlineDown /></DivRows>
+								</th>
+								<th>
+									<DivRows>Nivel<AiOutlineDown /></DivRows>
+								</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{
+								isLoading ? (
+									<Loader>
+										<PropagateLoader color="#672DE3" />
+									</Loader>
+								) : (
+									data?.data?.lastEnrolledStudents?.map((student) => (
+										<LastStudentTableRow
+											key={student['studentCod']}
+											cod={student['studentCod']}
+											name={student['fullName']}
+											level={student['level']}
+											handleChange={() => handleCheckboxChange(student['studentCod'])}
+											selected={selectedRow === student['studentCod']}
+										/>
+									))
+								)
+							}
+						</tbody>
+					</Table>
 				</TableContainer>
 			</MainContent>
 
@@ -157,6 +186,17 @@ const Loader = styled.div`
   height: 100%;
 `;
 
+const Filter = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	gap: 20px;
+`;
+
+const MonthSelect= styled.select`
+	text-align: center;
+	outline: none;
+	cursor: pointer;
+`;
 
 const MainContent = styled.div`
   display: flex;
@@ -173,13 +213,14 @@ const ContentContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  height: 50%;
+  height: 40%;
   gap: 30px;
 `;
 
 const ContentBar = styled.div`
   display: flex;
-  background-color: rgb(21, 30, 26);
+  background-color: ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   padding: 12px;
   width: 50%;
   height: 100%;
@@ -231,7 +272,8 @@ const ContentDoughnnut = styled.div`
   display: flex;
   width: 50%;
   padding: 12px;
-  background-color: rgb(21, 30, 26);
+  background-color: ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   flex-direction: column;
   align-items: center;
 `;
@@ -243,9 +285,26 @@ const TitleBar = styled.h4`
 const TableContainer = styled.div`
   width: 100%;
   height: 50%;
-  flex: 1 1 0;
   margin-top: 12px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
 `;
+
+const ReportButton = styled.button`
+    border: none;
+    background-color: rgb(219 215 215);
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all .3s;
+
+    &:hover {
+        background-color: #6b6b6b;
+        color: #FFFFFF;
+
+    }
+`
