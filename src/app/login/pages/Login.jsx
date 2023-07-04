@@ -29,7 +29,7 @@ function Login() {
 					navigate('/admin');
 				} else {
 					setCookie('SESSION', token, 0);
-					navigate('/estudiante');
+					navigate('/estudiante/matricula');
 				}
 				setIsSubmitting(false)
 			},
