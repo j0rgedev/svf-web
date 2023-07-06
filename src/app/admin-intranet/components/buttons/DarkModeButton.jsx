@@ -17,8 +17,6 @@ const GlobalStyle = createGlobalStyle`
   p{
     color: ${(props) => props.styles.color};
   }
-  
-  
 `;
 
 const SwitchInput = styled.input.attrs({ type: 'checkbox', id: 'switch' })`

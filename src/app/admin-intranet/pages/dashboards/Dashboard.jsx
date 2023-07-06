@@ -4,7 +4,6 @@ import MainHeader from "../../components/MainHeader.jsx";
 import React, { useEffect, useState, useContext } from "react";
 import Bars from "../../components/BarGraphic.jsx";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import CenteredDoughnutChart from "../../components/DoughnutGrafics.jsx";
 import { getCookie } from "../../../login/setup/utils/cookiesConfig.js";
 import {useMutation, useQuery} from "react-query";
 import { mainDashboard } from "../../setup/api/adminDashboards.js";
@@ -13,6 +12,7 @@ import { PropagateLoader } from "react-spinners";
 import { AiOutlineDown } from "react-icons/ai";
 import LastStudentTableRow from "../../components/LastTable/LastStudentTableRow.jsx";
 import {Pie} from "react-chartjs-2";
+import { Lineals } from '../../components/LinealGraphic';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -31,6 +31,14 @@ const optionsDoughnut = {
 			labels: {
 				padding: 50,
 			},
+		},
+	},
+};
+
+const optionsLineal = {
+	plugins: {
+		legend: {
+			position: 'bottom',
 		},
 	},
 };
@@ -106,6 +114,17 @@ export function Dashboard() {
 			}
 		)
 	}
+	const dataLineal = {
+		labels:  ['Mar', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+		datasets: [
+			{
+				label: 'Matriculados',
+				data: ['3', '4', '3', '5', '6', '3', '5', '6', '0'],
+				borderColor: 'rgb(53, 162, 135)',
+				backgroundColor: 'rgba(0, 128, 0, 0.5)',
+			},
+		],
+	};
 
 	const theme = useContext(ThemeContext);
 
@@ -150,6 +169,11 @@ export function Dashboard() {
 						}/>
 					</ContentDoughnnut>
 				</ContentContainer>
+				<ContentDiv>
+				<ContentLineal>
+					<TitleLine>Aumento y disminucion de matriculas</TitleLine>
+					<Lineals data={dataLineal} options={optionsLineal}/>
+					</ContentLineal>
 				<TableContainer>
 					<TitleBar>Últimos 5 alumnos matriculados</TitleBar>
 					<Table>
@@ -190,6 +214,7 @@ export function Dashboard() {
 						</tbody>
 					</Table>
 				</TableContainer>
+				</ContentDiv>
 			</MainContent>
 
 		</>
@@ -251,6 +276,7 @@ const ContentBar = styled.div`
 const DivRows = styled.div`
     display: flex;
     align-items: center;
+	font-size: 14px;
 `
 
 const Table = styled.table`
@@ -275,11 +301,14 @@ const Table = styled.table`
   }
 
   tbody td {
-    border-bottom: 8px solid #000f08;
+	font-size: 14px;
+    border-bottom: 8px solid  ${props =>
+		props.theme === 'dark' ? '#000F08' : 'rgb(250 250 250/ 5%)'};
   }
 
   tbody tr {
-    background-color: #151e1a;
+    background-color: ${props =>
+		props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
     margin-bottom: 10px;
   }
 
@@ -287,6 +316,26 @@ const Table = styled.table`
     text-align: center;
   }
 `
+const ContentLineal = styled.div`
+  width: 50%;
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem 2rem 2rem;
+  background-color:  ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
+  margin-top: 2rem;
+`;
+
+const TitleLine = styled.h4`
+  text-align: center;
+  background: transparent;
+`;
+
+const ContentDiv = styled.div`
+	display: flex;
+	gap: 20px;
+`;
 
 const ContentDoughnnut = styled.div`
   display: flex;
@@ -305,9 +354,8 @@ const TitleBar = styled.h4`
 `;
 
 const TableContainer = styled.div`
-  width: 100%;
-  height: 50%;
   margin-top: 12px;
+  width: 50%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;

@@ -14,7 +14,7 @@ export default function LastStudentTableRow({ cod, name, level, handleChange, se
 	}
 
 	return (
-		<Fill>
+		<tr>
 			<Row className={'checkbox'}>
 				<Checkbox
 					type={'checkbox'}
@@ -32,18 +32,12 @@ export default function LastStudentTableRow({ cod, name, level, handleChange, se
 					onClick={handleClick}
 				/>
 			</Row>
-		</Fill>
+		</tr>
 	);
 }
 
 const Row = styled.td`
-	background-color:  ${props =>
-		props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgba(76 74 74 / 30%);'};
-		color: white;
-`
-const Fill = styled.tr`
-	background-color:  ${props =>
-		props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgba(76 74 74 / 30%);'};
+		color: ${(props) => props.theme.textColor};;
 `
 
 const Checkbox = styled.input`
