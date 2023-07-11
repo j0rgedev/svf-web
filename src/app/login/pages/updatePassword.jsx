@@ -10,7 +10,7 @@ import {getCookie, setCookie} from "../setup/utils/cookiesConfig.js";
 import {useNavigate} from "react-router-dom";
 import {MainContainer, MainParagraph, MainTitle} from "../../enrollment-system/pages/styles.js";
 import styled from "styled-components";
-import {AlertInfoContext} from "../../enrollment-system/setup/context/AlertInfoContext.jsx";
+import {AlertInfoContext} from "../setup/utils/AlertInfoContext.jsx";
 
 function UpdatePassword() {
 
@@ -23,7 +23,7 @@ function UpdatePassword() {
         mutationFn: useUpdatePwd,
         onSuccess: ({data}) => {
             setCookie('SESSION', data['accessToken']);
-            navigate('/matricula/proceso');
+            navigate('/estudiante');
         },
         onError: (data) => {
             if (data.response.status === 401) {

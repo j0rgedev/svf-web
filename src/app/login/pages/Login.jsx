@@ -28,8 +28,12 @@ function Login() {
 					setCookie('SESSION', token, 1);
 					navigate('/admin');
 				} else {
-					setCookie('SESSION', token, 0);
-					navigate('/estudiante');
+					if (data['redirectUrl']){
+						navigate(data['redirectUrl'])
+					} else {
+						setCookie('SESSION', token, 0);
+						navigate('/estudiante');
+					}
 				}
 				setIsSubmitting(false)
 			},

@@ -29,6 +29,7 @@ import Pensions from './app/student-intranet/pages/Pensions.jsx';
 import Historial from './app/student-intranet/pages/Historial.jsx';
 import { StudentRootLayout } from './app/student-intranet/pages/StudentRootLayout.jsx';
 import NotFoundPage404 from './app/admin-intranet/pages/404.jsx';
+import {AuthLayout} from "./app/login/pages/AuthLayout.jsx";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -55,8 +56,12 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
 	{
 		path: '/login',
-		element: <LoginProtectedRoute element={<Login />} />,
+		element: <AuthLayout />,
 		children: [
+			{
+				index: true,
+				element: <LoginProtectedRoute element={<Login />} />
+			},
 			{
 				path: 'validacion',
 				element: <TempTokenGuard element={<SmsValidation />} />
@@ -153,8 +158,11 @@ const router = createBrowserRouter([
 				]
 			},
 		]
+	},
+	{
+		path: '*',
+		element: <NotFoundPage />
 	}
-
 ])
 
 

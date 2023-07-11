@@ -1,18 +1,18 @@
-import styled, { ThemeContext } from 'styled-components';
+import styled, {ThemeContext} from 'styled-components';
 import avatar from "../../assets/avatar.png";
 import MainHeader from "../../components/MainHeader.jsx";
-import React, { useEffect, useState, useContext } from "react";
+import React, {useEffect, useState, useContext} from "react";
 import Bars from "../../components/BarGraphic.jsx";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { getCookie } from "../../../login/setup/utils/cookiesConfig.js";
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
 import {useMutation, useQuery} from "react-query";
-import { mainDashboard } from "../../setup/api/adminDashboards.js";
+import {mainDashboard} from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
-import { PropagateLoader } from "react-spinners";
-import { AiOutlineDown } from "react-icons/ai";
+import {PropagateLoader} from "react-spinners";
+import {AiOutlineDown} from "react-icons/ai";
 import LastStudentTableRow from "../../components/LastTable/LastStudentTableRow.jsx";
 import {Pie} from "react-chartjs-2";
-import { Lineals } from '../../components/LinealGraphic';
+import {Lineals} from '../../components/LinealGraphic';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -115,7 +115,7 @@ export function Dashboard() {
 		)
 	}
 	const dataLineal = {
-		labels:  ['Mar', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+		labels: ['Mar', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 		datasets: [
 			{
 				label: 'Matriculados',
@@ -130,7 +130,7 @@ export function Dashboard() {
 
 	return (
 		<>
-			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar} />
+			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar}/>
 			<MainContent>
 				<Filter>
 					<MonthSelect name="MES" onChange={handleMonthChange}>
@@ -151,7 +151,7 @@ export function Dashboard() {
 				<ContentContainer>
 					<ContentBar>
 						<TitleBar>Cantidad de pensiones pagadas por mes</TitleBar>
-						<Bars data={dataBar} options={optionsBar} />
+						<Bars data={dataBar} options={optionsBar}/>
 					</ContentBar>
 					<ContentDoughnnut>
 						<TitleBar>Cantidad de matrículas</TitleBar>
@@ -170,50 +170,50 @@ export function Dashboard() {
 					</ContentDoughnnut>
 				</ContentContainer>
 				<ContentDiv>
-				<ContentLineal>
-					<TitleLine>Aumento y disminucion de matriculas</TitleLine>
-					<Lineals data={dataLineal} options={optionsLineal}/>
+					<ContentLineal>
+						<TitleLine>Aumento y disminucion de matriculas</TitleLine>
+						<Lineals data={dataLineal} options={optionsLineal}/>
 					</ContentLineal>
-				<TableContainer>
-					<TitleBar>Últimos 5 alumnos matriculados</TitleBar>
-					<Table>
-						<thead>
-							<tr>
-								<th></th>
-								<th>
-									<DivRows>Código<AiOutlineDown /></DivRows>
-								</th>
-								<th>
-									<DivRows>Nombres<AiOutlineDown /></DivRows>
-								</th>
-								<th>
-									<DivRows>Nivel<AiOutlineDown /></DivRows>
-								</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								isLoading ? (
-									<Loader>
-										<PropagateLoader color="#672DE3" />
-									</Loader>
-								) : (
-									data?.data?.lastEnrolledStudents?.map((student) => (
-										<LastStudentTableRow
-											key={student['studentCod']}
-											cod={student['studentCod']}
-											name={student['fullName']}
-											level={student['level']}
-											handleChange={() => handleCheckboxChange(student['studentCod'])}
-											selected={selectedRow === student['studentCod']}
-										/>
-									))
-								)
-							}
-						</tbody>
-					</Table>
-				</TableContainer>
+					<TableContainer>
+						<TitleBar>Últimos 5 alumnos matriculados</TitleBar>
+						{
+							isLoading ?
+								<Loader>
+									<PropagateLoader color="#ffa"/>
+								</Loader> :
+								<Table>
+									<thead>
+									<tr>
+										<th></th>
+										<th>
+											<DivRows>Código<AiOutlineDown/></DivRows>
+										</th>
+										<th>
+											<DivRows>Nombres<AiOutlineDown/></DivRows>
+										</th>
+										<th>
+											<DivRows>Nivel<AiOutlineDown/></DivRows>
+										</th>
+										<th></th>
+									</tr>
+									</thead>
+									<tbody>
+									{
+										data?.data?.lastEnrolledStudents?.map((student) => (
+											<LastStudentTableRow
+												key={student['studentCod']}
+												cod={student['studentCod']}
+												name={student['fullName']}
+												level={student['level']}
+												handleChange={() => handleCheckboxChange(student['studentCod'])}
+												selected={selectedRow === student['studentCod']}
+											/>
+										))
+									}
+									</tbody>
+								</Table>
+						}
+					</TableContainer>
 				</ContentDiv>
 			</MainContent>
 
@@ -225,20 +225,20 @@ const Loader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-	width: 100%;
+  width: 100%;
   height: 100%;
 `;
 
 const Filter = styled.div`
-	display: flex;
-	justify-content: flex-end;
-	gap: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
 `;
 
-const MonthSelect= styled.select`
-	text-align: center;
-	outline: none;
-	cursor: pointer;
+const MonthSelect = styled.select`
+  text-align: center;
+  outline: none;
+  cursor: pointer;
 `;
 
 const MainContent = styled.div`
@@ -256,27 +256,27 @@ const ContentContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-	height: 100%;
-	max-height: 350px;
+  height: 100%;
+  max-height: 350px;
   gap: 30px;
 `;
 
 const ContentBar = styled.div`
   display: flex;
   background-color: ${props =>
-    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
+          props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   padding: 12px;
   width: 50%;
   height: 100%;
-	min-height: 300px;
+  min-height: 300px;
   flex-direction: column;
   align-items: center;
 `;
 
 const DivRows = styled.div`
-    display: flex;
-    align-items: center;
-	font-size: 14px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
 `
 
 const Table = styled.table`
@@ -301,14 +301,14 @@ const Table = styled.table`
   }
 
   tbody td {
-	font-size: 14px;
-    border-bottom: 8px solid  ${props =>
-		props.theme === 'dark' ? '#000F08' : 'rgb(250 250 250/ 5%)'};
+    font-size: 14px;
+    border-bottom: 8px solid ${props =>
+            props.theme === 'dark' ? '#000F08' : 'rgb(250 250 250/ 5%)'};
   }
 
   tbody tr {
     background-color: ${props =>
-		props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
+            props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
     margin-bottom: 10px;
   }
 
@@ -322,8 +322,8 @@ const ContentLineal = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem 2rem 2rem 2rem;
-  background-color:  ${props =>
-    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
+  background-color: ${props =>
+          props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   margin-top: 2rem;
 `;
 
@@ -333,18 +333,18 @@ const TitleLine = styled.h4`
 `;
 
 const ContentDiv = styled.div`
-	display: flex;
-	gap: 20px;
+  display: flex;
+  gap: 20px;
 `;
 
 const ContentDoughnnut = styled.div`
   display: flex;
   width: 50%;
-	height: 100%;
-	min-height: 300px;
+  height: 100%;
+  min-height: 300px;
   padding: 12px;
   background-color: ${props =>
-    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
+          props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   flex-direction: column;
   align-items: center;
 `;
@@ -362,19 +362,19 @@ const TableContainer = styled.div`
 `;
 
 const ReportButton = styled.button`
-    border: none;
-    background-color: rgb(219 215 215);
-    color: #000000;
-    font-size: 1rem;
-    font-weight: 700;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all .3s;
+  border: none;
+  background-color: rgb(219 215 215);
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .3s;
 
-    &:hover {
-        background-color: #6b6b6b;
-        color: #FFFFFF;
+  &:hover {
+    background-color: #6b6b6b;
+    color: #FFFFFF;
 
-    }
+  }
 `

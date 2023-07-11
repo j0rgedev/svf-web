@@ -42,9 +42,18 @@ export const StudentProtectedRoute = ({element, redirectTo = '/login'}) => {
 export const LoginProtectedRoute = ({element}) => {
 	const cookies = getCookie('SESSION').token;
 	const userRole = getCookie('SESSION').role;
+	const tempToken = new URLSearchParams(window.location.search).get('tempToken')
 
 	if (!cookies || isCookieExpired(cookies)) {
 		return element
+	}
+
+	console.log('hola')
+
+	console.log(tempToken)
+
+	if (tempToken) {
+		return <Navigate to={`validacion?tempToken=${tempToken}`}/>
 	}
 
 	return userRole===0 ? ( <Navigate to="/admin"/> ) : ( <Navigate to="/estudiante"/> )

@@ -8,7 +8,7 @@ export const useEnrollment = async ({token, body}) => {
     const response = await baseURL.post('/process', body,
         {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token.token}`,
                 "Content-Type": "application/json"
             }
         });
