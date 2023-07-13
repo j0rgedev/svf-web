@@ -15,7 +15,7 @@ export const getStudent = async (token) => {
 
 
 export const getPensions = async (token) => {
-	const response = await baseUrl.post('/pensions', {}, {
+	const response = await baseUrl.post('/pensions/0', {}, {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		}

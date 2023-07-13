@@ -91,6 +91,8 @@ const Table = styled.table`
   tbody tr {
     background-color: #151e1a;
     margin-bottom: 10px;
+	background-color: ${props =>
+		props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   }
 
   .checkbox, .button {

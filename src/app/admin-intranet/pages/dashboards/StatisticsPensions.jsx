@@ -11,17 +11,17 @@ import {useQuery} from "react-query";
 import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
 import {debtByMonth, generateReport, pensionDashboard} from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
+import {SiMicrosoftexcel} from "react-icons/si";
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const optionsDoughnut1 = {
 	responsive: true, // Permite que el gráfico se ajuste al contenedor
-	maintainAspectRatio: false, // Desactiva el mantenimiento del aspecto para poder ajustar el ancho y alto
+	maintainAspectRatio: false, 
 
-	// Configuración del tamaño
-	width: 200, // Ancho en píxeles
-	height: 200, // Alto en píxeles
+	width: 200, 
+	height: 200, 
 
 	plugins: {
 		legend: {
@@ -175,7 +175,10 @@ export function StatisticsPensions() {
 	return (
 		<>
 			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar}/>
+			<ContHeader>
 			<Title>Pensiones</Title>
+			<ButtonExcel><SiMicrosoftexcel style={{ fontSize: '24px' }}/><div>Reporte Excel</div></ButtonExcel>
+			</ContHeader>
 			<ContentContainer>
 				<ContentLineal>
 					<TitleBar>Monto de Pensiones Recaudado</TitleBar>
@@ -231,12 +234,33 @@ export function StatisticsPensions() {
 	)
 }
 
+const ButtonExcel = styled.button`
+	display: flex;
+    gap: 10px;
+  padding: 0.6rem 0.8rem;
+  background: #7f750b;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  color:white;
+  border: none;
+  
+  &:hover{
+	background: #afa10f;
+  }
+`;
+
+const ContHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 2rem;
+    margin-left: 2rem;
+`;
+
 const Title = styled.h1`
   font-size: 2rem;
   font-weight: 700;
   color: ${(props) => props.theme.textColor};
-  margin-top: 2rem;
-  margin-left: 2rem;
   text-align: left;
 `;
 
