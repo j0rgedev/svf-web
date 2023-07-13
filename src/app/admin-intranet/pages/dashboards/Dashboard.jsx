@@ -115,7 +115,7 @@ export function Dashboard() {
 		)
 	}
 	const dataLineal = {
-		labels: ['Mar', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+		labels: ['Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 		datasets: [
 			{
 				label: 'Matriculados',
@@ -375,6 +375,5 @@ const ReportButton = styled.button`
   &:hover {
     background-color: #6b6b6b;
     color: #FFFFFF;
-
   }
 `
