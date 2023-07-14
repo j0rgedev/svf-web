@@ -30,7 +30,6 @@ import Historial from './app/student-intranet/pages/Historial.jsx';
 import { StudentRootLayout } from './app/student-intranet/pages/StudentRootLayout.jsx';
 import NotFoundPage404 from './app/admin-intranet/pages/404.jsx';
 import {AuthLayout} from "./app/login/pages/AuthLayout.jsx";
-import PensionsLayout from './app/student-intranet/pages/PensionsLayout.jsx';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -129,12 +128,12 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'pensiones',
-				element: <StudentProtectedRoute element={<PensionsLayout />} />
-				
+				element: <StudentProtectedRoute element={<Pensions />} />
 			},
 			{
 				path: 'historial',
 				element: <StudentProtectedRoute element={<Historial />} />
+
 			},
 			{
 				path: '*',

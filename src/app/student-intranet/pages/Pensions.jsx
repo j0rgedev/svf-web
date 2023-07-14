@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+import { FaArrowLeft } from 'react-icons/fa';
+import avatar from '../../../../src/app/admin-intranet/assets/avatar.png';
 import Dues from '../components/Dues';
-import { useState , useEffect} from "react";
+import { useEffect, useState } from "react";
 import { getCookie } from "../../login/setup/utils/cookiesConfig.js";
 import { getPensions } from "../setup/api/student.js";
 import { useQuery } from "react-query";
@@ -98,14 +100,16 @@ const PaymentModal = ({ isOpen, onClose }) => {
 
 
 
-export default function Pensions({refetch}) {
+export default function Pensions() {
   const [totalDebt, setTotalDebt] = useState(0);
   const [initialPensions, setInitialPensions] = useState([]);
   const [pensions, setPensions] = useState([]);
-  const [selectedPensions, setSelectedPensions] = useState([]);
   const [isMultiplePaymentEnabled, setMultiplePaymentEnabled] = useState(false);
+  const [selectedPensions, setSelectedPensions] = useState([]);
+  const [customText, setCustomText] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedPensionsBackup, setSelectedPensionsBackup] = useState([]);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
 
   const { isLoading: arePensionsLoading } = useQuery({
     queryKey: 'pensions',
@@ -117,33 +121,19 @@ export default function Pensions({refetch}) {
       setTotalDebt(data.totalDebt);
       setPensions(data.pensions);
       setInitialPensions(data.pensions);
+      setCustomText('No tienes deudas pendientes');
     },
     onError: () => {
       toast.error('Error al obtener las pensiones');
+      setCustomText('Error de conexión, intenta de nuevo más tarde');
     },
   });
 
-  useEffect(() => {
-    refetch.current = refetchPensions;
-  }, [refetch]);
-
-  const refetchPensions = async () => {
-    try {
-      const token = getCookie('SESSION').token;
-      const result = await getPensions(token);
-      const { data } = result;
-      setTotalDebt(data.totalDebt);
-      setPensions(data.pensions);
-      setInitialPensions(data.pensions);
-    } catch (error) {
-      toast.error('Error al obtener las pensiones');
-    }
-  };
+  if (arePensionsLoading) return <Loader><PropagateLoader /></Loader>;
 
   const handlePensionClick = (pensionId) => {
     if (isMultiplePaymentEnabled) {
-      const lastSelectedPensionId =
-        selectedPensions.length > 0 ? selectedPensions[selectedPensions.length - 1].id : null;
+      const lastSelectedPensionId = selectedPensions.length > 0 ? selectedPensions[selectedPensions.length - 1].id : null;
 
       if (!lastSelectedPensionId || lastSelectedPensionId === pensionId - 1) {
         const pension = pensions[0]?.find((pension) => pension.pensionCod === pensionId);
@@ -163,12 +153,10 @@ export default function Pensions({refetch}) {
   };
 
   const handleMultiplePaymentEnable = () => {
-    if (!isMultiplePaymentEnabled) {
-      setSelectedPensionsBackup(selectedPensions);
-    } else {
-      setSelectedPensions(selectedPensionsBackup);
-    }
     setMultiplePaymentEnabled((prevIsMultiplePaymentEnabled) => !prevIsMultiplePaymentEnabled);
+    setSelectedPensions([]);
+    setPensions(initialPensions);
+    if (!isMultiplePaymentEnabled) toast("Dale click a las pensiones que deseas pagar", { icon: '💡' }, { duration: 2000 });
   };
 
   const handleModalOpen = () => {
@@ -179,65 +167,99 @@ export default function Pensions({refetch}) {
     setModalOpen(false);
   };
 
-  if (arePensionsLoading) return <Loader><PropagateLoader /></Loader>;
+  const handleDropdownToggle = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  const dropdownVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
-    <div>
-      <ButtonsWrapper>
-        <StyledButton
-          isMain={false}
-          isSelected={isMultiplePaymentEnabled}
-          onClick={handleMultiplePaymentEnable}
-        >
-          {isMultiplePaymentEnabled ? 'Deshabilitar pago múltiple' : 'Habilitar pago múltiple'}
-        </StyledButton>
-        <StyledButton
-          isMain={true}
-          isSelected={isMultiplePaymentEnabled}
-          disabled={selectedPensions.length <= 1}
-          onClick={handleModalOpen}
-        >
-          Pagar
-        </StyledButton>
-      </ButtonsWrapper>
-      <SelectedPensions>
-        <AnimatePresence>
-          {selectedPensions.map((selectedPension) => (
-            <motion.div
-              key={selectedPension.id}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3 }}
-            >
-              <SelectedPension>
-                <SelectedPin>{selectedPension.pension.pensionCod}</SelectedPin>
-                <SelectedText>{selectedPension.pension.pensionName}</SelectedText>
-              </SelectedPension>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </SelectedPensions>
-      <PensionsWrapper>
-        {pensions[0]?.length === 0 && <h2>{customText || ''}</h2>}
-        {pensions[0]?.map((pension, index) => {
-          return (
-            <Dues
-              key={index}
-              id={pension.status === 'Pendiente' ? 'state2' : 'state'}
-              cod={pension.pensionCod}
-              text={pension.pensionName}
-              nameState={pension.status}
-              amount={pension.pensionAmount}
-              date={pension.dueDate}
-              onClick={() => handlePensionClick(pension.pensionCod)}
-              isSelected={selectedPensions.some((selectedPension) => selectedPension.id === pension.pensionCod)}
-            />
-          );
-        })}
-      </PensionsWrapper>
-      {isModalOpen && <PaymentModal isOpen={isModalOpen} onClose={handleModalClose} />}
-    </div>
+    <ContStudent>
+      <TopContent>
+        <div className={'top-left'}>
+          <Return href='/estudiante'><FaArrowLeft style={{ fontSize: '24px' }} /></Return>
+          <h2>Pensiones</h2>
+        </div>
+        <Image onClick={handleDropdownToggle}>
+          <img src={avatar} alt="student_avatar" />
+          {isDropdownOpen && (
+            <DropdownContent
+              initial="hidden"
+              animate="visible"
+              variants={dropdownVariants}
+              transition={{ duration: 0.3 }}>
+              <DropdownItem>Cerrar Sesión</DropdownItem>
+            </DropdownContent>
+          )}
+        </Image>
+      </TopContent>
+      <ContTargets>
+        <ContTitle>
+          <TitleSections>Deuda total</TitleSections>
+          <TitleSections>S/{totalDebt}</TitleSections>
+        </ContTitle>
+        <ContSection>
+          <SectionDues>Cuotas</SectionDues>
+          <SectionHistory href='#'>Historial</SectionHistory>
+        </ContSection>
+        <ButtonsWrapper>
+          <StyledButton
+            isMain={false}
+            isSelected={isMultiplePaymentEnabled}
+            onClick={handleMultiplePaymentEnable}>
+            {isMultiplePaymentEnabled ? 'Deshabilitar pago múltiple' : 'Habilitar pago múltiple'}
+          </StyledButton>
+          <StyledButton
+            isMain={true}
+            isSelected={isMultiplePaymentEnabled}
+            disabled={selectedPensions.length <= 1}
+            onClick={handleModalOpen}
+          >
+            Pagar
+          </StyledButton>
+        </ButtonsWrapper>
+        <SelectedPensions>
+          <AnimatePresence>
+            {selectedPensions.map((selectedPension) => (
+              <motion.div
+                key={selectedPension.id}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.3 }}
+              >
+                <SelectedPension>
+                  <SelectedPin>{selectedPension.pension.pensionCod}</SelectedPin>
+                  <SelectedText>{selectedPension.pension.pensionName}</SelectedText>
+                </SelectedPension>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </SelectedPensions>
+        <PensionsWrapper>
+          {pensions[0]?.length === 0 && <h2>{customText || ''}</h2>}
+          {pensions[0]?.map((pension, index) => {
+            return (
+              <Dues
+                key={index}
+                id={pension.status === 'Pendiente' ? 'state2' : 'state'}
+                cod={pension.pensionCod}
+                text={pension.pensionName}
+                nameState={pension.status}
+                amount={pension.pensionAmount}
+                date={pension.dueDate}
+                onClick={() => handlePensionClick(pension.pensionCod)}
+                isSelected={selectedPensions.some((selectedPension) => selectedPension.id === pension.pensionCod)}
+              />
+            );
+          })}
+        </PensionsWrapper>
+      </ContTargets>
+      {isModalOpen && <PaymentModal isOpen={isModalOpen} onClose={handleModalClose} />} 
+    </ContStudent>
   );
 }
 
@@ -278,6 +300,13 @@ const OptionsCard = styled(motion.div)`
   padding: 0.4rem;
 `;
 
+const DropdownContent = styled(motion.div)`
+  background-color: #a8923a;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  z-index: 999;
+`;
+
 const Circle= styled.div`
   border-radius: 2rem;
   border: 2px solid #2b4433;
@@ -288,6 +317,15 @@ const Circle= styled.div`
   justify-content: center;
 `;
 
+const DropdownItem = styled.div`
+  padding: 8px 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d1b33e;
+	border-radius: 4px;
+  }
+`;
 const ModalWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -423,6 +461,37 @@ const ContStudent = styled.div`
   flex-direction: column;
 `;
 
+const TopContent = styled.div`
+  padding: 1rem 2rem 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+
+  .top-left {
+    display: flex;
+    gap: 10px;
+  }
+`;
+
+const Image = styled.div`
+  width: 8%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+
+  img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
 
 const PensionsWrapper = styled.div`
   padding: 2rem 0;
@@ -476,6 +545,14 @@ const StyledButton = styled.button`
     cursor: not-allowed;
     color: #c0c0c0;
   }
+`;
+
+const Return = styled.a`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
 `;
 
 const TitleSections = styled.h2`
