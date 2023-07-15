@@ -48,3 +48,16 @@ export const generateReport = async (token) => {
 	})
 	return response.data;
 }
+
+export const generateExcelReport = async (token) => {
+	const response = await baseUrl.post(`/pensions-report`, {}, {
+		headers: {
+			"Authorization": `Bearer ${token}`,
+		},
+		responseType: 'arraybuffer'
+	})
+	return {
+		data: response.data,
+		headers: response.headers
+	}
+}

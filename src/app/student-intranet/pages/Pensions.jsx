@@ -4,12 +4,13 @@ import avatar from '../../../../src/app/admin-intranet/assets/avatar.png';
 import Dues from '../components/Dues';
 import PaidPensions from "../components/PaidPensions.jsx";
 import { useEffect, useState } from "react";
-import { getCookie } from "../../login/setup/utils/cookiesConfig.js";
+import {getCookie, removeCookie} from "../../login/setup/utils/cookiesConfig.js";
 import { getPensions } from "../setup/api/student.js";
 import { useQuery } from "react-query";
 import { PropagateLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { AnimatePresence, motion } from "framer-motion";
+import {useNavigate} from "react-router-dom";
 
 const PaymentModal = ({ isOpen, onClose }) => {
   const [isCardChecked, setCardChecked] = useState(false);
@@ -105,7 +106,6 @@ export default function Pensions() {
   const [pensions, setPensions] = useState([]);
   const [isMultiplePaymentEnabled, setMultiplePaymentEnabled] = useState(false);
   const [selectedPensions, setSelectedPensions] = useState([]);
-  const [customText, setCustomText] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isMainSectionVisible, setMainSectionVisible] = useState(true);
@@ -120,11 +120,9 @@ export default function Pensions() {
       setTotalDebt(data.totalDebt);
       setPensions(data.pensions);
       setInitialPensions(data.pensions);
-      setCustomText('No tienes deudas pendientes');
     },
     onError: () => {
       toast.error('Error al obtener las pensiones');
-      setCustomText('Error de conexión, intenta de nuevo más tarde');
     },
   });
 
@@ -143,17 +141,20 @@ export default function Pensions() {
 
   const handlePensionClick = (pensionId) => {
     if (isMultiplePaymentEnabled) {
-      const lastSelectedPensionId = selectedPensions.length > 0 ? selectedPensions[selectedPensions.length - 1].id : null;
+      const lastSelectedPension = selectedPensions.length > 0 ? selectedPensions[selectedPensions.length - 1] : null;
 
-      if (!lastSelectedPensionId || lastSelectedPensionId === pensionId - 1) {
-        const pension = pensions[0]?.find((pension) => pension.pensionCod === pensionId);
-        setSelectedPensions((prevSelectedPensions) => [
-          ...prevSelectedPensions,
-          { id: pensionId, pension },
-        ]);
-        const updatedPensions = { ...pensions };
-        updatedPensions[0] = updatedPensions[0].filter((pension) => pension.pensionCod !== pensionId);
-        setPensions(updatedPensions);
+      if (!lastSelectedPension || lastSelectedPension.pensionCod === pensionId - 1) {
+        const selectedPension = pensions[0]?.find((pension) => pension.pensionCod === pensionId);
+
+        if (selectedPension) {
+          setSelectedPensions((prevSelectedPensions) => [
+            ...prevSelectedPensions,
+            selectedPension,
+          ]);
+
+          const updatedPensions = pensions[0].filter((pension) => pension.pensionCod !== pensionId);
+          setPensions([updatedPensions, ...pensions.slice(1)]);
+        }
       } else {
         toast.error('Solo puedes seleccionar pensiones consecutivas');
       }
@@ -202,7 +203,11 @@ export default function Pensions() {
               animate="visible"
               variants={dropdownVariants}
               transition={{ duration: 0.3 }}>
-              <DropdownItem>Cerrar Sesión</DropdownItem>
+              <DropdownItem onClick={()=> {
+                removeCookie('SESSION')
+                const navigate = useNavigate();
+                navigate('/login')
+              }}>Cerrar Sesión</DropdownItem>
             </DropdownContent>
           )}
         </Image>
@@ -242,15 +247,15 @@ export default function Pensions() {
                 <AnimatePresence>
                   {selectedPensions.map((selectedPension) => (
                     <motion.div
-                      key={selectedPension.id}
+                      key={selectedPension.pensionCod}
                       initial={{ opacity: 0, x: 100 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -100 }}
                       transition={{ duration: 0.3 }}
                     >
                       <SelectedPension>
-                        <SelectedPin>{selectedPension.pension.pensionCod}</SelectedPin>
-                        <SelectedText>{selectedPension.pension.pensionName}</SelectedText>
+                        <SelectedPin>{selectedPension.pensionCod}</SelectedPin>
+                        <SelectedText>{selectedPension.pensionName}</SelectedText>
                       </SelectedPension>
                     </motion.div>
                   ))}
@@ -269,7 +274,7 @@ export default function Pensions() {
                       amount={pension.pensionAmount}
                       date={pension.dueDate}
                       onClick={() => handlePensionClick(pension.pensionCod)}
-                      isSelected={selectedPensions.some((selectedPension) => selectedPension.id === pension.pensionCod)}
+                      isSelected={selectedPensions.some((selectedPension) => selectedPension.pensionCod === pension.pensionCod)}
                     />
                   );
                 })}
@@ -280,8 +285,7 @@ export default function Pensions() {
               {
                 arePaidPensionsLoading && <Loader><PropagateLoader/></Loader>
               }
-              {paidPensions.data.pensions && paidPensions.data.pensions[0]?.map((pension, index) => {
-                console.log(pension)
+              {paidPensions && paidPensions.data.pensions[0]?.map((pension, index) => {
                 return (
                   <PaidPensions
                     key={index}

@@ -7,11 +7,12 @@ import {Lineals} from "../../components/LinealGraphic.jsx";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import CheckMonths from "../../components/CheckMonths.jsx";
 import DoughnutChart from "../../components/RadialChart.jsx";
-import {useQuery} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
-import {debtByMonth, generateReport, pensionDashboard} from "../../setup/api/adminDashboards.js";
+import {debtByMonth, generateExcelReport, generateReport, pensionDashboard} from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
 import {SiMicrosoftexcel} from "react-icons/si";
+import {saveAs} from "file-saver";
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -57,7 +58,6 @@ const optionsLineal = {
 	},
 };
 
-
 export function StatisticsPensions() {
 
 	const [monthPensionsAmount, setMonthPensionsAmount] = useState([]);
@@ -65,6 +65,8 @@ export function StatisticsPensions() {
 	const [paidStudentsPercentage, setPaidStudentsPercentage] = useState(0);
 	const [totalDebt, setTotalDebt] = useState({});
 	const [selectedMonth, setSelectedMonth] = useState(3);
+	const [enableExcelReport, setEnableExcelReport] = useState(false);
+
 
 	const {isLoading: arePensionStatsLoading} = useQuery({
 		queryKey: 'pensionStats',
@@ -97,6 +99,27 @@ export function StatisticsPensions() {
 	});
 
 
+	let toastId = null;
+	const handleExcelReport = async () => {
+		const token = getCookie('SESSION').token;
+		toastId = toast.loading('Generando reporte...');
+		await mutateAsync(token)
+	}
+
+	const {mutateAsync} = useMutation({
+		mutationFn: generateExcelReport,
+		onSuccess: (response) => {
+			const fileName = 'pensiones.xlsx';
+
+			const blob = new Blob([response.data], { type: response.headers['content-type'] });
+			saveAs(blob, fileName);
+			toast.success('Reporte generado correctamente', {id: toastId});
+		},
+		onError: () => {
+			toast.error('Error al generar el reporte', {id: toastId});
+		},
+	});
+
 	const handleCreateReport = async () => {
 		const token = getCookie('SESSION').token;
 		await toast.promise(
@@ -122,7 +145,6 @@ export function StatisticsPensions() {
 				data: monthPensionsAmount.map(({amount}) => amount),
 				borderColor: '#7E0732',
 				backgroundColor: '#7E0732',
-				tension: 0.5,
 				fill: true,
 			},
 		],
@@ -177,7 +199,7 @@ export function StatisticsPensions() {
 			<MainHeader isSearch={false} text={'Jhon K.'} src={avatar}/>
 			<ContHeader>
 			<Title>Pensiones</Title>
-			<ButtonExcel><SiMicrosoftexcel style={{ fontSize: '24px' }}/><div>Reporte Excel</div></ButtonExcel>
+			<ButtonExcel onClick={handleExcelReport}><SiMicrosoftexcel style={{ fontSize: '24px' }}/><div>Reporte Excel</div></ButtonExcel>
 			</ContHeader>
 			<ContentContainer>
 				<ContentLineal>
