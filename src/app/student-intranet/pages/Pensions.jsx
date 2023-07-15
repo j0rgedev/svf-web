@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FaArrowLeft } from 'react-icons/fa';
 import avatar from '../../../../src/app/admin-intranet/assets/avatar.png';
 import Dues from '../components/Dues';
+import PaidPensions from "../components/PaidPensions.jsx";
 import { useEffect, useState } from "react";
 import { getCookie } from "../../login/setup/utils/cookiesConfig.js";
 import { getPensions } from "../setup/api/student.js";
@@ -98,8 +99,6 @@ const PaymentModal = ({ isOpen, onClose }) => {
   );
 };
 
-
-
 export default function Pensions() {
   const [totalDebt, setTotalDebt] = useState(0);
   const [initialPensions, setInitialPensions] = useState([]);
@@ -109,13 +108,13 @@ export default function Pensions() {
   const [customText, setCustomText] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-
+  const [isMainSectionVisible, setMainSectionVisible] = useState(true);
 
   const { isLoading: arePensionsLoading } = useQuery({
     queryKey: 'pensions',
     queryFn: async () => {
       const token = getCookie('SESSION').token;
-      return await getPensions(token);
+      return await getPensions(token,0);
     },
     onSuccess: ({ data }) => {
       setTotalDebt(data.totalDebt);
@@ -129,7 +128,18 @@ export default function Pensions() {
     },
   });
 
-  if (arePensionsLoading) return <Loader><PropagateLoader /></Loader>;
+  const {data: paidPensions , isLoading: arePaidPensionsLoading} = useQuery({
+    queryKey: 'paidPensions',
+    queryFn: async () => {
+      const token = getCookie('SESSION').token;
+      return await getPensions(token,1);
+    },
+    onError: () => {
+      toast.error('Error al obtener las pensiones pagadas');
+    },
+    enabled: !isMainSectionVisible
+  })
+
 
   const handlePensionClick = (pensionId) => {
     if (isMultiplePaymentEnabled) {
@@ -178,6 +188,7 @@ export default function Pensions() {
 
   return (
     <ContStudent>
+      {isModalOpen && <PaymentModal isOpen={isModalOpen} onClose={handleModalClose} />}
       <TopContent>
         <div className={'top-left'}>
           <Return href='/estudiante'><FaArrowLeft style={{ fontSize: '24px' }} /></Return>
@@ -202,63 +213,86 @@ export default function Pensions() {
           <TitleSections>S/{totalDebt}</TitleSections>
         </ContTitle>
         <ContSection>
-          <SectionDues>Cuotas</SectionDues>
-          <SectionHistory href='#'>Historial</SectionHistory>
+          <Section isSelected={isMainSectionVisible} onClick={()=>setMainSectionVisible(!isMainSectionVisible)}>Cuotas</Section>
+          <Section isSelected={!isMainSectionVisible} onClick={()=>setMainSectionVisible(!isMainSectionVisible)}>Historial</Section>
         </ContSection>
-        <ButtonsWrapper>
-          <StyledButton
-            isMain={false}
-            isSelected={isMultiplePaymentEnabled}
-            onClick={handleMultiplePaymentEnable}>
-            {isMultiplePaymentEnabled ? 'Deshabilitar pago múltiple' : 'Habilitar pago múltiple'}
-          </StyledButton>
-          <StyledButton
-            isMain={true}
-            isSelected={isMultiplePaymentEnabled}
-            disabled={selectedPensions.length <= 1}
-            onClick={handleModalOpen}
-          >
-            Pagar
-          </StyledButton>
-        </ButtonsWrapper>
-        <SelectedPensions>
-          <AnimatePresence>
-            {selectedPensions.map((selectedPension) => (
-              <motion.div
-                key={selectedPension.id}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.3 }}
-              >
-                <SelectedPension>
-                  <SelectedPin>{selectedPension.pension.pensionCod}</SelectedPin>
-                  <SelectedText>{selectedPension.pension.pensionName}</SelectedText>
-                </SelectedPension>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </SelectedPensions>
-        <PensionsWrapper>
-          {pensions[0]?.length === 0 && <h2>{customText || ''}</h2>}
-          {pensions[0]?.map((pension, index) => {
-            return (
-              <Dues
-                key={index}
-                id={pension.status === 'Pendiente' ? 'state2' : 'state'}
-                cod={pension.pensionCod}
-                text={pension.pensionName}
-                nameState={pension.status}
-                amount={pension.pensionAmount}
-                date={pension.dueDate}
-                onClick={() => handlePensionClick(pension.pensionCod)}
-                isSelected={selectedPensions.some((selectedPension) => selectedPension.id === pension.pensionCod)}
-              />
-            );
-          })}
-        </PensionsWrapper>
+        {
+          arePaidPensionsLoading && <Loader><PropagateLoader/></Loader>
+        }
+        {
+          isMainSectionVisible ? (
+            <>
+              <ButtonsWrapper>
+                <StyledButton
+                  isMain={false}
+                  isSelected={isMultiplePaymentEnabled}
+                  onClick={handleMultiplePaymentEnable}>
+                  {isMultiplePaymentEnabled ? 'Deshabilitar pago múltiple' : 'Habilitar pago múltiple'}
+                </StyledButton>
+                <StyledButton
+                  isMain={true}
+                  isSelected={isMultiplePaymentEnabled}
+                  disabled={selectedPensions.length <= 1}
+                  onClick={handleModalOpen}
+                >
+                  Pagar
+                </StyledButton>
+              </ButtonsWrapper>
+              <SelectedPensions>
+                <AnimatePresence>
+                  {selectedPensions.map((selectedPension) => (
+                    <motion.div
+                      key={selectedPension.id}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <SelectedPension>
+                        <SelectedPin>{selectedPension.pension.pensionCod}</SelectedPin>
+                        <SelectedText>{selectedPension.pension.pensionName}</SelectedText>
+                      </SelectedPension>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </SelectedPensions>
+              <PensionsWrapper>
+                {pensions[0]?.length === 0 && <h2>{customText || ''}</h2>}
+                {pensions[0]?.map((pension, index) => {
+                  return (
+                    <Dues
+                      key={index}
+                      id={pension.status === 'Pendiente' ? 'state2' : 'state'}
+                      cod={pension.pensionCod}
+                      text={pension.pensionName}
+                      nameState={pension.status}
+                      amount={pension.pensionAmount}
+                      date={pension.dueDate}
+                      onClick={() => handlePensionClick(pension.pensionCod)}
+                      isSelected={selectedPensions.some((selectedPension) => selectedPension.id === pension.pensionCod)}
+                    />
+                  );
+                })}
+              </PensionsWrapper>
+            </>
+          ) : (
+            <PensionsWrapper>
+              {
+                arePaidPensionsLoading && <Loader><PropagateLoader/></Loader>
+              }
+              {paidPensions.data.pensions && paidPensions.data.pensions[0]?.map((pension, index) => {
+                console.log(pension)
+                return (
+                  <PaidPensions
+                    key={index}
+                    pension={pension}
+                  />
+                );
+              })}
+            </PensionsWrapper>
+          )
+        }
       </ContTargets>
-      {isModalOpen && <PaymentModal isOpen={isModalOpen} onClose={handleModalClose} />} 
     </ContStudent>
   );
 }
@@ -571,14 +605,8 @@ const ContSection = styled.div`
   border-bottom: #818181 solid 1px;
 `;
 
-const SectionDues = styled.a`
-  border-bottom: rgb(59, 43, 68) solid 1px;
-  font-size: clamp(8px, 4vw, 18px);
-  cursor: pointer;
-  text-decoration: none;
-  color: black;
-`;
-const SectionHistory = styled.a`
+const Section = styled.span`
+  border-bottom: ${(props) => (props.isSelected ? '#2b4433 solid 2px' : 'none')};
   font-size: clamp(8px, 4vw, 18px);
   cursor: pointer;
   text-decoration: none;
