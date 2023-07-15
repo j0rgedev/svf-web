@@ -64,6 +64,7 @@ function Payment({setAlertInfo}) {
 				enrollmentId: data,
 			})
 			setEnrollmentId(data);
+			window.location.reload();
 		},
 		onError: () => {
 			setIsSubmitting(false);
@@ -107,10 +108,6 @@ function Payment({setAlertInfo}) {
 		const level = getLevel();
 		setEnrollmentProcess({...enrollmentProcess, totalAmount, level});
 	}, [])
-
-	useEffect(() => {
-		if(enrollmentId) navigate('confirmacion')
-	}, [enrollmentId])
 
 	const formik = useFormik({
 		initialValues: {

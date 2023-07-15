@@ -55,8 +55,7 @@ function StudentInfo() {
                 isLoading={isLoading}
             />
             <RedirectWrapper>
-                <Paragraph>Puedes actualizar tus datos en tu Portal Estudiantil</Paragraph>
-                <Redirect href={'#'} target={'_blank'}>Ir a mi portal</Redirect>
+                <Paragraph>Puedes actualizar tus datos en la administración del colegio</Paragraph>
             </RedirectWrapper>
         </StudentInfoContainer>
     )
