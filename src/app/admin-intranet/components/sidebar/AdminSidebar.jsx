@@ -7,6 +7,7 @@ import {FaUserGraduate, FaChalkboardTeacher, FaSignOutAlt} from 'react-icons/fa'
 import {RiParentFill} from 'react-icons/ri';
 import styled from 'styled-components';
 import {removeCookie} from "../../../login/setup/utils/cookiesConfig.js";
+import {useNavigate} from "react-router-dom";
 
 export default function AdminSidebar() {
 
@@ -27,7 +28,10 @@ export default function AdminSidebar() {
 				<SidebarSections icon={<FaChalkboardTeacher/>} text={'Profesores'} href={'/admin/profesores'}/>
 				<SidebarSections icon={<RiParentFill/>} text={'Padres'} href={'/admin/padres'}/>
 			</ContentOptions>
-			<SidebarSections icon={<FaSignOutAlt/>} text={'Cerrar Sesión'} onClick={() => {removeCookie('SESSION')}}/>
+			<SidebarSections icon={<FaSignOutAlt/>} text={'Cerrar Sesión'} onClick={() => {
+				removeCookie('SESSION')
+				window.location.reload();
+			}}/>
 		</Sidebar>
 	);
 }

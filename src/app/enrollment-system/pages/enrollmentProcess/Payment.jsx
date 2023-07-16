@@ -97,6 +97,7 @@ function Payment({setAlertInfo}) {
 			token,
 			body
 		}
+
 		await enrollmentMutation.mutateAsync(values)
 		if (enrollmentMutation.status === 'success' || enrollmentMutation.status === 'error') {
 			actions.resetForm();

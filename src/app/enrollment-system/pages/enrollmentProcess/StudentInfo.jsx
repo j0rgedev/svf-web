@@ -46,7 +46,7 @@ function StudentInfo() {
                 isLoading={isLoading}
             />
             <InputField
-                labelText={'Grado'}
+                labelText={'Nuevo grado'}
                 className={'grade_input'}
                 inputType={"text"}
                 textValue={studentData['newGrade']}

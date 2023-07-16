@@ -2,14 +2,18 @@ import styled from "styled-components";
 import avatar from "../../assets/avatar.png";
 import MainHeader from "../../components/MainHeader.jsx";
 import React, {useState} from "react";
-import CenteredDoughnutChart from "../../components/DoughnutGrafics.jsx";
 import {Lineals} from "../../components/LinealGraphic.jsx";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import CheckMonths from "../../components/CheckMonths.jsx";
 import DoughnutChart from "../../components/RadialChart.jsx";
 import {useMutation, useQuery} from "react-query";
 import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
-import {debtByMonth, generateExcelReport, generateReport, pensionDashboard} from "../../setup/api/adminDashboards.js";
+import {
+	debtByMonth,
+	generateExcelReport,
+	generatePensionsReport,
+	pensionDashboard
+} from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
 import {SiMicrosoftexcel} from "react-icons/si";
 import {saveAs} from "file-saver";
@@ -47,8 +51,7 @@ const labels1 = ['Mar', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 const optionsLineal = {
 	scales: {
 		y: {
-			min: 0,
-			max: 50000,
+			min: 0
 		},
 	},
 	plugins: {
@@ -63,7 +66,6 @@ export function StatisticsPensions() {
 	const [monthPensionsAmount, setMonthPensionsAmount] = useState([]);
 	const [studentPaymentStatus, setStudentPaymentStatus] = useState([]);
 	const [paidStudentsPercentage, setPaidStudentsPercentage] = useState(0);
-	const [totalDebt, setTotalDebt] = useState({});
 	const [selectedMonth, setSelectedMonth] = useState(3);
 	const [enableExcelReport, setEnableExcelReport] = useState(false);
 
@@ -84,14 +86,11 @@ export function StatisticsPensions() {
 		}
 	})
 
-	const {isLoading: isTotalDebtLoading} = useQuery({
+	const {data: totalDebt, isLoading: isTotalDebtLoading} = useQuery({
 		queryKey: ['totalDebt', selectedMonth],
 		queryFn: async () => {
 			const token = getCookie('SESSION').token;
 			return await debtByMonth(token, selectedMonth);
-		},
-		onSuccess: ({data}) => {
-			setTotalDebt(data);
 		},
 		onError: () => {
 			toast.error('Error al cargar la deuda total');
@@ -123,7 +122,7 @@ export function StatisticsPensions() {
 	const handleCreateReport = async () => {
 		const token = getCookie('SESSION').token;
 		await toast.promise(
-			generateReport(token),
+			generatePensionsReport(token),
 			{
 				loading: 'Generando reporte...',
 				success: 'Reporte guardado en la carpeta de descargas',
@@ -172,12 +171,13 @@ export function StatisticsPensions() {
 		],
 	};
 
+
 	const dataDoughnut2 = {
 		labels: ['Pago pendiente', 'Total pagado'],
 		datasets: [
 			{
 				label: ['Monto S/'],
-				data: [totalDebt?.totalPending || 0, totalDebt?.totalPaid || 0],
+				data: [totalDebt?.data.totalPending || 0, totalDebt?.data.totalPaid || 0],
 				backgroundColor: [
 					'#50541F',
 					'#189CD5',
@@ -221,7 +221,7 @@ export function StatisticsPensions() {
 				<ContentBar2>
 					<TitleBar>Monto de deuda por mes</TitleBar>
 					<TitleDebt>
-						Total de deuda: S/{totalDebt?.totalDebt || 0}
+						Total de deuda: S/{totalDebt?.data.totalDebt || 0}
 					</TitleDebt>
 					{!isTotalDebtLoading && (
 						<DoughnutChart

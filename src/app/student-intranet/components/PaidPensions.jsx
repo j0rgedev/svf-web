@@ -1,13 +1,43 @@
 import styled from "styled-components";
+import {useMutation} from "react-query";
+import {getReceipt} from "../setup/api/student.js";
+import {getCookie} from "../../login/setup/utils/cookiesConfig.js";
+import toast from "react-hot-toast";
 
 export default function PaidPensions({pension}) {
+
+
+	let toastId = null;
+	const {isLoading, mutateAsync} = useMutation({
+		mutationFn: getReceipt,
+		onSuccess: (response) => {
+			const fileName = 'recibo.pdf';
+
+			const blob = new Blob([response.data], { type: response.headers['content-type'] });
+			saveAs(blob, fileName);
+			toast.success('Reporte generado correctamente', {id: toastId});
+		},
+		onError: () => {
+			toast.error('Error al generar el reporte', {id: toastId});
+		}
+	})
+
+	const handlePensionClick = async () => {
+		const token = getCookie('SESSION').token;
+		const values = {
+			token,
+			receiptCode: pension.receiptId
+		}
+		toastId = toast.loading('Generando recibo...');
+		await mutateAsync(values);
+	}
 
 	return (
 		<Container className={'pension'}>
 			<p>{pension.pensionCod}</p>
 			<p>{pension.pensionName}</p>
 			<p>{pension.dueDate}</p>
-			<ReceiptButton>Ver recibo</ReceiptButton>
+			<ReceiptButton onClick={handlePensionClick}>Ver recibo</ReceiptButton>
 		</Container>
 	);
 }
@@ -35,5 +65,10 @@ const ReceiptButton = styled.button`
 	&:hover {
 		background-color: #1E3A07;
   }
+	
+	&:disabled{
+		background-color: #d7d3d1;
+		cursor: not-allowed;
+	}
 `;
 

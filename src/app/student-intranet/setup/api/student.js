@@ -23,3 +23,28 @@ export const getPensions = async (token, index) => {
 	return response.data;
 }
 
+export const payPensions = async ({token, body}) => {
+	const response = await baseUrl.post('/pensions/pay', body,
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json"
+			}
+		});
+	return response.data;
+}
+
+export const getReceipt = async ({token, receiptCode}) => {
+	console.log(receiptCode)
+	const response = await baseUrl.post(`/receipt?reciboCod=${receiptCode}&tipo=PDF`, {}, {
+		headers: {
+			"Authorization": `Bearer ${token}`,
+		},
+		responseType: 'arraybuffer'
+	})
+	return {
+		data: response.data,
+		headers: response.headers
+	}
+}
+

@@ -56,7 +56,7 @@ export default function StudentIntranet() {
 				</Image>
 				<h1>Bienvenido a tu portal estudiantil</h1>
 				<p className={'main-paragraph'}>{student.studentName} ya estamos cerca de acabar el año escolar!</p>
-				<Progress month="Junio" width="50%"/>
+				<Progress month="Julio" width="45%"/>
 			</TopContent>
 			<ContTargets>
 				<TitleSections>Secciones pensadas para ti</TitleSections>

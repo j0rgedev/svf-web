@@ -5,8 +5,8 @@ import React, {useEffect, useState, useContext} from "react";
 import Bars from "../../components/BarGraphic.jsx";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";
-import {useMutation, useQuery} from "react-query";
-import {mainDashboard} from "../../setup/api/adminDashboards.js";
+import {useMutation, useQuery, useQueryClient} from "react-query";
+import {generateMainReport, mainDashboard} from "../../setup/api/adminDashboards.js";
 import toast from "react-hot-toast";
 import {PropagateLoader} from "react-spinners";
 import {AiOutlineDown} from "react-icons/ai";
@@ -24,17 +24,6 @@ const optionsBar = {
 	}
 };
 
-const optionsDoughnut = {
-	plugins: {
-		legend: {
-			position: 'right',
-			labels: {
-				padding: 50,
-			},
-		},
-	},
-};
-
 const optionsLineal = {
 	plugins: {
 		legend: {
@@ -48,6 +37,9 @@ export function Dashboard() {
 	const [month, setMonth] = useState(0);
 	const [selectedRow, setSelectedRow] = useState(null);
 
+	const query = useQueryClient();
+
+
 	const handleCheckboxChange = (cod) => {
 		if (selectedRow === cod) {
 			setSelectedRow(null);
@@ -57,6 +49,7 @@ export function Dashboard() {
 	};
 
 	const handleMonthChange = (e) => {
+		if(month === 0) query.fetchQuery({queryKey: ['mainDashboard']});
 		setMonth(e.target.value);
 	}
 
@@ -103,27 +96,60 @@ export function Dashboard() {
 		],
 	};
 
+	let toastId = null;
+	const {mutateAsync} = useMutation({
+		mutationFn: generateMainReport,
+		onSuccess: (response) => {
+			const fileName = 'reporte-general.pdf';
+
+			const blob = new Blob([response.data], { type: response.headers['content-type'] });
+			saveAs(blob, fileName);
+			toast.success('Reporte generado correctamente', {id: toastId});
+		},
+		onError: () => {
+			toast.error('Error al generar el reporte', {id: toastId});
+		}
+	})
+
 	const handleCreateReport = async () => {
 		const token = getCookie('SESSION').token;
-		await toast.promise(
-			generateReport(token),
-			{
-				loading: 'Generando reporte...',
-				success: 'Reporte guardado en la carpeta de descargas',
-				error: 'Error al generar el reporte',
-			}
-		)
+		toastId = toast.loading('Generando reporte...');
+		await mutateAsync(token);
 	}
-	const dataLineal = {
+
+	const dataLinealMes = {
 		labels: ['Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 		datasets: [
 			{
-				label: 'Matriculados',
-				data: ['3', '4', '3', '5', '6', '3', '5', '6', '0'],
+				label: 'Cantidad de matrículas por mes',
+				data: data?.data?.enrollmentQuantity.map((item) => item.count) || [],
 				borderColor: 'rgb(53, 162, 135)',
 				backgroundColor: 'rgba(0, 128, 0, 0.5)',
 			},
 		],
+	};
+
+	const dataLinealDias = {
+		labels: Array.from({ length: 31 }, (_, i) => i + 1),
+		datasets: [
+			{
+				label: 'Cantidad de matrículas por día del mes escogido',
+				data: data?.data?.enrollmentQuantity.map((item) => item.count) || [],
+				borderColor: 'rgb(53, 162, 135)',
+				backgroundColor: 'rgba(0, 128, 0, 0.5)',
+			},
+		],
+		options: {
+			scales: {
+				x: {
+					ticks: {
+						callback(t) {
+							return t % 7 ? "" : t;
+						}
+					}
+				}
+			}
+		}
 	};
 
 	const theme = useContext(ThemeContext);
@@ -172,7 +198,7 @@ export function Dashboard() {
 				<ContentDiv>
 					<ContentLineal>
 						<TitleLine>Aumento y disminucion de matriculas</TitleLine>
-						<Lineals data={dataLineal} options={optionsLineal}/>
+						<Lineals data={month === 0 ? dataLinealMes : dataLinealDias} options={optionsLineal}/>
 					</ContentLineal>
 					<TableContainer>
 						<TitleBar>Últimos 5 alumnos matriculados</TitleBar>

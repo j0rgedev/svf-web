@@ -40,8 +40,22 @@ export const debtByMonth = async (token, monthNumber) => {
 	return response.data;
 }
 
-export const generateReport = async (token) => {
-	const response = await baseUrl.post(`/report/pdf`, {}, {
+
+export const generateMainReport = async (token) => {
+	const response = await baseUrl.post(`/main-report?fechaInicio=2023-03-01&fechaFin=2023-12-30&tipo=PDF`, {}, {
+		headers: {
+			"Authorization": `Bearer ${token}`,
+		},
+		responseType: 'arraybuffer'
+	})
+	return {
+		data: response.data,
+		headers: response.headers
+	}
+}
+
+export const generatePensionsReport = async (token) => {
+	const response = await baseUrl.post(`/pensions-report/pdf`, {}, {
 		headers: {
 			"Authorization": `Bearer ${token}`,
 		}
