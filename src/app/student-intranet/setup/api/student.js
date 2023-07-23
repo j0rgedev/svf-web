@@ -14,12 +14,37 @@ export const getStudent = async (token) => {
 }
 
 
-export const getPensions = async (token) => {
-	const response = await baseUrl.post('/pensions', {}, {
+export const getPensions = async (token, index) => {
+	const response = await baseUrl.post(`/pensions/${index}`, {}, {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		}
 	});
 	return response.data;
+}
+
+export const payPensions = async ({token, body}) => {
+	const response = await baseUrl.post('/pensions/pay', body,
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json"
+			}
+		});
+	return response.data;
+}
+
+export const getReceipt = async ({token, receiptCode}) => {
+	console.log(receiptCode)
+	const response = await baseUrl.post(`/receipt?reciboCod=${receiptCode}&tipo=PDF`, {}, {
+		headers: {
+			"Authorization": `Bearer ${token}`,
+		},
+		responseType: 'arraybuffer'
+	})
+	return {
+		data: response.data,
+		headers: response.headers
+	}
 }
 

@@ -7,7 +7,7 @@ import Payment from "./Payment.jsx";
 import {Navigate, useNavigate} from "react-router-dom";
 import {EnrollmentProcessContext} from "../../setup/context/EnrollmentProcessContext.jsx";
 import {MainContainer, MainTitle} from "../styles.js";
-import {AlertInfoContext} from "../../setup/context/AlertInfoContext.jsx";
+import {AlertInfoContext} from "../../../login/setup/utils/AlertInfoContext.jsx";
 import {useQuery} from "react-query";
 import {useStudent} from "../../setup/api/studentAPI.js";
 import {getCookie} from "../../../login/setup/utils/cookiesConfig.js";

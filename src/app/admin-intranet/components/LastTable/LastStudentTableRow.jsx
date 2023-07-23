@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function LastStudentTableRow({cod, name, level,handleChange, selected}) {
+export default function LastStudentTableRow({ cod, name, level, handleChange, selected }) {
 
 	const navigate = useNavigate();
 
@@ -15,26 +15,30 @@ export default function LastStudentTableRow({cod, name, level,handleChange, sele
 
 	return (
 		<tr>
-			<td className={'checkbox'}>
+			<Row className={'checkbox'}>
 				<Checkbox
 					type={'checkbox'}
 					checked={selected}
 					onChange={handleCheckboxChange}
 				/>
-			</td>
-			<td>{cod}</td>
-			<td>{name}</td>
-			<td>{level}</td>
-			<td className={'button'}>
+			</Row>
+			<Row>{cod}</Row>
+			<Row>{name}</Row>
+			<Row>{level}</Row>
+			<Row className={'button'}>
 				<Button
 					type={'button'}
 					value={'Ver detalles'}
 					onClick={handleClick}
 				/>
-			</td>
+			</Row>
 		</tr>
 	);
 }
+
+const Row = styled.td`
+		color: ${(props) => props.theme.textColor};;
+`
 
 const Checkbox = styled.input`
 	display: inline-flex;

@@ -33,7 +33,7 @@ const InputContainer = styled.div`
 `;
 
 const InputLabel = styled.label`
-	color: #fff;
+	color: ${(props) => props.theme.textColor};
 	font-size: 20px;
 `;
 

@@ -30,7 +30,7 @@ const NavProgress = styled.div`
 	display: table;
 	overflow: hidden;
 	height: 50px;
-  	border: 1px solid #e0e0e0;
+  	border: 1px solid ${(props) => props.theme.textColor};
 	background-color: #f7f7f700;
 	border-radius: 2rem;
   	margin: 26px 0;
@@ -40,7 +40,7 @@ const NavProgress = styled.div`
 		position: relative;
 		display: table-cell;
 		padding: 14px 0;
-		color: #f7f7f7;
+		color: ${(props) => props.theme.textColor};
 		text-align: center;
 		font-size: 1.125em;
 		line-height: 1.250em;
@@ -52,7 +52,7 @@ const NavProgress = styled.div`
 	
 		&.complete {
 			background-color: #51939B;
-			color: #FFF;
+			color: ${(props) => props.theme.textColor};;
 		
 			.arrow {
 				background: #51939B;
@@ -61,7 +61,7 @@ const NavProgress = styled.div`
 		
 		&.active {
 			background-color: #51939B;
-				color: #FFF;
+				color: ${(props) => props.theme.textColor};;
 			
 			.arrow {
 				display: none;
@@ -97,7 +97,7 @@ const Arrow = styled.div`
 	z-index: 2;
 	width: 50px;
 	height: 50px;
-  	border: 1px solid #e0e0e0;
+  	border: 1px solid ${(props) => props.theme.textColor};;
 	background: transparent;
 	border-radius: 6px;
 	rotate: 45deg;

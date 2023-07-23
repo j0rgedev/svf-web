@@ -29,7 +29,8 @@ const ContentSearch = styled.div`
   padding: 0 1.5rem;
   border-radius: 1rem;
   gap: 10px;
-  background-color: #151E1A;
+  background-color:  ${props =>
+    props.theme === 'dark' ? 'rgb(21, 30, 26)' : 'rgb(76 74 74 / 30%);'};
   justify-content: ${({isSearch}) => isSearch ? 'space-evenly' : 'flex-end'};
 `;
 
@@ -52,6 +53,7 @@ const Name = styled.div`
   display: flex;
   align-items: center;
   width: 4rem;
+  color:  ${(props) => props.theme.textColor};
 `;
 
 const Avatar = styled.div`

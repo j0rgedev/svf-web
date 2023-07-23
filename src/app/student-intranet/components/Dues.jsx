@@ -83,8 +83,8 @@ const State = styled.p`
   font-size: clamp(4px, 2.5vw, 10px);
   color: ${props => (props.id === 'state' ? '#ff0000' : '#ff6b00')};
   background-color: ${props => (props.id === 'state' ? '#dec2c2' : '#decec3')};
-  padding: 0.2rem;
-  max-width: 54px;
+  padding: 4px 8px;
+  width: fit-content;
   text-align: center;
   border-radius: 5px;
 `;

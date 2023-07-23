@@ -12,7 +12,7 @@ export const useUpdatePwd = async ({password_input, tempCookie}) => {
         },
         {
             headers: {
-                Authorization: `Bearer ${tempCookie}`,
+                Authorization: `Bearer ${tempCookie.token}`,
             }
         }
     );
