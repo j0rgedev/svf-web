@@ -55,7 +55,7 @@ export const generateMainReport = async (token) => {
 }
 
 export const generatePensionsReport = async (token) => {
-	const response = await baseUrl.post(`/pensions-report/pdf`, {}, {
+	const response = await baseUrl.post(`/pension-report/pdf`, {}, {
 		headers: {
 			"Authorization": `Bearer ${token}`,
 		}
